@@ -1,0 +1,13 @@
+/* 资料搜索框（中心） */
+#search-form-mid {
+	padding-top: 20vh;
+}
+
+#search-form-mid img {
+	height: 100px;
+}
+
+#search-form-mid input {
+	margin-top: 20px;
+	height: 50px;	
+}

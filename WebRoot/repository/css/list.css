@@ -1,0 +1,123 @@
+/* 搜索选项 */
+#options-col{
+	padding-left: 0;
+}
+
+#options {
+	padding: 10px;
+}
+
+#options .form-check {
+	font-size: 0.9em;
+	margin-left: 15px;
+	margin-bottom: 10px;
+}
+ 
+.option-title {
+	padding-bottom: 10px;
+} 
+
+/* 搜索结果列表 */
+#file-list {
+	padding-left: 0;
+}
+
+#file-list li {
+	list-style-type: none;
+	border-bottom: 1px solid #f0f0f0;
+	padding: 20px;
+	color: black;
+}
+
+.item-title {
+	margin-left: 0;
+}
+
+.file-name {
+	font-size: 1.2em;
+	cursor: pointer;
+}
+
+.file-description,
+.contents,
+.action {
+	color: #555;
+	margin-top: 10px;
+}
+
+.file-icon{
+	height: 70px;
+	margin-top: 10px;
+}
+
+/* 预览 */
+.modal-open .modal.modal-preview {
+    overflow: scroll;
+} 
+
+.modal-preview {
+	padding: 0 !important; 
+}
+
+.modal-preview .modal-dialog {
+	margin: 0 auto;
+}
+
+.modal-preview .target {
+	height: auto;
+	width: 70%;
+	margin-left: 15%;
+}
+
+.modal-preview .close {
+	position: fixed;
+	right: 40px;
+	top: 20px;
+	z-index: 1030;
+	
+	background-color: black;
+	border-radius: 25px;
+	overflow: hidden;
+	opacity: 0.6;
+}
+
+.modal-preview .close img {
+	width: 45px;
+	padding: 13px;
+}
+
+.modal-preview .action {
+	display: flex;
+	flex-direction: column;
+	
+	position: fixed;
+	right: 40px;
+	bottom: 100px;
+	z-index: 1030;
+}
+
+.modal-preview .action button {
+	border: 0;
+	padding: 0;
+	margin-bottom: 20px;
+	
+	background-color: black;
+	border-radius: 20px;
+	overflow: hidden;
+	opacity: 0.6;
+}
+
+.modal-preview .action img{
+	width: 40px;
+	padding: 7px;
+}
+
+/* 找不到提示 */
+#nofound {
+	padding-top: 30vh;
+}
+
+#nofound .prompt {
+	padding-top: 20px;
+	font-size: 1.2em;
+}
