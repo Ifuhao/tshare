@@ -1,0 +1,11 @@
+/**
+.textarea-test::-webkit-input-placeholder{ //根据测试谷歌用的webkit内核=。=
+        color: #ADD8E6;
+}
+.textarea-text::-moz-placeholder{  //不知道为何火狐的placeholder的颜色是粉红色，怎么改都不行，希望有大牛路过帮忙指点
+        color: #ADD8E6;        
+}
+.textarea-text:-ms-input-placeholder{  //由于我的IE刚好是IE9，支持不了placeholder，所以也测试不了(⊙﹏⊙)，有IE10以上的娃可以帮我试试
+        color: #ADD8E6;        
+}
+*/
