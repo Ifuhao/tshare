@@ -252,29 +252,38 @@ function upload() {
 	formdata.append("bargain", bargain);
 	formdata.append("delivery", delivery);
 	
-	var picture = new Array();
-	$(fileList).each(function(i, e) {
-		picture[i] = e;
+	// 将文件转换为base64类型的数据
+	var reader = new FileReader();
+	var picture = "";
+	$(fileList).each(function(i, element) {
+		reader.readAsDataURL(element);
+		var data64;
+		reader.onloadend = function(e) {
+			data64 = e.target.result;
+			console.log(data64);
+		}
+		picture += data64;
 	});
+	
 	formdata.append("picture", picture);
 	
-	$.ajax({
-		url: 'api/publish_sale',
-		type: 'POST',
-		data: formdata,
-		success: res => {
-			if (res.code == 1) {
-				alert('上传成功')
-			} else {
-				alert(res.msg);
-			}
-		},
-		error: (xhr, status, error) => console.log('[Status]', status, '\n[Error]', error),
-		processData: false, // 不处理数据
-		contentType: false, // 不设置内容类型
-		dataType: 'json',
-		timeout: 5000
-	});
+//	$.ajax({
+//		url: 'api/publish_sale',
+//		type: 'POST',
+//		data: formdata,
+//		success: res => {
+//			if (res.code == 1) {
+//				alert('上架成功')
+//			} else {
+//				alert(res.msg);
+//			}
+//		},
+//		error: (xhr, status, error) => console.log('[Status]', status, '\n[Error]', error),
+//		processData: false, // 不处理数据
+//		contentType: false, // 不设置内容类型
+//		dataType: 'json',
+//		timeout: 5000
+//	});
 }
 
 

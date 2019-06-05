@@ -144,7 +144,7 @@ public class SaleDAOImpl implements SaleDAO {
 			cond += (key + " = " + "'" + value + "' and ");
 		}
 		cond = cond.substring(0, cond.length()-4);
-		String sql = "select * from file where " + cond;
+		String sql = "select * from sale where " + cond;
 		PreparedStatement stmt = Database.getPstmt(sql);
 		
 		LinkedList<Sale> list = new LinkedList<>();
@@ -175,5 +175,26 @@ public class SaleDAOImpl implements SaleDAO {
 			}
 			return sales;
 		}
+	}
+
+	@Override
+	public int count() {
+		String sql = "select count(sale_id) num from sale";
+		PreparedStatement stmt = Database.getPstmt(sql);
+		try {
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				return rs.getInt("num");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return 0;
 	}
 }

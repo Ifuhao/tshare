@@ -47,4 +47,10 @@ public interface SaleDAO {
 	 * @return
 	 */
 	public Sale[] selectByCond(HashMap<String, String> map);
+	
+	/**
+	 * 获取数据数量
+	 * @return
+	 */
+	public int count();
 }
