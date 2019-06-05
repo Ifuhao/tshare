@@ -105,15 +105,15 @@ public class Database {
 		Class<?> objCls = obj.getClass();
 		Class<?> rsObj = ResultSet.class;
 		
-		Field[] fields = objCls.getDeclaredFields();
+		Field[] fields = objCls.getDeclaredFields(); // Sale
 		for(int i=0;i<fields.length;i++) {
-			String fieldName = fields[i].getName();
+			String fieldName = fields[i].getName();		// sale_id
 			Class<?> fieldType = ClassUtils.getClass(fields[i].getType());
 			
 			try {
 				// rs的getter方法，用于获取值
 				Method getMet = rsObj.getDeclaredMethod("get" + StringUtils.upperCap(fieldType.getSimpleName()), String.class);
-				
+
 				// obj的setter方法，用于给对象的成员设置值
 				Method setMet = objCls.getDeclaredMethod("set" + StringUtils.upperCap(fieldName), fieldType);
 				

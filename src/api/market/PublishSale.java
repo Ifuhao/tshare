@@ -1,27 +1,27 @@
-package api;
+package api.market;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import json.JSONArray;
 import utils.JSONParser;
 import utils.form.FormOperator;
-import json.JSONArray;
-import dao.UserDAO;
-import dao.impl.UserDAOImpl;
-import dao.vo.User;
+import dao.vo.Sale;
 
-public class Register extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+@MultipartConfig
+@SuppressWarnings("serial")
+public class PublishSale extends HttpServlet {
 
 	/**
 	 * Constructor of the object.
 	 */
-	public Register() {
+	public PublishSale() {
 		super();
 	}
 
@@ -59,31 +59,19 @@ public class Register extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		
-		User user = new  User();
-		new FormOperator<User>(user, request);
 		
-		// 查询一下邮箱是否已经注册
-		UserDAO userDAO = new UserDAOImpl();
-		User newUser = userDAO.selectById(user.getId());
+		Sale sale = new Sale();
+		new FormOperator<>(sale, request);
+		System.out.println(sale);
 		
-		JSONArray array = new JSONArray();
-		
-		if(newUser != null) {
-			// 邮箱已经注册
-			array.set("code", 0);
-			array.set("msg", "邮箱已经注册");
-		} else {
-			System.out.println(user);
-			userDAO.insert(user);
-			
-			array.set("code", 1);
-			array.set("msg", "注册成功");
-		}
-		
+		JSONArray json = new JSONArray();
+		json.set("code", 1);
+		json.set("msg", "上架成功");
 		PrintWriter out = response.getWriter();
-		out.print(JSONParser.json_encode(array));
+		out.write(JSONParser.json_encode(json));
 		out.close();
 	}
 

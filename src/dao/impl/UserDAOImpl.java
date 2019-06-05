@@ -59,8 +59,15 @@ public class UserDAOImpl implements UserDAO {
 				user = new User();
 				Database.getObject(rs, user);
 			}
+			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return user;

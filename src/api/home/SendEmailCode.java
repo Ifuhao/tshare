@@ -1,8 +1,9 @@
-package api;
+package api.home;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,19 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import utils.JSONParser;
+import utils.Mailer;
 import utils.form.FormOperator;
 import json.JSONArray;
 import dao.VeriDAO;
 import dao.impl.VeriDAOImpl;
 import dao.vo.Veri;
 
-public class EmailCodeConfirm extends HttpServlet {
+public class SendEmailCode extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Constructor of the object.
 	 */
-	public EmailCodeConfirm() {
+	public SendEmailCode() {
 		super();
 	}
 
@@ -46,6 +48,43 @@ public class EmailCodeConfirm extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		response.setCharacterEncoding("UTF-8");
+		
+		Veri veri = new Veri();
+		new FormOperator<Veri>(veri, request);
+		
+		VeriDAO veriDAO = new VeriDAOImpl();
+		veriDAO.deleteById(veri.getId());		// 删除之前发送过的验证码
+		
+		int code = new Random().nextInt();		// 使用随机数生成验证码
+		if(code<0) code = -code;
+		code = code % 899999 + 100000;
+		
+		String body = "您好！此电子邮件地址正用于注册Tshare平台帐号，验证码：<h2>" + code + "</h2>请勿泄露给他人，10分钟内有效。<br>"
+				+ "如果不是您本人操作，请忽略此邮件，不会有任何情况发生。<br><br>此致<br>Tshare客服团队";
+		String subject = "Tshare注册验证码";
+		
+		JSONArray array = new JSONArray();
+		
+		if(Mailer.sendEmail(veri.getId(), subject, body)) {
+			veri.setCode(code+"");	// 设置验证码
+			
+			long time = new Date().getTime() + 10*60*1000;
+			time = time / 1000;
+			veri.setTime(time);		// 设置验证码过期时间
+			
+			veriDAO.insert(veri);
+			
+			array.set("code", 1);
+			array.set("msg", "验证码发送成功");
+		} else {
+			array.set("code", 0);
+			array.set("msg", "验证码发送失败");
+		}
+		
+		PrintWriter out = response.getWriter();
+		out.print(JSONParser.json_encode(array));
+		out.close();
 	}
 
 	/**
@@ -60,48 +99,6 @@ public class EmailCodeConfirm extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setCharacterEncoding("UTF-8");
-		
-		Veri veri = new Veri();
-		new FormOperator<Veri>(veri, request);
-		
-		// 查询数据库确认验证码的正确性和有效性
-		VeriDAO veriDAO = new VeriDAOImpl();
-		String email_code = veri.getCode();
-		veri = veriDAO.selectById(veri.getId());
-		
-		JSONArray array = new JSONArray();
-		
-		if(veri == null) {
-			// 验证码不存在
-			array.set("code", 0);
-			array.set("msg", "邮箱验证码不存在");
-		} else {
-			 if(!email_code.equals(veri.getCode())){
-				 // 验证码错误
-				 array.set("code", 0);
-				 array.set("msg", "邮箱验证码错误");
-				 
-			 } else {
-				 long time = new Date().getTime()/1000;
-				 if(time > veri.getTime()) {
-					 // 验证码超时
-					 array.set("code", 0);
-					 array.set("msg", "邮箱验证码超时");
-				 } else {
-					 // 验证成功
-					 array.set("code", 1);
-					 array.set("msg", "邮箱验证码正确");
-				 }
-				 
-				 // 删除验证码
-				 veriDAO.deleteById(veri.getId());
-			 }
-		}
-		
-		PrintWriter out = response.getWriter();
-		out.print(JSONParser.json_encode(array));
-		out.close();
 	}
 
 	/**

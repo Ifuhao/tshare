@@ -3,27 +3,27 @@
   <display-name>tshare</display-name>
   <servlet>
     <servlet-name>Login</servlet-name>
-    <servlet-class>api.Login</servlet-class>
+    <servlet-class>api.home.Login</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>SendEmailCode</servlet-name>
-    <servlet-class>api.SendEmailCode</servlet-class>
+    <servlet-class>api.home.SendEmailCode</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>EmailCodeConfirm</servlet-name>
-    <servlet-class>api.EmailCodeConfirm</servlet-class>
+    <servlet-class>api.home.EmailCodeConfirm</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>Register</servlet-name>
-    <servlet-class>api.Register</servlet-class>
+    <servlet-class>api.home.Register</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>UploadFile</servlet-name>
-    <servlet-class>api.UploadFile</servlet-class>
+    <servlet-class>api.file.UploadFile</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>SearchFile</servlet-name>
-    <servlet-class>api.SearchFile</servlet-class>
+    <servlet-class>api.file.SearchFile</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>PreviewFile</servlet-name>
@@ -31,12 +31,12 @@
   </servlet>
   <servlet>
     <servlet-name>DownloadFile</servlet-name>
-    <servlet-class>api.DownloadFile</servlet-class>
+    <servlet-class>api.file.DownloadFile</servlet-class>
   </servlet>
-
-
-
-
+  <servlet>
+    <servlet-name>PublishSale</servlet-name>
+    <servlet-class>api.market.PublishSale</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
@@ -69,6 +69,10 @@
   <servlet-mapping>
     <servlet-name>DownloadFile</servlet-name>
     <url-pattern>/repository/api/download</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PublishSale</servlet-name>
+    <url-pattern>/market/api/publish_sale</url-pattern>
   </servlet-mapping>
   
   <welcome-file-list>

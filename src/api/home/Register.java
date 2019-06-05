@@ -1,9 +1,7 @@
-package api;
+package api.home;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
-import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,20 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import utils.JSONParser;
-import utils.Mailer;
 import utils.form.FormOperator;
 import json.JSONArray;
-import dao.VeriDAO;
-import dao.impl.VeriDAOImpl;
-import dao.vo.Veri;
+import dao.UserDAO;
+import dao.impl.UserDAOImpl;
+import dao.vo.User;
 
-public class SendEmailCode extends HttpServlet {
+public class Register extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Constructor of the object.
 	 */
-	public SendEmailCode() {
+	public Register() {
 		super();
 	}
 
@@ -48,43 +45,6 @@ public class SendEmailCode extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setCharacterEncoding("UTF-8");
-		
-		Veri veri = new Veri();
-		new FormOperator<Veri>(veri, request);
-		
-		VeriDAO veriDAO = new VeriDAOImpl();
-		veriDAO.deleteById(veri.getId());		// 删除之前发送过的验证码
-		
-		int code = new Random().nextInt();		// 使用随机数生成验证码
-		if(code<0) code = -code;
-		code = code % 899999 + 100000;
-		
-		String body = "您好！此电子邮件地址正用于注册Tshare平台帐号，验证码：<h2>" + code + "</h2>请勿泄露给他人，10分钟内有效。<br>"
-				+ "如果不是您本人操作，请忽略此邮件，不会有任何情况发生。<br><br>此致<br>Tshare客服团队";
-		String subject = "Tshare注册验证码";
-		
-		JSONArray array = new JSONArray();
-		
-		if(Mailer.sendEmail(veri.getId(), subject, body)) {
-			veri.setCode(code+"");	// 设置验证码
-			
-			long time = new Date().getTime() + 10*60*1000;
-			time = time / 1000;
-			veri.setTime(time);		// 设置验证码过期时间
-			
-			veriDAO.insert(veri);
-			
-			array.set("code", 1);
-			array.set("msg", "验证码发送成功");
-		} else {
-			array.set("code", 0);
-			array.set("msg", "验证码发送失败");
-		}
-		
-		PrintWriter out = response.getWriter();
-		out.print(JSONParser.json_encode(array));
-		out.close();
 	}
 
 	/**
@@ -99,6 +59,32 @@ public class SendEmailCode extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		response.setCharacterEncoding("UTF-8");
+		
+		User user = new  User();
+		new FormOperator<User>(user, request);
+		
+		// 查询一下邮箱是否已经注册
+		UserDAO userDAO = new UserDAOImpl();
+		User newUser = userDAO.selectById(user.getId());
+		
+		JSONArray array = new JSONArray();
+		
+		if(newUser != null) {
+			// 邮箱已经注册
+			array.set("code", 0);
+			array.set("msg", "邮箱已经注册");
+		} else {
+			System.out.println(user);
+			userDAO.insert(user);
+			
+			array.set("code", 1);
+			array.set("msg", "注册成功");
+		}
+		
+		PrintWriter out = response.getWriter();
+		out.print(JSONParser.json_encode(array));
+		out.close();
 	}
 
 	/**
