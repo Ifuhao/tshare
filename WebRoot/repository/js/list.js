@@ -311,6 +311,9 @@ function toPage(page) {
  * 预览文件
  */
 function preview() {
+	var btn=event.target
+	btn.innerHTML = '正在转码...'
+	btn.disabled = true
 	var fileUrl = event.target.parentNode.dataset.url
 	// 请求服务器生成预览
 	$.ajax({
@@ -332,11 +335,14 @@ function preview() {
 			}
 		},
 		error: (xhr, status, error) => {
-			alert("转码时间过长，可尝试重新点击预览");
 			console.log('[Status]', status, '\n[Error]', error)
 		},
+		complete:()=>{
+			btn.innerHTML = '预览'
+			btn.disabled = false
+		},
 		dataType: 'json',
-		timeout: 20000
+		timeout: 10000
 	})
 }
 

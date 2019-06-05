@@ -1,10 +1,12 @@
 package test;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import dao.UserDAO;
+import dao.impl.UserDAOImpl;
+
 
 public class UserDAOTest {
 	public static void main(String[] args) throws Exception {
-		System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+		UserDAO dao = new UserDAOImpl();
+		System.out.println(dao.selectById("160400423@stu.hit.edu.cn"));
 	}
 }

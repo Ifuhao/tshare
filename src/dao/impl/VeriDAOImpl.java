@@ -30,7 +30,7 @@ public class VeriDAOImpl implements VeriDAO {
 
 	@Override
 	public boolean deleteById(String id) {
-		String sql = "delete from verification where id = ?";
+		String sql = "delete from veri where id = ?";
 		PreparedStatement stmt = Database.getPstmt(sql);
 		
 		try {
@@ -50,7 +50,7 @@ public class VeriDAOImpl implements VeriDAO {
 
 	@Override
 	public Veri selectById(String id) {
-		String sql = "select * from verification where id = ?";
+		String sql = "select * from veri where id = ?";
 		PreparedStatement stmt = Database.getPstmt(sql);
 		Veri veri = null;
 		try {

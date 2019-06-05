@@ -36,6 +36,9 @@ public class Cookie {
 	 * @return
 	 */
 	public void setCookie(HttpServletResponse response, String key, String value, int time, String domain) {
+		// 此处添加对cookie的加密措施
+		// 暂未完成
+		
 		javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie(key, value);
 		// 设置cookie存活时间
 		cookie.setMaxAge(time);
