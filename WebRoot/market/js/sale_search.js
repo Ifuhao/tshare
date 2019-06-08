@@ -1,3 +1,11 @@
+$(document).ready(function() {
+	var key = $("#search").val();
+	if(key == "") {
+		return;
+	}
+	go_search($("#search").val());
+});
+
 function inputSearch(key) {
 	if (event.keyCode == 13) {
 		// 阻止搜索空字符串
@@ -13,7 +21,7 @@ function inputSearch(key) {
 function on_search() {
 	var key = $("#search").val();
 	if(key == '') {
-		event.preventDefault();
+		return;
 	} else {
 		go_search(key);
 	}

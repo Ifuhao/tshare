@@ -71,7 +71,6 @@ public class Database {
 				// 获取设置主键的stmt方法
 				Class<?> stmtCls = PreparedStatement.class;
 				Method setMet = stmtCls.getDeclaredMethod("set" + StringUtils.upperCap(keyType.getSimpleName()), int.class, keyType);
-				
 				// 设置条件值
 				setMet.invoke(stmt, fields.length+1, getMet.invoke(obj));
 			} catch (Exception e) {

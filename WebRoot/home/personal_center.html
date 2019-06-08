@@ -71,70 +71,51 @@
 		<!-- 页面主体 -->
 		<div class="main container bg-transparent">
 			<!-- 用户背景板顶层板块 -->
-			<div class = "Card shadow-sm">
-				<div class="ProfileHeader-userCover">
-					<div class="UserCoverEditor">
-						<div class="UserCover UserCover--colorBlock"></div>
+			<div class="Card shadow-sm">
+				<div class="ProfileHeader-userCover UserCoverEditor UserCover UserCover--colorBlock"></div>
+				
+				<div class="ProfileHeader-wrapper ProfileHeader-main">
+					<div id="user-img" class="UserAvataEditor ProfileHeader-avatar UserAvatar" style="top:-50px;">
+						<!-- 使用user-img模板填充用户头像 -->
 					</div>
-				</div>
-				<div class="ProfileHeader-wrapper">
-					<div class="ProfileHeader-main">
-						<div class="UserAvataEditor ProfileHeader-avatar" style="top:-50px;">
-							<div class="UserAvatar">
-								<img class="Avatar Avatar--large UserAvatar-inner" width="160" height="160" alt="" src="img/user.jpg" >
-							</div>
+					
+					<div class="ProfileHeader-content container">
+						<div class="ProfileHeader-contentHead">
+							<h1 class="ProfileHeader-title">
+								<span class="ProfileHeader-name">琢风</span>
+								<span class="ztext ProfileHeader-headline"></span>
+							</h1>
 						</div>
-						<div class="ProfileHeader-content container">
-							<div class="ProfileHeader-contentHead">
-								<h1 class="ProfileHeader-title">
-									<span class="ProfileHeader-name">琢风</span>
-									<span class="ztext ProfileHeader-headline"></span>
-								</h1>
+						<div class="ProfileHeader-contentBody ProfileHeader-detail" style="overflow: hidden; transition: height 300ms ease-out 0s; ">
+							<div class="ProfileHeader-detailItem">
+								<span class="ProfileHeader-detailLabel">签名：</span>
+								<div class="ProfileHeader-detailValue">读万卷书不如行万里路</div>
 							</div>
-							<div class="ProfileHeader-contentBody" style="overflow: hidden; transition: height 300ms ease-out 0s; ">
-								<div>
-									<div class="ProfileHeader-detail">
-										
-										<div class="ProfileHeader-detailItem">
-											<span class="ProfileHeader-detailLabel">签名：</span>
-											<div class="ProfileHeader-detailValue"></div>
-										</div>
-										
-										<div class="row  col-md-12 " style="padding-left:0px;margin-bottom:20px;">
-											<div class=col-md-2.5>
-												<div class="ProfileHeader-buttons " style="margin-top:15px">
-													<button type="button" class="Button Button--blue">编辑个人资料</button>
-												</div>
-											</div>
-											<div class="col-md-2 text-center" style="padding-top:20px">
-							          			<h5>15</h5>
-							          			<p>分享过的文件</p>
-							        		</div>
-											<div class="col-md-2 text-center" style="padding-top:20px">
-							          			<h5>72</h5>
-							          			<p>成功交易数量</p>
-							        		</div>
-							
-									        <div class="col-md-2 text-center"style="padding-top:20px">
-									          	<h5>106</h5>
-									          	<p>用户积分</p>
-									        </div>
-									        <div class="card-group text-center " style="width:300px;padding-buttom:20px;">
-												<div class="card">
-													<div class="card-body">
-														<h6 class="card-title">我关注的</h6>
-														<h5 class="card-text">1</h5>
-													</div>
-												</div>
-												<div class="card">
-													<div class="card-body">
-														<h6 class="card-title">粉丝</h6>
-														<h5 class="card-text">341</h5>
-													</div>
-												</div>
-											</div>
-									        
-										</div>
+							<div class="row  col-md-12 " style="padding-left:0px;margin-bottom:20px;">
+								<div class="col-md-2.5 ProfileHeader-buttons" style="margin-top:15px">
+									<button type="button" class="Button Button--blue">编辑个人资料</button>
+								</div>
+								<div class="col-md-2 text-center" style="padding-top:20px">
+				          			<h5>15</h5>
+				          			<p>分享过的文件</p>
+				        		</div>
+								<div class="col-md-2 text-center" style="padding-top:20px">
+				          			<h5>72</h5>
+				          			<p>成功交易数量</p>
+				        		</div>
+				
+						        <div class="col-md-2 text-center"style="padding-top:20px">
+						          	<h5>106</h5>
+						          	<p>用户积分</p>
+						        </div>
+						        <div class="card-group text-center " style="width:300px;padding-buttom:20px;">
+									<div class="card card-body">
+										<h6 class="card-title">我关注的</h6>
+										<h5 class="card-text">1</h5>
+									</div>
+									<div class="card card-body">
+										<h6 class="card-title">粉丝</h6>
+										<h5 class="card-text">341</h5>
 									</div>
 								</div>
 							</div>
@@ -235,10 +216,12 @@
 			</div>
 		</div>
 	</body>
+	
 	<!-- 动态模板 -->
-	<script id="tm" type="text/template">
-		<h1>{{value}}</h1>
+	<script id="template-user-img" type="text/template">
+		<img class="Avatar Avatar--large UserAvatar-inner" width="160" height="160" alt="" src="user/{{head_image}}" >
 	</script>
+	
 	<script src="../js/core/jquery-3.3.1.js" type="text/javascript"></script>
 	<script src="../js/core/popper.min.js" type="text/javascript"></script>
 	<script src="../js/core/bootstrap.js" type="text/javascript"></script>
@@ -246,10 +229,5 @@
 	<script src="../js/template-web.js" type="text/javascript"></script>
 	
  	<script src="../js/base.js" type="text/javascript"></script>
-	<script src="js/home.js" type="text/javascript"></script>
-	<script type="text/javascript">
-		// 加载动态
-		var data={value:3}
-		$('#news').append(template('tm',data))
-	</script>
+ 	<script src="js/person.js" type="text/javascript"></script>
 </html>

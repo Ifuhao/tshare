@@ -51,7 +51,7 @@
 					<div class="dropdown">
 						<img id="user-icon" class="dropdown-toggle" data-toggle="dropdown" src="../home/img/user.jpg">	
 						<div class="dropdown-menu dropdown-menu-right">
-							<a class="dropdown-item" href="#">个人中心</a>
+							<a class="dropdown-item" href="../home/personal_center.html">个人中心</a>
 							<a class="dropdown-item" href="../repository/upload.html">上传资料</a>
 							<a class="dropdown-item" href="#">提问</a>
 							<a class="dropdown-item" href="#">上架</a>
@@ -134,22 +134,22 @@
 	
 	<!-- 商品显示模板 -->
 	<script id="template-sale-show" type="text/template">
-		<a src="details.html" class="left-40 top-40">
-		<div class="cmdt">
-			<div class="cmdt-img">
-				<img src="picture/{{sale_id}}/{{picture[0]}}" alt="图片无法加载">
-			</div>
-			<div class="cmdt-price">
-				<span class="price-now">{{price}}</span>
-				<span class="price-ori">{{buy_price}}</span>
-			</div>
-			<div class="cmdt-title">{{title}}</div>
-			<div class="cmdt-footer row justify-content-between">
-				<div class="seller">{{uname}}</div>
-				<img src="img/contact3.png" >
+		<div class="left-40 top-40">
+			<div class="cmdt">
+				<div class="cmdt-img">
+					<img data-index="{{index}}" onclick="getDetails()" src="picture/{{sale_id}}/{{picture[0]}}" alt="图片无法加载">
+				</div>
+				<div class="cmdt-price">
+					<span class="price-now">{{price}}</span>
+					<span class="price-ori">{{buy_price}}</span>
+				</div>
+				<div class="cmdt-title">{{title}}</div>
+				<div class="cmdt-footer row justify-content-between">
+					<div class="seller">{{uname}}</div>
+					<img src="img/contact3.png" >
+				</div>
 			</div>
 		</div>
-		</a>
 	</script>
 	
 	<!-- 找不到模版 -->
