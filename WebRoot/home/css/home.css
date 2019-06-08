@@ -1,4 +1,4 @@
-/* 轮播器 */
+/* 杞挱鍣�*/
 #carousel-home {
 	margin-bottom: 20px;
 }
@@ -13,7 +13,7 @@
     box-shadow: 0 3px 5px 0px gray;
 }
 
-/* 新闻标签 */
+/* 鏂伴椈鏍囩 */
 .nav-pills .nav-item:not(:first-child) {
 	margin-top: 6px;
 }
@@ -23,7 +23,7 @@
 	border-bottom: 1px solid #f0f0f0;
 }
 
-/* 新闻列表 */
+/* 鏂伴椈鍒楄〃 */
 #news {
 	padding-left: 0;
 	padding-right: 0;
