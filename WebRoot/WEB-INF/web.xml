@@ -41,6 +41,18 @@
     <servlet-name>SearchSale</servlet-name>
     <servlet-class>api.market.SearchSale</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>StationServlet</servlet-name>
+    <servlet-class>api.file.StationServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>PublishSeek</servlet-name>
+    <servlet-class>api.market.PublishSeek</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SaleDetailServlet</servlet-name>
+    <servlet-class>api.market.SaleDetailServlet</servlet-class>
+  </servlet>
 
 
   <servlet-mapping>
@@ -81,7 +93,19 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>SearchSale</servlet-name>
-    <url-pattern>/market/api/search</url-pattern>
+    <url-pattern>/market/api/sale_search</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>StationServlet</servlet-name>
+    <url-pattern>/repository/api/station</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PublishSeek</servlet-name>
+    <url-pattern>/market/api/publish_seek</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SaleDetailServlet</servlet-name>
+    <url-pattern>/market/api/sale_details</url-pattern>
   </servlet-mapping>
   
   <welcome-file-list>

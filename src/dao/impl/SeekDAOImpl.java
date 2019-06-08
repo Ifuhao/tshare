@@ -174,5 +174,26 @@ public class SeekDAOImpl implements SeekDAO {
 			return seeks;
 		}
 	}
+
+	@Override
+	public int count() {
+		String sql = "select count(seek_id) num from seek";
+		PreparedStatement stmt = Database.getPstmt(sql);
+		try {
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				return rs.getInt("num");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return 0;
+	}
 	
 }

@@ -42,7 +42,7 @@ function go_search(key) {
 	}
 	
 	$.ajax({
-		url: "api/search",
+		url: "api/sale_search",
 		type: "GET",
 		data: {
 			key: key,
@@ -54,7 +54,7 @@ function go_search(key) {
 			bargain: bargain
 		},
 		success: res => {
-//			sessionStorage.setItem('res', res) //sessionStorage只能存字符串
+			sessionStorage.setItem('res', res) //sessionStorage只能存字符串
 			res = JSON.parse(res);
 			saleList(key, res);
 		},
@@ -113,7 +113,6 @@ function saleList(key, res) {
 			data[i].index = i;
 			cellHtml += template('template-sale-show', data[i])
 		}
-		console.log(cellHtml);
 		// 清空列表，重新添加cell
 		$('#sale-list').empty().append(cellHtml);
 
@@ -153,15 +152,6 @@ function saleList(key, res) {
 }
 
 /**
- * 	切换排序方式
- */
-function sortSwitch(sort) {
-	globalSort = sort
-	curPage = 1
-	searchFile($('#search').val())
-}
-
-/**
  * 上一页
  */
 function prevPage() {
@@ -190,8 +180,8 @@ function toPage(page) {
  */
 function getDetails() {
 	// 通过session把文件数据传到details页面
-	var index = event.target.dataset.index
-	sessionStorage.setItem('index', index)
-	location = "market/details.html"
+	var index = event.target.dataset.index;
+	sessionStorage.setItem('index', index);
+	location = "details.html";
 }
 

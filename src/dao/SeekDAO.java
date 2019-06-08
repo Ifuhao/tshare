@@ -9,7 +9,6 @@ public interface SeekDAO {
 	 * 向seek表插入一条数据
 	 */
 	public boolean insert(Seek seek);
-
 	
 	/**
 	 * 删除seek表的一条记录
@@ -35,4 +34,7 @@ public interface SeekDAO {
 	 * 根据条件进行查询
 	 */
 	public Seek[] selectByCond(HashMap<String, String> map);
+
+
+	public int count();
 }

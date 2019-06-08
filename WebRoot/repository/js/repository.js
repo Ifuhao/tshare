@@ -6,7 +6,24 @@ $(document).ready(function() {
 	load_station("download-down");
 	load_station("file-up");
 	load_station("file-down");
+	
+	$.ajax({
+		url: "api/station",
+		type: "GET",
+		success: res => {
+			setStation(res);
+		},
+		error: (xhr, status, error) => console.log('[Status]', status, '\n[Error]', error),
+		dataType: "json"
+	});
 });
+
+function setStation(res) {
+	$("#upload-num").html(res.upload_time);
+	$("#download-num").html(res.download_time);
+	$("#file-num").html(res.file_num);
+}
+
 /**
  * 导航栏搜索框和中心搜索框回车事件
  */

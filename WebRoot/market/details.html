@@ -14,13 +14,9 @@
 		
 		<!-- CSS Files -->
 		<link rel="stylesheet" href="../css/bootstrap.css"/>
-<!-- 		<link rel="stylesheet" href="../css/common.css"/>
+		<link rel="stylesheet" href="../css/common.css"/>
 		<link rel="stylesheet" href="css/sidebar.css"/>
-		<link rel="stylesheet" href="css/details.css"/> -->
-		<?php require '../api/reload_css_js.php'; ?>
-		<link rel="stylesheet" href="<?php echo auto_version('/css/common.css'); ?>"/>
-		<link rel="stylesheet" href="<?php echo auto_version('/market/css/details.css'); ?>"/>
-		<link rel="stylesheet" href="<?php echo auto_version('/market/css/sidebar.css'); ?>"/>
+		<link rel="stylesheet" href="css/details.css"/>
 	</head>
 	<body class="bg-light">
 		<!-- 导航条 -->
@@ -57,7 +53,7 @@
 					<div class="dropdown">
 						<img id="user-icon" class="dropdown-toggle" data-toggle="dropdown" src="../home/img/user.jpg">	
 						<div class="dropdown-menu dropdown-menu-right">
-							<a class="dropdown-item" href="#">个人中心</a>
+							<a class="dropdown-item" href="../home/personal_center.html">个人中心</a>
 							<a class="dropdown-item" href="../repository/upload.html">上传资料</a>
 							<a class="dropdown-item" href="#">提问</a>
 							<a class="dropdown-item" href="#">上架</a>
@@ -70,53 +66,11 @@
 			</div>
 		</nav>
 		<div class="main container">
-			<div class="row overall bg-white">
-				<div class="main-pic">
-					<img src="img/lipstick.jpg">
-				</div>
-				<div class="col-md-5">
-					<div class="title">故宫口红mac小辣椒平替色</div>
-					<div class="midblock">
-						<span class="price-now">¥56</span>
-						<span class="price-ori">原价¥156</span>
-						<div class="badgeline">
-							<span class="badge badge-pill">全新</span>
-							<span class="badge badge-pill">可议价</span>
-							<span class="badge badge-pill">支持配送</span>
-						</div>
-					</div>
-					<div class="btmblock">
-						<button type="button" class="btn" id="buy">立即购买</button>
-						<button type="button" class="btn" id="mark">关注商品</button>
-					</div>
-				</div>
-				<div id="sellerinfo" class="col">
-					<div id="seller-title">卖家信息</div>
-					<div id="seller-top" class="row">
-						<div id="seller-head"><img src="img/seller.jpg" ></div>
-						<span id="seller-name">琢风</span> 
-					</div>
-					<div id="seller-mid" class="row">
-						<div class="">
-							<div class="num">15</div>
-							<label>已出售商品数</label>
-						</div>
-						<img src="img/splitline.png" >
-						<div class="">
-							<div class="num">9.5</div>
-							<label>评价</label>
-						</div>
-					</div>
-					<button type="button"><img src="img/contact4.png" id="contact">联系卖家</button>
-					<button type="button"><img src="img/guanzhu2.png" id="follow">加关注</button>
-				</div>
+			<div id="sale" class="row overall bg-white">
+				<!-- 商品简介和买家信息 -->
 			</div>
-			<div class="details bg-white">
-				<div class="details-title"><span>商品详情</span></div>
-				<div id="description" class="ml-3">出日本okina超可爱滴果冻漱口水薄荷味 10个13r 保质期很新 漱口水超温和 携带方便 火锅烧烤后来一个挺舒服的</div>
-				<div id="pics">
-					<img src="img/lipstick.jpg" >
-				</div>
+			<div id="detail" class="details bg-white">
+				<!-- 商品详情 -->
 			</div>
 		</div>
 		<div class="side-bar">
@@ -128,14 +82,80 @@
 		</div>
 		<button type="button" class="backtop"><img src="img/backtop.png" ></button>
 	</body>
+	
+	<!-- 商品简介模板 -->
+	<script id="template-sale" type="text/template">
+		<div class="main-pic">
+			<img src="picture/{{sale_id}}/{{main_pic}}">
+		</div>
+		<div class="col-md-5">
+			<div class="title">{{title}}</div>
+			<div class="midblock">
+				<span class="price-now">{{price}}</span>
+				<span class="price-ori">{{buy_price}}</span>
+				<div class="badgeline">
+					<span class="badge badge-pill">{{sale_new}}</span>
+					<span class="badge badge-pill">{{bargain}}</span>
+					<span class="badge badge-pill">{{delivery}}</span>
+				</div>
+			</div>
+			<div class="" style="margin:20px 0 20px 0">
+				<label class="col-md-2">数量</label>
+				<img src="img/add_num.png" onclick="add()"/>
+				<label id="cur-num" style="margin:0 10px 0 10px">1</label>
+				<img src="img/sub_num.png" onclick="sub()"/>
+				<span>(剩余数量</span>
+				<span id="rest-num">{{num}}</span>
+				<span>)</span>
+			</div>
+			<div class="btmblock">
+				<button type="button" class="btn" id="mark">关注商品</button>
+			</div>
+		</div>
+	</script>
+	
+	<script id="template-seller" type="text/template">
+		<div id="sellerinfo" class="col">
+			<div id="seller-title">卖家信息</div>
+			<div id="seller-top" class="row">
+				<div id="seller-head"><img src="img/seller.jpg" ></div>
+				<span id="seller-name">{{username}}</span> 
+			</div>
+			<div id="seller-mid" class="row">
+				<div class="">
+					<div class="num">15</div>
+					<label>已出售商品数</label>
+				</div>
+				<img src="img/splitline.png" >
+				<div class="">
+					<div class="num">9.5</div>
+					<label>评价</label>
+				</div>
+			</div>
+			<button type="button"><img src="img/contact4.png" id="contact">联系卖家</button>
+			<button type="button"><img src="img/guanzhu2.png" id="follow">加关注</button>
+		</div>
+	</script>
+	
+	<script id="template-detail" type="text/template">
+		<div class="details-title"><span>商品详情</span></div>
+		<div id="description" class="ml-3">{{description}}</div>
+		<div id="pics">
+			<!-- 插入所有的参考图片 -->
+		</div>
+	</script>
+	
+	<!-- 参考图片模板 -->
+	<script id="template-picture" type="text/template">
+		<img id="{{index}}" src="picture/{{sale_id}}/{{pic}}" />
+	</script>
+	
 	<script src="../js/core/jquery-3.3.1.js" type="text/javascript"></script>
 	<script src="../js/core/popper.min.js" type="text/javascript"></script>
 	<script src="../js/core/bootstrap.js" type="text/javascript"></script>
 	
 	<script src="../js/template-web.js" type="text/javascript"></script>
 	
-<!-- 	<script src="../js/base.js" type="text/javascript"></script>
-	<script src="js/details.js" type="text/javascript"></script> -->
-	<script src="<?php echo auto_version('/js/base.js'); ?>" type="text/javascript" ></script>
-	<script src="<?php echo auto_version('/market/js/details.js'); ?>" type="text/javascript"></script>
+ 	<script src="../js/base.js" type="text/javascript"></script>
+	<script src="js/details.js" type="text/javascript"></script>
 </html>
