@@ -224,3 +224,19 @@ textarea {
 .bg-coral {
 	background-color: #f96332 !important;
 }
+
+.left-40 {
+	margin-left: 40px;
+}
+
+.top-10 {
+	margin-top: 10px;
+}
+
+.top-40 {
+	margin-top: 40px;
+}
+
+.top-80 {
+	margin-top: 80px;
+}

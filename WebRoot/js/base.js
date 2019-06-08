@@ -38,3 +38,77 @@ function logout() {
 		timeout: 5000
 	})
 }
+
+function getExt(name) {
+	var ext = "";
+	var nameArray = name.split('.')
+	if (nameArray.length > 1)
+		switch (nameArray[nameArray.length - 1]) {
+			case 'doc':
+			case 'docx':
+			case 'odt':
+			case 'pages':
+				ext = 'word'
+				break
+			case 'ppt':
+			case 'pptx':
+			case 'odp':
+			case 'key':
+				ext = 'ppt'
+				break
+			case 'xls':
+			case 'xlsx':
+			case 'csv':
+			case 'ods':
+			case 'numbers':
+				ext = 'excel'
+				break
+			case 'pdf':
+				ext = 'pdf'
+				break
+			case 'jpg':
+			case 'png':
+			case 'bmp':
+			case 'gif':
+			case 'svg':
+				ext = 'picture'
+				break
+			case 'c':
+			case 'h':
+			case 'cpp':
+			case 'hpp':
+			case 'py':
+			case 'java':
+			case 'html':
+			case 'htm':
+			case 'js':
+			case 'json':
+			case 'css':
+			case 'scss':
+			case 'php':
+			case 'm':
+			case 'matlab':
+			case 'v':
+			case 'md':
+			case 'ipynb':
+				ext = 'code'
+				break
+			case 'mp3':
+				ext = 'audio'
+				break
+			case 'avi':
+				ext = 'video'
+				break
+			case 'txt':
+			case 'rtf':
+			case 'rtfd':
+				ext = 'text'
+				break
+			default:
+				ext = 'other'
+		}
+	else
+		ext = 'other'
+			
+	return ext;
+}

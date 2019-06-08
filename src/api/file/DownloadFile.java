@@ -53,91 +53,92 @@ public class DownloadFile extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		
 		HttpSession session = request.getSession();
 		User user = (User)session.getAttribute("user");
 		
 		if(user == null) {
 			// 没有登录，无法下载
-			return;
-		}
-		
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		String real = request.getSession().getServletContext().getRealPath("") + File.separator + "upload_file" + File.separator;
-		
-		/**
-		 * 下载文件，如果是单个文件则直接下载，如果是文件夹需要先打包成zip再下载
-		 */
-		
-		String url = request.getParameter("url");
-		String filename = request.getParameter("filename");
-		
-		FileDAO dao = new FileDAOImpl();
-		dao.vo.File file = dao.selectByFilename(url);
-		if(file == null) {
-			// 因为数据库中有的filename后面带有"/"
-			file = dao.selectByFilename(FileUtils.getPath(url));
-		}
-		
-		if(file != null) {
-			if(file.getIs_dir() == 1) {
-				// 下载文件夹
-				try {
-					filename += ".zip";
-					String dest = FileUtils.getPathAndFilename(url).get("path") + filename;
-					Zip.zip(real + url, real + dest);
-					url = dest;
-					response.setContentType("application/zip");// 定义输出类型
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			} else {
-				response.setContentType("application/octet-stream");// 定义输出类型
+			response.setStatus(HttpServletResponse.SC_RESET_CONTENT);
+		} else {
+			String real = request.getSession().getServletContext().getRealPath("") + File.separator + "upload_file" + File.separator;
+			
+			/**
+			 * 下载文件，如果是单个文件则直接下载，如果是文件夹需要先打包成zip再下载
+			 */
+			String url = request.getParameter("url");
+			String filename = request.getParameter("filename");
+			
+			FileDAO dao = new FileDAOImpl();
+			dao.vo.File file = dao.selectByFilename(url);
+			if(file == null) {
+				// 因为数据库中有的filename后面带有"/"
+				file = dao.selectByFilename(FileUtils.getPath(url));
 			}
 			
-			response.setContentLength((int)FileUtils.getFileSize(real + url));
-	        response.setHeader("Content-Disposition", "attachment;filename="+filename);
-	        
-	        FileInputStream fis = new FileInputStream(real + url);
-	        OutputStream os = response.getOutputStream();
-	        byte[] buf = new byte[1024];
-	        int l = -1;
-	        while((l = fis.read(buf))!=-1){
-	            os.write(buf,0,l);
-	            os.flush();
-	        }
-	        
-	        os.close();
-	        fis.close();
-	        
-	        if(file.getIs_dir() == 1) {
-	        	FileUtils.delete(real + url);
-	        }
-	        
-	        // 增加或修改下载记录
-	        DlFileDAO dlDAO = new DlFileDAOImpl();
-	        HashMap<String, String> map = new HashMap<>();
-	        map.put("id", user.getId());
-	        map.put("filename", request.getParameter("url"));
-	        DlFile dlFile[] = dlDAO.selectByCond(map);
-	        if(dlFile == null) {
-	        	// 新的下载记录
-	        	file.setDownload(file.getDownload()+1);
-	        	dao.update(file);
-	        	DlFile newDlFile = new DlFile();
-	        	newDlFile.setDid(dlDAO.count());
-	        	newDlFile.setId(user.getId());
-	        	newDlFile.setFilename(request.getParameter("url"));
-	        	newDlFile.setIsmark(0);
-	        	newDlFile.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-	        	dlDAO.insert(newDlFile);
-	        } else {
-	        	DlFile newDlFile = dlFile[0];
-	        	newDlFile.setIsmark(0);
-	        	newDlFile.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-	        	dlDAO.update(newDlFile);
-	        }
+			if(file != null) {
+				if(file.getIs_dir() == 1) {
+					// 下载文件夹
+					try {
+						filename += ".zip";
+						String dest = FileUtils.getPathAndFilename(url).get("path") + filename;
+						Zip.zip(real + url, real + dest);
+						url = dest;
+						response.setContentType("application/zip");// 定义输出类型
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				} else {
+					response.setContentType("application/octet-stream");// 定义输出类型
+				}
+				
+				response.setContentLength((int)FileUtils.getFileSize(real + url));
+		        response.setHeader("Content-Disposition", "attachment;filename="+filename);
+		        
+		        FileInputStream fis = new FileInputStream(real + url);
+		        OutputStream os = response.getOutputStream();
+		        byte[] buf = new byte[1024];
+		        int l = -1;
+		        while((l = fis.read(buf))!=-1){
+		            os.write(buf,0,l);
+		            os.flush();
+		        }
+		        
+		        os.close();
+		        fis.close();
+		        
+		        if(file.getIs_dir() == 1) {
+		        	FileUtils.delete(real + url);
+		        }
+		        
+		        // 增加或修改下载记录
+		        DlFileDAO dlDAO = new DlFileDAOImpl();
+		        HashMap<String, String> map = new HashMap<>();
+		        map.put("id", user.getId());
+		        map.put("filename", request.getParameter("url"));
+		        DlFile dlFile[] = dlDAO.selectByCond(map);
+		        if(dlFile == null) {
+		        	// 新的下载记录
+		        	file.setDownload(file.getDownload()+1);
+		        	dao.update(file);
+		        	DlFile newDlFile = new DlFile();
+		        	newDlFile.setDid(dlDAO.count());
+		        	newDlFile.setId(user.getId());
+		        	newDlFile.setFilename(request.getParameter("url"));
+		        	newDlFile.setIsmark(0);
+		        	newDlFile.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+		        	dlDAO.insert(newDlFile);
+		        } else {
+		        	DlFile newDlFile = dlFile[0];
+		        	newDlFile.setIsmark(0);
+		        	newDlFile.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+		        	dlDAO.update(newDlFile);
+		        }
+			}
 		}
+		response.setStatus(HttpServletResponse.SC_RESET_CONTENT);
 	}
 
 	/**

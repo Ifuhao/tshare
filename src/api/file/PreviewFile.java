@@ -75,11 +75,11 @@ public class PreviewFile extends HttpServlet {
 		File destFile = new File(dest_dir + ".png");
 		if(destFile.exists()) {
 			// 预览文件已经存在了，不需要再次生成
-			System.out.println("预览图片已经生成");
 			BufferedImage img = ImageIO.read(destFile);
 			json.set("code", 1);
 			json.set("height", img.getHeight());
 		} else {
+			System.out.println(url);
 			if(!StringUtils.in_array_ignorecase(ext, valid)) {
 				// 无法预览的文件类型
 				json.set("code", 0);
@@ -123,7 +123,6 @@ public class PreviewFile extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		out.print(JSONParser.json_encode(json));
-		System.out.println(JSONParser.json_encode(json));
 		out.close();
 	}
 

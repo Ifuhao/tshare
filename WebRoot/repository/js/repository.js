@@ -1,3 +1,12 @@
+$(document).ready(function() {
+	load_pic("bird");
+	load_station("upload-up");
+	load_station("upload-down");
+	load_station("download-up");
+	load_station("download-down");
+	load_station("file-up");
+	load_station("file-down");
+});
 /**
  * 导航栏搜索框和中心搜索框回车事件
  */
@@ -5,10 +14,39 @@ function inputSearch(key) {
 	if (event.keyCode == 13) {
 		// 阻止搜索空字符串
 		if (key == '')
-			event.preventDefault()
+			event.preventDefault();
 		else {
 			// 跳转到list.html并传值
-			location = "list.html?key="+encodeURI(key)
+			location = "list.html?key="+encodeURI(key);
 		}
 	}
+}
+
+function load_pic(id) {
+	// 自动调整pic图片的大小
+	var img = new Image();
+	img.src = $("#"+id).attr("src");
+	
+	var main_width = $(".main").width();
+	var img_width = img.width;
+	var img_height = img.height;
+	
+	var rate = 1.0*main_width/img_width;
+	img_height = img_height*rate;
+	
+	$("#"+id).css({"width":main_width, "height":img_height});
+}
+
+function load_station(id) {
+	var img = new Image();
+	img.src = $("#"+id).attr("src");
+	
+	var main_width = $(".main").width()*1.0/3.5;
+	var img_width = img.width;
+	var img_height = img.height;
+	
+	var rate = 1.0*main_width/img_width;
+	img_height = img_height*rate;
+	
+	$("#"+id).css({"width":main_width, "height":img_height});
 }

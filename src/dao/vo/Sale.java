@@ -1,7 +1,7 @@
 package dao.vo;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 
 @SuppressWarnings("serial")
 public class Sale implements Serializable {
@@ -15,13 +15,13 @@ public class Sale implements Serializable {
 	private String buy_way;		// 商品来源
 	private int sale_new;		// 是否全新
 	private float price;		// 预期价格
-	private int bargain;		// 能否议价
+	private int bargain;		// 能否议价(0不能/1能)
 	private int view;			// 浏览量
-	private int delivery;		// 能否配送
+	private int delivery;		// 能否配送(0不能/1能)
 	private String picture;		// 参考图片
 	private Date time;			// 发布时间
 	private int is_sell;		// 是否交易成功
-	private int delete;			// 是否删除
+	private int is_delete;			// 是否删除
 	
 	public Sale() {}
 
@@ -153,12 +153,12 @@ public class Sale implements Serializable {
 		this.is_sell = is_sell;
 	}
 
-	public int getDelete() {
-		return delete;
+	public int getIs_delete() {
+		return is_delete;
 	}
 
-	public void setDelete(int delete) {
-		this.delete = delete;
+	public void setIs_delete(int is_delete) {
+		this.is_delete = is_delete;
 	}
 
 	@Override
@@ -191,7 +191,7 @@ public class Sale implements Serializable {
 				+ buy_way + ", sale_new=" + sale_new + ", price=" + price
 				+ ", bargain=" + bargain + ", view=" + view + ", delivery="
 				+ delivery + ", picture=" + picture + ", time=" + time
-				+ ", is_sell=" + is_sell + ", delete=" + delete + "]";
+				+ ", is_sell=" + is_sell + ", delete=" + is_delete + "]";
 	}
 	
 	/**

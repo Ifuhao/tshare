@@ -30,9 +30,6 @@
 						<a class="nav-link" href="repository.html">资料</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="">问答</a>
-					</li>
-					<li class="nav-item">
 						<a class="nav-link" href="../market/market.html">闲置交易</a>
 					</li>
 				</ul>
@@ -68,16 +65,50 @@
 			</div>
 		</nav>
 		<div class="container main">
+			<div id="station">
+				<div><img id="bird" src="img/bird.png"/></div>
+				<div id="upload-time">
+					<img id="upload-up" class="alpha-70 up" src="img/upload-up.png"/>
+					<img id="upload-down" class="alpha-50 down" src="img/upload-down.png"/>
+					<img id="upload-circle" class="circle" src="img/circle.png" />
+					<img id="upload-arrow" class="arrow" src="img/upload-arrow.png" />
+					<span id="upload-num" class="num">1000</span>
+					<span class="text">上传次数</span>
+				</div>
+				<div id="download-time">
+					<img id="download-up" class="alpha-70 up" src="img/download-up.png"/>
+					<img id="download-down" class="alpha-50 down" src="img/download-down.png"/>
+					<img id="download-circle" class="circle" src="img/circle.png" />
+					<img id="download-arrow" class="arrow" src="img/download-arrow.png" />
+					<span id="download-num" class="num">1000</span>
+					<span class="text">下载次数</span>
+				</div>
+				<div id="file-number">
+					<img id="file-up" class="alpha-70 up" src="img/file-up.png"/>
+					<img id="file-down" class="alpha-50 down" src="img/file-down.png"/>
+					<img id="file-circle" class="circle" src="img/circle.png" />
+					<img id="file-arrow" class="arrow" src="img/file-arrow.png" />
+					<span id="file-num" class="num">1000</span>
+					<span class="text">文件数量</span>
+				</div>
+			</div>
 			<!-- 中心搜索框 -->
 			<div id="search-form-mid" class="container text-center">
 				<img src="img/bulb.png" >
 				<input onkeyup="inputSearch(this.value)" class="form-control col-md-6 offset-3 text-center" type="search" placeholder="42,098,504份资料">
 			</div>
 		</div>
+	</body>
+	
+	<!-- 上传次数模板 -->
+	<script id="template-upload-time" type="text/template">
+		<img src="img/" />
+	</script>
 	<script src="../js/core/jquery-3.3.1.js" type="text/javascript"></script>
 	<script src="../js/core/popper.min.js" type="text/javascript"></script>
 	<script src="../js/core/bootstrap.js" type="text/javascript"></script>
 	
+	<script src="../js/template-web.js" type="text/javascript"></script>
 	<script src="../js/base.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/repository.js" type="text/javascript"></script>
 </html>

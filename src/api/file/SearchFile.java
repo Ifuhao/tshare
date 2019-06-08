@@ -258,7 +258,6 @@ public class SearchFile extends HttpServlet {
 	}
 	
 	private void search(String keyword, boolean is_dir) {
-		// 1. 搜索filname
 		String field[] = new String[]{"filename", "name", "description", "subject"};
 		for(int i=0;i<field.length;i++) {
 			File files[] = this.dao.select(field[i], keyword, is_dir);

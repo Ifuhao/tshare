@@ -115,8 +115,8 @@ function searchFile(key) {
 		error: (xhr, status, error) => {
 			console.log('[Status]', status, '\n[Error]', error)
 			// 隐藏等待动画，清除找不到的提示
-			$('.main').waitMe('hide')
-			$('#nofound').remove()
+			$('.main').waitMe('hide');
+			$('#nofound').remove();
 			// 提示连接服务器超时
 		},
 		timeout: 5000
@@ -144,9 +144,9 @@ function fileList(key, res) {
 	if (res.code == 0) {
 		cellHtml = template('template-nofound', {
 			keyword: key
-		})
+		});
 		$('#result').addClass('d-none')
-		$('.main').append(cellHtml)
+		$('#search-main').append(cellHtml)
 	} else {
 		$('#result').removeClass('d-none')
 		data = res.data
@@ -155,74 +155,7 @@ function fileList(key, res) {
 			data[i].index = i
 			if (data[i].contents == '') {
 				// 判断文件类型，根据类型设置图标
-				var nameArray = data[i].name.split('.')
-				if (nameArray.length > 1)
-					switch (nameArray[nameArray.length - 1]) {
-						case 'doc':
-						case 'docx':
-						case 'odt':
-						case 'pages':
-							data[i].ext = 'word'
-							break
-						case 'ppt':
-						case 'pptx':
-						case 'odp':
-						case 'key':
-							data[i].ext = 'ppt'
-							break
-						case 'xls':
-						case 'xlsx':
-						case 'csv':
-						case 'ods':
-						case 'numbers':
-							data[i].ext = 'excel'
-							break
-						case 'pdf':
-							data[i].ext = 'pdf'
-							break
-						case 'jpg':
-						case 'png':
-						case 'bmp':
-						case 'gif':
-						case 'svg':
-							data[i].ext = 'picture'
-							break
-						case 'c':
-						case 'h':
-						case 'cpp':
-						case 'hpp':
-						case 'py':
-						case 'java':
-						case 'html':
-						case 'htm':
-						case 'js':
-						case 'json':
-						case 'css':
-						case 'scss':
-						case 'php':
-						case 'm':
-						case 'matlab':
-						case 'v':
-						case 'md':
-						case 'ipynb':
-							data[i].ext = 'code'
-							break
-						case 'mp3':
-							data[i].ext = 'audio'
-							break
-						case 'avi':
-							data[i].ext = 'video'
-							break
-						case 'txt':
-						case 'rtf':
-						case 'rtfd':
-							data[i].ext = 'text'
-							break
-						default:
-							data[i].ext = 'other'
-					}
-				else
-					data[i].ext = 'other'
+				data[i].ext = getExt(data[i].name);
 				cellHtml += template('template-file', data[i])
 			} else
 				cellHtml += template('template-folder', data[i])
@@ -351,9 +284,9 @@ function preview() {
  */
 function getDetails() {
 	// 通过session把文件数据传到details页面
-	var index = event.target.dataset.index
-	sessionStorage.setItem('index', index)
-	location = "repository/details.html"
+	var index = event.target.dataset.index;
+	sessionStorage.setItem('index', index);
+	location = "details.html";
 }
 
 /**
@@ -371,13 +304,20 @@ function resetCss() {
  * 下载文件
  */
 function download_file() {
-	var elem=event.target.parentNode
-	var xhr = new XMLHttpRequest()
-	xhr.open("GET", "api/download?url="+elem.dataset.url+"&filename="+elem.dataset.name, true)
-	xhr.responseType = "blob"
-	xhr.onreadystatechange=()=>{
-		if (xhr.readyState==4 && xhr.status==200)
-			download(xhr.response, elem.dataset.name)
+	var index=sessionStorage.getItem('index');
+	var data = JSON.parse(sessionStorage.getItem('res')).data[index];
+	
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", "api/download?url="+data.url+"&filename="+data.name, true);
+	xhr.responseType = "blob";
+	xhr.onreadystatechange = ()=>{
+		if (xhr.readyState==4) {
+			if(xhr.status == 200) {
+				download(xhr.response, data.name);
+			} else if(xhr.status = 205) {
+				alert("您需要重新登录");
+			}
+		}
 	}
-	xhr.send()
+	xhr.send();
 }

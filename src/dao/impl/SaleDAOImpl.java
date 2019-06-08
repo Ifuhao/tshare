@@ -176,7 +176,46 @@ public class SaleDAOImpl implements SaleDAO {
 			return sales;
 		}
 	}
-
+	
+	@Override
+	public Sale[] select(String field, String value, String type, boolean sale_new, int delivery, int bargain) {
+		String sql = "select * from sale where " + field + " like ? and "
+				+ "category like ? and delivery = ? and bargain = ? and is_sell=0 and is_delete=0 and ";
+		if(sale_new) {
+			sql += "sale_new = 0";
+		} else {
+			sql += "sale_new != 0";
+		}
+		
+		PreparedStatement stmt = Database.getPstmt(sql);
+		LinkedList<Sale> list = new LinkedList<>();
+		
+		try {
+			stmt.setString(1, "%" + value + "%");
+			stmt.setString(2, "%" + type + "%");
+			stmt.setInt(3, delivery);
+			stmt.setInt(4, bargain);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				Sale sale = new Sale();
+				Database.getObject(rs, sale);
+				list.add(sale);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		if(list.size() == 0) {
+			return null;
+		} else {
+			Sale[] sales = new Sale[list.size()];
+			for(int i=0;i<sales.length;i++) {
+				sales[i] = list.get(i);
+			}
+			return sales;
+		}
+	}
+	
 	@Override
 	public int count() {
 		String sql = "select count(sale_id) num from sale";
@@ -197,4 +236,5 @@ public class SaleDAOImpl implements SaleDAO {
 		}
 		return 0;
 	}
+
 }

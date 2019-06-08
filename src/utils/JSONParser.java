@@ -22,13 +22,13 @@ public class JSONParser {
 				if(data instanceof JSONArray) {
 					// 如果data仍然是一个JSON数组对象
 					data_to_json = JSONParser.json_encode((JSONArray) data);
-				} else if(data instanceof Integer || data instanceof Double) {
+				} else if(data instanceof Integer || data instanceof Double || data instanceof Float) {
 					// 如果data是数组
 					data_to_json = data + "";
 				} else if(data instanceof String) {
 					// 如果data是字符串
 					data_to_json = "\"" + data + "\"";
-				} else if(data instanceof Integer[] || data instanceof Double[] || data instanceof String[]) {
+				} else if(data instanceof Integer[] || data instanceof Double[] || data instanceof Float[] || data instanceof String[]) {
 					data_to_json = JSONParser.json_encode(JSONArray.arrayToJSONArray((Object[]) data));
 				} else if(data instanceof JSONArray[]) {
 					JSONArray[] arr = (JSONArray[])data;

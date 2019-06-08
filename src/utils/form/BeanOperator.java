@@ -70,49 +70,51 @@ public class BeanOperator {
 		if(value instanceof String) {
 			// 表示设置的属性是单个值而不是数组
 			String val = value.toString();
-			switch(type) {
-				case "Integer":
-					if(val.matches("\\d+")) {
-						met.invoke(this.fieldObj, Integer.parseInt(val));
-					}
-					break;
-				case "Double":
-					if(val.matches("\\d+\\.\\d+")) {
-						met.invoke(this.fieldObj, Double.parseDouble(val));
-					}
-					break;
-				case "String":
-					met.invoke(this.fieldObj, val);
-					break;
-				case "Date":
-					// 日期类型只支持yyyy-MM-dd格式
-					if(val.matches("\\d{4}-\\d{2}-\\d{2}")) {
-						met.invoke(this.fieldObj, new SimpleDateFormat("yyyy-MM-dd").parse(val));
-					}
-					break;
+			if(type.equalsIgnoreCase("Integer") || type.equalsIgnoreCase("int")) {
+				if(val.matches("\\d+")) {
+					met.invoke(this.fieldObj, Integer.parseInt(val));
+				}
+			} else if(type.equalsIgnoreCase("double")) {
+				if(val.matches("\\d+(\\.\\d+)?")) {
+					met.invoke(this.fieldObj, Double.parseDouble(val));
+				}
+			} else if(type.equalsIgnoreCase("float")) {
+				if(val.matches("\\d+(\\.\\d+)?")) {
+					met.invoke(this.fieldObj, Float.parseFloat(val));
+				}
+			} else if(type.equalsIgnoreCase("String")) {
+				met.invoke(this.fieldObj, val);
+			} else if(type.equalsIgnoreCase("Date")) {
+				// 日期类型只支持yyyy-MM-dd格式
+				if(val.matches("\\d{4}-\\d{2}-\\d{2}")) {
+					met.invoke(this.fieldObj, new SimpleDateFormat("yyyy-MM-dd").parse(val));
+				}
 			}
 		} else if(value instanceof String[]) {
 			// 数组属性的设置
 			this.field.setAccessible(true);
 			String[] val = (String[]) this.value;
-			switch(type) {
-				case "String[]":
-					this.field.set(this.fieldObj, val);
-					break;
-				case "Integer[]":
-					Integer[] data = new Integer[val.length];
-					for(int i=0;i<data.length;i++) {
-						data[i] = Integer.parseInt(val[i]);
-					}
-					this.field.set(this.fieldObj, data);
-					break;
-				case "Double[]":
-					Double[] dataDouble = new Double[val.length];
-					for(int i=0;i<dataDouble.length;i++) {
-						dataDouble[i] = Double.parseDouble(val[i]);
-					}
-					this.field.set(this.fieldObj, dataDouble);
-					break;
+			
+			if(type.equalsIgnoreCase("Integer[]") || type.equalsIgnoreCase("int[]")) {
+				Integer[] data = new Integer[val.length];
+				for(int i=0;i<data.length;i++) {
+					data[i] = Integer.parseInt(val[i]);
+				}
+				this.field.set(this.fieldObj, data);
+			} else if(type.equalsIgnoreCase("String[]")) {
+				this.field.set(this.fieldObj, val);
+			} else if(type.equalsIgnoreCase("Double[]")) {
+				Double[] dataDouble = new Double[val.length];
+				for(int i=0;i<dataDouble.length;i++) {
+					dataDouble[i] = Double.parseDouble(val[i]);
+				}
+				this.field.set(this.fieldObj, dataDouble);
+			} else if(type.equalsIgnoreCase("Float[]")) {
+				Float[] dataFloat = new Float[val.length];
+				for(int i=0;i<dataFloat.length;i++) {
+					dataFloat[i] = Float.parseFloat(val[i]);
+				}
+				this.field.set(this.fieldObj, dataFloat);
 			}
 		} else {
 			// 错误的设置
