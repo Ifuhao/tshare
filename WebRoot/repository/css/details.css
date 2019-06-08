@@ -1,0 +1,67 @@
+.row .btn {	/* id选择器、标签选择器、类选择器嵌套  */
+	height: 50px;
+	padding: 0 20px;
+	background: #fd625e;
+	border: 0;
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	line-height: 50px;
+	color: #fff;
+	
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	
+	text-shadow: none;			/* 文字阴影  */
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	
+	-o-transition: all .3s;
+	-moz-transition: all .3s;
+	-webkit-transition: all .3s;
+	-ms-transition: all .3s;
+	transition: all .3s;		/* 实现文字的渐变效果，是一种过渡属性，前面的四个属性是为了兼容不同的浏览器  */
+}
+
+.row .btn:hover {		/* hover伪类，当鼠标悬停在按钮上时  */
+	/* opacity: 0.6; */
+	color: #fff;			/* color属性设置文本颜色  */
+	background: #fd625e;
+}
+
+.row .btn:active {	/* active伪类，被选择按钮，必须定义在hover之后  */
+	outline: 0;
+	opacity: 0.6;
+	color: #fff;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.row .btn:focus {		/* focus伪类，当按钮获得焦点时  */
+	outline: 0;
+	/* opacity: 0.6; */
+	background: #fd625e;
+	color: #fff;
+}
+
+.row .btn:active:focus,
+.row .btn.active:focus {
+	outline: 0;
+	opacity: 0.6;
+	background: #fd625e;
+	color: #fff;
+}
+
+.file-icon{
+	height: 70px;
+	margin-top: 10px;
+}
+
+.u-item {
+	margin-top: 30px;
+	padding: 10px;
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+}

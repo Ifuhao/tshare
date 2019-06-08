@@ -31,15 +31,12 @@
 						<a class="nav-link" href="../repository/repository.html">资料</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="">问答</a>
-					</li>
-					<li class="nav-item">
 						<a class="nav-link" href="market.html">闲置交易</a>
 					</li>
 				</ul>
 				<div class="collapse navbar-collapse justify-content-end">
 					<div class="form-inline search">
-						<input id="navbar-search" class="form-control mr-sm-2" type="search" placeholder="搜闲置" onkeyup="inputSearch(this.value)">
+						<input id="navbar-search" class="form-control mr-sm-2" type="search" placeholder="搜闲置" onFocus="search()">
 					</div>
 					<div class="nav-space"></div>
 					<div class="dropdown">
@@ -88,7 +85,7 @@
 				<!-- 侧边按钮 -->
 				<div id="carousel-side">
 					<div class="carousel-btn">
-						<button type="button">发布闲置</button>
+						<button type="button" onclick="publish_sale()">发布闲置</button>
 					</div>
 					<div class="carousel-btn">
 						<button type="button">我要收购</button>

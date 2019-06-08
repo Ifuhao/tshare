@@ -27,7 +27,7 @@
   </servlet>
   <servlet>
     <servlet-name>PreviewFile</servlet-name>
-    <servlet-class>api.PreviewFile</servlet-class>
+    <servlet-class>api.file.PreviewFile</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>DownloadFile</servlet-name>
@@ -37,6 +37,11 @@
     <servlet-name>PublishSale</servlet-name>
     <servlet-class>api.market.PublishSale</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>SearchSale</servlet-name>
+    <servlet-class>api.market.SearchSale</servlet-class>
+  </servlet>
+
 
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
@@ -73,6 +78,10 @@
   <servlet-mapping>
     <servlet-name>PublishSale</servlet-name>
     <url-pattern>/market/api/publish_sale</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SearchSale</servlet-name>
+    <url-pattern>/market/api/search</url-pattern>
   </servlet-mapping>
   
   <welcome-file-list>

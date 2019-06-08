@@ -1,4 +1,5 @@
 var fileList = new Array();		// 全局数组保存上传的文件
+var base64 = new Array();
 /**
  * 图片选择发生变化时处理函数
  */
@@ -13,6 +14,15 @@ function selectPicture(file) {
 				alert(e.name + "不是图片");
 			} else {
 				fileList.push(e);
+				
+				// 将文件转换为base64类型的数据
+				var reader = new FileReader();
+				
+				reader.readAsDataURL(e);
+				reader.onloadend = function(element) {
+					var data64 = element.target.result;
+					base64.push(data64);
+				}
 			}
 	    });
 	    showPicture();
@@ -36,6 +46,8 @@ function showPicture() {
 //点击删除文件
 function delFile(index){
     fileList.splice(index,1);
+    base64.splice(index, 1);
+    
     var pic = document.getElementById("pic"+(index+1));
     pic.src = "";
     pic.alt = "";
@@ -167,7 +179,7 @@ function upload() {
 				category_addition = $("#other-select").val();
 			}
 			// 组合主下拉列表和附下拉列表
-			category += category_addition;
+			category += (";"+category_addition);
 		}
 	}
 	
@@ -181,6 +193,7 @@ function upload() {
 		$("#num").val("");
 		$("#num").attr("placeholder", "商品数量必须是整数");
 		$("#num").addClass("input-error");
+		return;
 	}
 
 	/********** 获取商品买入价格并使用正则表达式判断是否为浮点数 ***********/
@@ -190,6 +203,7 @@ function upload() {
 		$("#buy_price").val("");
 		$("#buy_price").attr("placeholder", "买入价格必须是小数");
 		$("#buy_price").addClass("input-error");
+		return;
 	}
 	
 	/********** 获取商品来源 ***********/
@@ -220,20 +234,21 @@ function upload() {
 		$("#price").val("");
 		$("#price").attr("placeholder", "预期价格必须是小数");
 		$("#price").addClass("input-error");
+		return;
 	}
 	
 	/*********** 获取能否议价并转化为数字 ************/
 	var form_bargain = $("#bargain").find("option:selected").text();
-	var bargain = 0;
+	var bargain = 1;
 	if(form_bargain === "不能") {
-		bargain = 1;
+		bargain = 0;
 	}
 	
 	/************ 获取能否配送并转化为数字 ***************/
 	var form_delivery = $("#delivery").find("option:selected").text();
-	var delivery = 1;
+	var delivery = 0;
 	if(form_delivery === "能") {
-		delivery = 0;
+		delivery = 1;
 	}
 	
 	/************ 获取参考图片 *****************/
@@ -252,45 +267,28 @@ function upload() {
 	formdata.append("bargain", bargain);
 	formdata.append("delivery", delivery);
 	
-	// 将文件转换为base64类型的数据
-	var reader = new FileReader();
-	var picture = "";
-	$(fileList).each(function(i, element) {
-		reader.readAsDataURL(element);
-		var data64;
-		reader.onloadend = function(e) {
-			data64 = e.target.result;
-			console.log(data64);
-		}
-		picture += data64;
+	$(base64).each(function(i, e) {
+		formdata.append("pic"+i, e);
 	});
 	
-	formdata.append("picture", picture);
-	
-//	$.ajax({
-//		url: 'api/publish_sale',
-//		type: 'POST',
-//		data: formdata,
-//		success: res => {
-//			if (res.code == 1) {
-//				alert('上架成功')
-//			} else {
-//				alert(res.msg);
-//			}
-//		},
-//		error: (xhr, status, error) => console.log('[Status]', status, '\n[Error]', error),
-//		processData: false, // 不处理数据
-//		contentType: false, // 不设置内容类型
-//		dataType: 'json',
-//		timeout: 5000
-//	});
+	$.ajax({
+		url: 'api/publish_sale',
+		type: 'POST',
+		data: formdata,
+		success: res => {
+			if (res.code == 1) {
+				alert('上架成功')
+			} else {
+				alert(res.msg);
+			}
+		},
+		error: (xhr, status, error) => console.log('[Status]', status, '\n[Error]', error),
+		processData: false, // 不处理数据
+		contentType: false, // 不设置内容类型
+		dataType: 'json',
+		timeout: 5000
+	});
 }
-
-
-
-
-
-
 
 
 

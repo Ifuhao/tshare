@@ -49,6 +49,14 @@ public interface SaleDAO {
 	public Sale[] selectByCond(HashMap<String, String> map);
 	
 	/**
+	 * 根据条件和某个字段进行模糊查询
+	 * @param field 模糊查询字段
+	 * @param value 模糊查询关键字
+	 * @return
+	 */
+	public Sale[] select(String field, String value, String type, boolean sale_new, int delivery, int bargain);
+	
+	/**
 	 * 获取数据数量
 	 * @return
 	 */

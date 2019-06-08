@@ -1,9 +1,13 @@
 package utils.file;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.HashMap;
+
+import sun.misc.BASE64Decoder;
 
 public class FileUtils {
 	
@@ -198,5 +202,30 @@ public class FileUtils {
 		
 		String ext = filename.substring(index+1, filename.length());
 		return ext;
+	}
+	
+	/**
+	 * 将base64数据解码成文件
+	 * @param base64
+	 * @param destFile
+	 */
+	public static void base64ToFile(String base64, String destFile) {
+		BASE64Decoder decoder = new BASE64Decoder();
+        try {
+            // Base64解码
+            byte[] b = decoder.decodeBuffer(base64);
+            for (int i = 0; i < b.length; ++i) {
+                if (b[i] < 0) {// 调整异常数据
+                    b[i] += 256;
+                }
+            }
+ 
+            OutputStream out = new FileOutputStream(destFile);
+            out.write(b);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
 	}
 }

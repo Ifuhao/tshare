@@ -15,6 +15,9 @@
 		<!-- CSS Files -->
 		<link rel="stylesheet" href="../css/bootstrap.css"/>
 		<link rel="stylesheet" href="../css/common.css"/>
+		<link rel="stylesheet" href="../css/waitMe.css">
+		
+		<link rel="stylesheet" href="css/details.css"/>
 	</head>
 	<body class="bg-light">
 		<!-- 导航条 -->
@@ -27,9 +30,6 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="repository.html">资料</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="">问答</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="../market/market.html">闲置交易</a>
@@ -66,12 +66,76 @@
 				</div>
 			</div>
 		</nav>
-
+		
+		<!-- 页面主体 -->
+		<div class="container main">
+		</div>
 	</body>
+	
+	<!-- 动态模板 -->
+
+	<!-- 课内资料单个文件显示模板 -->
+	<script id="template-in-class-file" type="text/template">
+		<div id="in-class-file">
+			<div class="row">
+				<img src="img/{{ext}}.png" class="file-icon"></img>
+				<h3 class="col-md-9">{{name}}</h3>
+				<button class="btn" onclick="download_file()">download</button>
+			</div>
+			<div class="row">
+				<ul class="u-item">
+					<li>学科类型：{{subject}}</li>
+					<li>资料类型：{{type}}</li>
+					<li>文件大小：{{size}}</li>
+					<li>上传时间：{{upload_time}}</li>
+					<li>上传者：{{upload_uname}}</li>
+					<li>下载量：{{download}}</li>
+					<li>评分：{{score}}</li>
+				</ul>
+			</div>
+			<!-- 预览图片 -->
+			<div id="preview" class="row">
+				<img src="temp/{{url}}.png" alt="预览图片正在生成，请稍后刷新"/>
+			</div>
+		</div>
+	</script>
+	
+	<!-- 课内资料文件夹显示模板 -->
+	<script id="template-in-class-folder" type="text/template">
+		<div>
+			<h3>{{name}}</h3>
+			<div class="row">
+				<div class="col-md-9">
+					<ul>
+						<li>学科类型：{{subject}}</li>
+						<li>资料类型：{{type}}</li>
+						<li>上传时间：{{upload_time}}</li>
+						<li>上传者：{{upload_uname}}</li>
+						<li>评分：{{score}}</li>
+					</ul>
+				</div>
+				<button class="btn" onclick="download_file()">download</button>
+			</div>
+		</div>
+	</script>
+	
+	<!-- 课外资料显示模板 -->
+	<script id="template-out-class-file" type="text/template">
+		<div>
+			<h3>{{name}}</h3>
+			<p>{{description}}</p>
+			<button onclick="download()">download</button>
+		</div>
+	</script>
+	
 	<script src="../js/core/jquery-3.3.1.js" type="text/javascript"></script>
 	<script src="../js/core/popper.min.js" type="text/javascript"></script>
 	<script src="../js/core/bootstrap.js" type="text/javascript"></script>
 	
- 	<script src="../js/base.js" type="text/javascript"></script>
+	<script src="../js/template-web.js" type="text/javascript"></script>
+	<script src="../js/base.js" type="text/javascript"></script>
+	<script src="../js/waitMe.js" type="text/javascript"></script>
+ 	
 	<script src="js/details.js" type="text/javascript"></script>
+	<script src="js/download.js" type="text/javascript"></script>
 </html>

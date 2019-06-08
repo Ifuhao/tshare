@@ -1,5 +1,10 @@
 eclipse.preferences.version=1
 encoding//WebRoot/css/common.css=UTF-8
+encoding//WebRoot/css/waitMe.css=UTF-8
+encoding//WebRoot/market/css/list.css=UTF-8
 encoding//WebRoot/market/css/upload.css=UTF-8
+encoding//WebRoot/repository/css/list.css=UTF-8
+encoding//WebRoot/repository/css/repository.css=UTF-8
 encoding//WebRoot/repository/css/upload.css=UTF-8
+encoding//WebRoot/repository/details.html=UTF-8
 encoding/<project>=UTF-8

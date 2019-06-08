@@ -31,9 +31,6 @@
 						<a class="nav-link" href="repository.html">资料</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="">问答</a>
-					</li>
-					<li class="nav-item">
 						<a class="nav-link" href="../market/market.html">闲置交易</a>
 					</li>
 				</ul>
@@ -70,7 +67,7 @@
 		</nav>
 		<div class="container main">
 			<!-- 搜索结果 -->
-			<div id="result" class="row">
+			<div id="search-main" class="row">
 				<!-- 选项 -->
 				<div id="options-col" class="col-md-3">
 					<div id="options" class="bg-white shadow-sm">
@@ -99,7 +96,7 @@
 					</div>
 				</div>
 				<!-- 结果列表 -->
-				<div class="col-md-9 bg-white">
+				<div id="result" class="col-md-9 bg-white">
 					<ul id="file-list" class=""></ul>
 					<!-- 分页器 -->
 					<nav>
@@ -175,7 +172,7 @@
 	</script>
 	<!-- 找不到模版 -->
 	<script id="template-nofound" type="text/template">
-		<div id="nofound" class="container text-center">
+		<div id="nofound" class="text-center col-md-9 bg-white">
 			<img src="img/nofound.png" >
 			<div class="prompt">资料库暂时没有关于“{{keyword}}”的内容</div>
 			<a href="">去求资料</a>

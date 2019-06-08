@@ -1,9 +1,13 @@
 package api.market;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -11,15 +15,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadBase.FileSizeLimitExceededException;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-
+import json.JSONArray;
+import utils.JSONParser;
+import utils.file.FileUtils;
+import utils.form.BeanOperator;
 import dao.SaleDAO;
 import dao.impl.SaleDAOImpl;
 import dao.vo.Sale;
+import dao.vo.User;
 
 @MultipartConfig
 @SuppressWarnings("serial")
@@ -66,73 +69,85 @@ public class PublishSale extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-//		request.setCharacterEncoding("UTF-8");
-//		response.setCharacterEncoding("UTF-8");
-//		
-//		Part part = request.getPart("picture");
-//		
-//		JSONArray json = new JSONArray();
-//		json.set("code", 1);
-//		json.set("msg", "上架成功");
-//		PrintWriter out = response.getWriter();
-//		out.write(JSONParser.json_encode(json));
-//		out.close();
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		User user = ((User)request.getSession(true).getAttribute("user"));
+		if(user == null) {
+			// 用户不在登录状态
+			
+		}
 		
+		// 参考图片的父目录：/tshare/market/picture/sale_id/xxx.image
+		String base = request.getSession().getServletContext().getRealPath("")
+				+ "market" + File.separator + "picture" + File.separator;
 		
-		// 图片的保存路径/tshare/market/sale_id/xxx.image
+		BufferedReader reader = request.getReader();
+		String msg=null;
+		String line;
+		while((line=reader.readLine())!=null)
+			msg+=line;
+		
+		// 通过分割msg来获取参数
+		String findstr = "form-data; name=\"";
+		int length = findstr.length();
+		
+		HashMap<String, String> map = new HashMap<>();		// 保存提交的数据
+		
+		// 开始分割
+		int start = msg.indexOf(findstr);
+		while(start != -1) {
+			int end = msg.indexOf("\"", start + length + 1);
+			String key = msg.substring(start+length, end);
+			String value = msg.substring(end+1, msg.indexOf("-----", end+1));
+			map.put(key, value);
+			
+			start = msg.indexOf(findstr, end+1);
+		}
+		
+		// 获取提交数据并生成Sale对象
 		SaleDAO sale_dao = new SaleDAOImpl();
-        Sale sale = new Sale();
-        sale.setSale_id(sale_dao.count()+1);
-        
-		request.setCharacterEncoding("utf-8");//防止中文名乱码 
-        int sizeThreshold=1024*6; //缓存区大小 
-        String basePath = this.getServletContext().getRealPath("")
-        		+ File.separator + "market" + File.separator + sale.getSale_id()
-        		+ File.separator;
-        
-        File repository = new File(basePath); //缓存区目录
-        long sizeMax = 1024 * 1024 * 10;//设置文件的大小为10M
-        
-        final String allowExtNames = "jpg,gif,bmp,png";
-        
-        DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
-        diskFileItemFactory.setRepository(repository);
-        diskFileItemFactory.setSizeThreshold(sizeThreshold);
-        ServletFileUpload servletFileUpload=new ServletFileUpload(diskFileItemFactory);
-        servletFileUpload.setSizeMax(sizeMax);
-        
-        List<FileItem> fileItems = null;
-        try {
-            fileItems = servletFileUpload.parseRequest(request);
-            
-            for(FileItem fileItem:fileItems) {
-                long size=0;
-                String filePath = fileItem.getName();
-                System.out.println(filePath);
-                if(filePath==null || filePath.trim().length()==0)  
-                    continue;  
-                String fileName=filePath.substring(filePath.lastIndexOf(File.separator)+1);   
-                String extName=filePath.substring(filePath.lastIndexOf(".")+1);   
-                if(allowExtNames.indexOf(extName)!=-1) {  
-                    try {  
-                        fileItem.write(new File(basePath+fileName));  
-                    } catch (Exception e) {  
-                        e.printStackTrace();  
-                    }  
-                } else {  
-                    throw new FileUploadException("file type is not allowed");  
-                }
-            }
-	    } catch (FileSizeLimitExceededException e){  
-	        System.out.println("file size is not allowed");  
-	    } catch (FileUploadException e1){  
-	        e1.printStackTrace();  
-	    }  
-		response.setContentType("text/html");
-		response.setCharacterEncoding("utf-8");
+		Sale sale = new Sale();
+		sale.setSale_id(sale_dao.count()+1);
+		sale.setId(user.getId());
+		
+		base += sale.getSale_id() + File.separator;
+		File baseDir = new File(base);
+		if(!baseDir.exists()) {
+			baseDir.mkdirs();
+		}
+		
+		Iterator<String> iter = map.keySet().iterator();
+		String picture = "";		// 图片路径：xxx.image
+		
+		while(iter.hasNext()) {
+			String key = iter.next();
+			String value = map.get(key);
+			if(key.startsWith("pic")) {
+				// 图片，单独处理
+				String uuid = UUID.randomUUID().toString();
+				String[] split = value.split(",");
+				String image_type = split[0].substring(split[0].indexOf("/")+1, split[0].indexOf(";"));
+				String filename = uuid + "." + image_type;
+				FileUtils.base64ToFile(split[1], base + filename);
+				
+				picture += filename + ";";
+			} else {
+				// 填写Sale对象属性
+				String field = "Sale." + key;
+				new BeanOperator(sale, field, value);
+			}
+		}
+		
+		sale.setPicture(picture);
+		sale.setTime(new Date(new java.util.Date().getTime()));
+
+		sale_dao.insert(sale);
+		
+		JSONArray json = new JSONArray();
+		json.set("code", 1);
+		json.set("msg", "上架成功");
 		PrintWriter out = response.getWriter();
-		out.println("this is Post method");
-		out.flush();
+		out.write(JSONParser.json_encode(json));
 		out.close();
 	}
 
