@@ -111,13 +111,3 @@
 	width: 40px;
 	padding: 7px;
 }
-
-/* 找不到提示 */
-#nofound {
-	padding-top: 30vh;
-}
-
-#nofound .prompt {
-	padding-top: 20px;
-	font-size: 1.2em;
-}

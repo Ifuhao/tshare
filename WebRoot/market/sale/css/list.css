@@ -1,0 +1,69 @@
+.one {
+	border: 1px;
+	border-color: #ccc;
+	border-style:solid;
+	
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	
+	position: relative;
+}
+
+.price-now {
+	color: red;
+	font-size: 1.2rem;
+}
+
+.price-ori {
+	color: gray;
+	text-decoration: line-through;
+	font-size: 0.85rem;
+	margin-left: 10px;
+}
+
+.sale-title {
+	font-family: 'Roboto', sans-serif;
+	font-size: 30px;
+	font-weight: 500;
+}
+
+.sale-description {
+	font-family: 'Roboto', sans-serif;
+	font-size: 20px;
+	color: #fe5ad6;
+}
+
+.sale-time {
+	font-family: 'Roboto', sans-serif;
+	font-size: 10px;
+	color: #000;
+}
+
+.sale-uname {
+	font-family: 'Roboto', sans-serif;
+	font-size: 10px;
+	color: #000;
+}
+
+.contact {
+	position:absolute;
+	height: 20%;
+	width: 10%;
+	top: 40%;
+	left: 70%;
+	background: pink;
+}
+
+.concern {
+	position:absolute;
+	height: 20%;
+	width: 10%;
+	top: 40%;
+	left: 85%;
+	background: pink;
+}
+
+.cmdt-img {
+	width: 100%;
+}

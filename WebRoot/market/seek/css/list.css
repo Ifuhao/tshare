@@ -1,0 +1,55 @@
+.one {
+	border: 1px;
+	border-color: #ccc;
+	border-style:solid;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	
+	position: relative;
+}
+
+.btn {
+	position:absolute;
+	height: 56%;
+	width: 12%;
+	top: 21%;
+	left: 80%;
+	background: pink;
+}
+
+.seek-title {
+	font-family: 'Roboto', sans-serif;
+	font-size: 30px;
+	font-weight: 500;
+}
+
+.seek-description {
+	font-family: 'Roboto', sans-serif;
+	font-size: 20px;
+	color: #fe5ad6;
+}
+
+.seek-time {
+	font-family: 'Roboto', sans-serif;
+	font-size: 10px;
+	color: #000;
+}
+
+.seek-uname {
+	font-family: 'Roboto', sans-serif;
+	font-size: 10px;
+	color: #000;
+}
+
+
+#list-top {
+	margin: 15px 0;
+	font-size: 0.9rem;
+}
+
+.amount {
+	font-family: 'Roboto', sans-serif;
+	color: #444;
+	display: flex;
+}

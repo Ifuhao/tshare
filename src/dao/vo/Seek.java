@@ -11,7 +11,7 @@ public class Seek implements Serializable,Cloneable{
 	private String description;	//商品描述
 	private Date time;		//发布时间
 	private int is_buy;		//是否交易成功
-	private int delete;		//是否删除商品
+	private int is_delete;		//是否删除商品
 	
 	public Seek(){}
 	
@@ -51,17 +51,17 @@ public class Seek implements Serializable,Cloneable{
 	public void setIs_buy(int is_buy) {
 		this.is_buy = is_buy;
 	}
-	public int getDelete() {
-		return delete;
+	public int getIs_delete() {
+		return is_delete;
 	}
-	public void setDelete(int delete) {
-		this.delete = delete;
+	public void setIs_delete(int is_delete) {
+		this.is_delete = is_delete;
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + delete;
+		result = prime * result + is_delete;
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -80,7 +80,7 @@ public class Seek implements Serializable,Cloneable{
 		if (getClass() != obj.getClass())
 			return false;
 		Seek other = (Seek) obj;
-		if (delete != other.delete)
+		if (is_delete != other.is_delete)
 			return false;
 		if (description == null) {
 			if (other.description != null)
@@ -113,7 +113,7 @@ public class Seek implements Serializable,Cloneable{
 	public String toString() {
 		return "Seek [seek_id=" + seek_id + ", id=" + id + ", title=" + title
 				+ ", description=" + description + ", time=" + time
-				+ ", is_buy=" + is_buy + ", delete=" + delete + "]";
+				+ ", is_buy=" + is_buy + ", delete=" + is_delete + "]";
 	}
 	
 	public Seek clone(){
@@ -124,7 +124,7 @@ public class Seek implements Serializable,Cloneable{
 		seek.setDescription(this.description);
 		seek.setTime(this.time);
 		seek.setIs_buy(this.is_buy);
-		seek.setDelete(this.delete);
+		seek.setIs_delete(this.is_delete);
 		return seek;
 	}
 }

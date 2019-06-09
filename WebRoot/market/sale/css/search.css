@@ -1,0 +1,227 @@
+#main-body .form-control:not(textarea) {
+	height: 40px;
+	border: 1px solid #ccc;
+	color: #555;
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+#main-body .search-btn {
+	padding: 0 20px;
+	margin: 40px 0 0 20px;
+	
+	background: #fd625e;
+	border: 0;
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	color: #fff;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	text-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	-o-transition: all .3s;
+	-moz-transition: all .3s;
+	-webkit-transition: all .3s;
+	-ms-transition: all .3s;
+	transition: all .3s;
+}
+
+#main-body .search-btn:hover {
+	/* opacity: 0.6; */
+	color: #fff;
+	background: #fd625e;
+}
+
+#main-body .search-btn:active {
+	outline: 0;
+	opacity: 0.6;
+	color: #fff;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+#main-body .search-btn:focus {
+	outline: 0;
+	/* opacity: 0.6; */
+	background: #fd625e;
+	color: #fff;
+}
+
+#main-body .search-btn:active:focus,
+#main-body .search-btn.active:focus {
+	outline: 0;
+	opacity: 0.6;
+	background: #fd625e;
+	color: #fff;
+}
+
+#main-body .select-btn {
+	padding: 0 20px;
+	margin: 0 0 0 10px;
+	
+	background: #fff;
+	border: 0;
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	color: #000000;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	text-shadow: none;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	-o-transition: all .3s;
+	-moz-transition: all .3s;
+	-webkit-transition: all .3s;
+	-ms-transition: all .3s;
+	transition: all .3s;
+}
+
+#main-body .select-btn:hover {
+	color: #ba000c;
+	background: #fee4e3;
+}
+
+/* 选择按钮被选中后显示的样式 */
+.selected {
+	color: #ba000c!important;
+	background: #fee4e3!important;
+}
+
+#list-top {
+	margin: 15px 0;
+	font-size: 0.9rem;
+}
+
+.checkbtn {
+	color: #444 !important;
+	padding: 4px 10px;
+}
+
+.checkbtn:hover {
+	color: black !important;
+}
+
+.checkbtn.active,
+.checkbtn.active:hover {
+	background-color: #fee4e3;
+	color: #ba000c !important;
+	border-radius: 15px;
+}
+
+.amount {
+	font-family: 'Roboto', sans-serif;
+	color: #444;
+	display: flex;
+}
+
+.cmdt {
+	width: 210px;
+	background-color: white;
+	margin: 0 12px 15px 0px;
+	padding: 10px;
+}
+
+.cmdt-row {
+	vertical-align:middle;
+}
+
+.cmdt-img {
+	height: 185px;
+	overflow: hidden;
+}
+
+.cmdt-img img {
+	width: 100%;
+}
+
+.cmdt-price {
+	margin: 10px 0;
+}
+
+.price-now {
+	color: red;
+	font-size: 1.2rem;
+}
+
+.price-ori {
+	color: gray;
+	text-decoration: line-through;
+	font-size: 0.85rem;
+	margin-left: 10px;
+}
+
+.cmdt-title {
+	color: black;
+	font-size: 0.9rem;
+	max-width: 190px;
+	height: 23px;
+	overflow: hidden;
+}
+
+.cmdt-footer {
+	font-size: 0.85rem;
+	color: #555;
+	margin-top: 8px;
+}
+
+.cmdt-footer img {
+	height: 20px;
+	margin-top: 2px;
+	margin-left: 5px;
+}
+
+/* 平板 */
+@media only screen and (max-width:767px) {
+	.cmdt {
+		width: 150px;
+		margin: 0 5px 10px 5px;
+		padding: 0;
+	}
+
+	.cmdt-img {
+		height: 150px;
+	}
+
+	.cmdt-price {
+		margin: 7px 10px;
+	}
+
+	.price-now {
+		font-size: 1.0rem;
+	}
+
+	.price-ori {
+		font-size: 0.75rem;
+	}
+
+	.cmdt-title {
+		font-size: 0.85rem;
+		height: 40px;
+		max-width: 130px;
+		margin: 0 10px;
+	}
+
+	.cmdt-footer {
+		margin: 5px 10px 0 10px;
+	}
+}
+
+@media only screen and (max-width:575px) {
+	.cmdt {
+		margin-left: 4px;
+		margin-right: 4px;
+		margin-bottom: 10px;
+		padding: 0;
+		font-size: 0.9rem;
+	}
+}

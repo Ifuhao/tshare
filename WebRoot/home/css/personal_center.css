@@ -1,18 +1,5 @@
-.UserCover{
-	postion:relative;
-	height:240px;
-	overflow:hidden;
-	background:#f6f6f6;
-	border-top-right-radius:1px;
-	border-top-left-radius:1px;
-	transitiion:heigiht .3s;
-}
 .UserCoverEditor{
 	position:relative;
-}
-.UserCover--colorBlock{
-	height:200px;
-	background:#999;
 }
 
 .ProfileHeader-wrapper{
@@ -132,3 +119,114 @@
 }
 
 
+.cmdt {
+	width: 210px;
+	background-color: white;
+	margin: 0 12px 15px 0px;
+	padding: 10px;
+}
+
+.cmdt-row {
+	vertical-align:middle;
+}
+
+.cmdt-img {
+	height: 185px;
+	overflow: hidden;
+}
+
+.cmdt-img img {
+	width: 100%;
+}
+
+.cmdt-price {
+	margin: 10px 0;
+}
+
+.price-now {
+	color: red;
+	font-size: 1.2rem;
+}
+
+.price-ori {
+	color: gray;
+	text-decoration: line-through;
+	font-size: 0.85rem;
+	margin-left: 10px;
+}
+
+.cmdt-title {
+	color: black;
+	font-size: 0.9rem;
+	max-width: 190px;
+	height: 23px;
+	overflow: hidden;
+}
+
+.cmdt-footer {
+	font-size: 0.85rem;
+	color: #555;
+	margin-top: 8px;
+}
+
+.cmdt-footer img {
+	height: 20px;
+	margin-top: 2px;
+	margin-left: 5px;
+}
+
+/* 平板 */
+@media only screen and (max-width:767px) {
+	.cmdt {
+		width: 150px;
+		margin: 0 5px 10px 5px;
+		padding: 0;
+	}
+
+	.cmdt-img {
+		height: 150px;
+	}
+
+	.cmdt-price {
+		margin: 7px 10px;
+	}
+
+	.price-now {
+		font-size: 1.0rem;
+	}
+
+	.price-ori {
+		font-size: 0.75rem;
+	}
+
+	.cmdt-title {
+		font-size: 0.85rem;
+		height: 40px;
+		max-width: 130px;
+		margin: 0 10px;
+	}
+
+	.cmdt-footer {
+		margin: 5px 10px 0 10px;
+	}
+}
+
+@media only screen and (max-width:575px) {
+	.cmdt {
+		margin-left: 4px;
+		margin-right: 4px;
+		margin-bottom: 10px;
+		padding: 0;
+		font-size: 0.9rem;
+	}
+}
+
+/* 找不到提示 */
+#nofound {
+	padding-top: 30vh;
+}
+
+#nofound .prompt {
+	padding-top: 20px;
+	font-size: 1.2em;
+}

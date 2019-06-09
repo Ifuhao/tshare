@@ -240,3 +240,23 @@ textarea {
 .top-80 {
 	margin-top: 80px;
 }
+
+/******** 网页中用于显示空白部分 *********/
+.back-block {
+	postion:relative;
+	height:240px;
+	overflow:hidden;
+	border-top-right-radius:1px;
+	border-top-left-radius:1px;
+	transitiion:heigiht .3s;
+}
+
+/* 找不到提示 */
+#nofound {
+	padding-top: 30vh;
+}
+
+#nofound .prompt {
+	padding-top: 20px;
+	font-size: 1.2em;
+}

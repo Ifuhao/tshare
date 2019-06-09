@@ -17,6 +17,13 @@ public class User implements Serializable, Cloneable {
 	private int logout_time;
 	private int session_id;
 	
+	private String head_image;		// 头像
+	private int upload_time;		// 文件上传量
+	private int transaction;		// 交易成功量
+	private int money;				// 积分
+	private int follow;				// 关注
+	private int fans;				// 粉丝
+	
 	public User() {}
 	
 	public String getId() {
@@ -68,6 +75,43 @@ public class User implements Serializable, Cloneable {
 		this.session_id = session_id;
 	}
 	
+	public String getHead_image() {
+		return head_image;
+	}
+	public void setHead_image(String head_image) {
+		this.head_image = head_image;
+	}
+	public int getUpload_time() {
+		return upload_time;
+	}
+	public void setUpload_time(int upload_time) {
+		this.upload_time = upload_time;
+	}
+	public int getTransaction() {
+		return transaction;
+	}
+	public void setTransaction(int transaction) {
+		this.transaction = transaction;
+	}
+	public int getMoney() {
+		return money;
+	}
+	public void setMoney(int money) {
+		this.money = money;
+	}
+	public int getFollow() {
+		return follow;
+	}
+	public void setFollow(int follow) {
+		this.follow = follow;
+	}
+	public int getFans() {
+		return fans;
+	}
+	public void setFans(int fans) {
+		this.fans = fans;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -110,11 +154,13 @@ public class User implements Serializable, Cloneable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username
-				+ ", password=" + password + ", cookie_encode=" + cookie_encode
+		return "User [id=" + id + ", username=" + username + ", password="
+				+ password + ", cookie_encode=" + cookie_encode
 				+ ", cookie_decode=" + cookie_decode + ", login_time="
 				+ login_time + ", logout_time=" + logout_time + ", session_id="
-				+ session_id + "]";
+				+ session_id + ", head_image=" + head_image + ", upload_time="
+				+ upload_time + ", transaction=" + transaction + ", money="
+				+ money + ", follow=" + follow + ", fans=" + fans + "]";
 	}
 	
 	
@@ -128,7 +174,12 @@ public class User implements Serializable, Cloneable {
 		user.setLogin_time(this.login_time);
 		user.setLogout_time(this.logout_time);
 		user.setSession_id(this.session_id);
+		user.setHead_image(this.head_image);
+		user.setUpload_time(this.upload_time);
+		user.setTransaction(this.transaction);
+		user.setMoney(this.money);
+		user.setFollow(this.follow);
+		user.setFans(this.fans);
 		return user;
 	}
-	
 }

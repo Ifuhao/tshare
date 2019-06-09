@@ -68,7 +68,6 @@ function upload() {
 				alert('上传成功')
 			} else {
 				alert(res.msg);
-//				window.location.href="../index.html";
 			}
 		},
 		error: (xhr, status, error) => console.log('[Status]', status, '\n[Error]', error),

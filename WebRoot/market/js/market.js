@@ -1,11 +1,11 @@
 function search() {
-	location = "sale_search.html";
+	location = "sale/search.html";
 }
 
 function publish_sale() {
-	location = "upload.html";
+	location = "sale/upload.html";
 }
 
 function publish_seek(){
-	location = "seek.html";
+	location = "seek/upload.html";
 }

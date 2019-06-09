@@ -18,7 +18,7 @@ public interface SeekDAO {
 	/**
 	 * 修改seek表中的一条记录
 	 */
-	public boolean buyBy_Id(int seek_id);
+	public boolean buyById(int seek_id);
 	
 	/**
 	 * 根据主键查询seek表
@@ -35,6 +35,7 @@ public interface SeekDAO {
 	 */
 	public Seek[] selectByCond(HashMap<String, String> map);
 
-
 	public int count();
+	
+	public int effectCount();
 }

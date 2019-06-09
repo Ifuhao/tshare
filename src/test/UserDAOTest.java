@@ -2,7 +2,6 @@ package test;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 
 import dao.SeekDAO;
 import dao.UserDAO;

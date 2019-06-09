@@ -1,3 +1,3 @@
 eclipse.preferences.version=1
-validator.Checked=WebRoot/market/js/seek.js,WebRoot/market/js/market.js,WebRoot/market/seek_search.html,WebRoot/market/js/upload.js,WebRoot/js/core/popper.min.js,WebRoot/market/css/seek_list.css,WebRoot/repository/js/list.js,WebRoot/market/js/sale_search.js,WebRoot/js/base.js,WebRoot/market/css/list.css,WebRoot/market/js/seek_list.js,WebRoot/repository/js/details.js,WebRoot/market/js/search.js,WebRoot/repository/details.html,WebRoot/js/core/jquery-3.3.1.js,WebRoot/home/js/person.js,WebRoot/repository/js/upload.js,WebRoot/market/js/seek_search.js,WebRoot/market/js/list.js,WebRoot/market/js/details.js,WebRoot/js/index.js,WebRoot/repository/js/repository.js,WebRoot/repository/css/details.css,WebRoot/home/personal_center.html
+validator.Checked=WebRoot/market,WebRoot/home,WebRoot/js,WebRoot/repository,WebRoot/index.html
 validator.Unchecked=

@@ -51,7 +51,7 @@ public class SeekDAOImpl implements SeekDAO {
 	}
 
 	@Override
-	public boolean buyBy_Id(int seek_id) {
+	public boolean buyById(int seek_id) {
 		String sql = "update seek set is_buy = 1 where seek_id = ?";
 		PreparedStatement stmt = Database.getPstmt(sql);
 		try {
@@ -91,7 +91,7 @@ public class SeekDAOImpl implements SeekDAO {
 				e.printStackTrace();
 			}
 		}
-		return null;
+		return seek;
 	}
 
 	@Override
@@ -139,7 +139,7 @@ public class SeekDAOImpl implements SeekDAO {
 		while(keys.hasNext()){
 			String key = keys.next();
 			String value = map.get(key);
-			cond+= (key + "=" + "'" + value + " ' and");
+			cond+= (key + "=" + "'" + value + "'and ");
 		} 
 		cond = cond.substring(0,cond.length()-4);
 		String sql = "select * from seek where " + cond;
@@ -196,4 +196,23 @@ public class SeekDAOImpl implements SeekDAO {
 		return 0;
 	}
 	
+	public int effectCount() {
+		String sql = "select count(seek_id) num from seek where is_buy = 0 and is_delete = 0";
+		PreparedStatement stmt = Database.getPstmt(sql);
+		try {
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				return rs.getInt("num");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return 0;
+	}
 }

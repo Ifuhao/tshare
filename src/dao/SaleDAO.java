@@ -61,4 +61,6 @@ public interface SaleDAO {
 	 * @return
 	 */
 	public int count();
+	
+	public int effectCount();
 }

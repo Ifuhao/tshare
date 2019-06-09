@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>tshare</display-name>
+ <!-- 宣传页的servlet --> 
   <servlet>
     <servlet-name>Login</servlet-name>
-    <servlet-class>api.home.Login</servlet-class>
+    <servlet-class>api.Login</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>SendEmailCode</servlet-name>
-    <servlet-class>api.home.SendEmailCode</servlet-class>
+    <servlet-class>api.SendEmailCode</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>EmailCodeConfirm</servlet-name>
-    <servlet-class>api.home.EmailCodeConfirm</servlet-class>
+    <servlet-class>api.EmailCodeConfirm</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>Register</servlet-name>
-    <servlet-class>api.home.Register</servlet-class>
+    <servlet-class>api.Register</servlet-class>
   </servlet>
+ 
+ <!-- 资料板块servlet --> 
   <servlet>
     <servlet-name>UploadFile</servlet-name>
     <servlet-class>api.file.UploadFile</servlet-class>
@@ -34,26 +37,51 @@
     <servlet-class>api.file.DownloadFile</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>PublishSale</servlet-name>
-    <servlet-class>api.market.PublishSale</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>SearchSale</servlet-name>
-    <servlet-class>api.market.SearchSale</servlet-class>
-  </servlet>
-  <servlet>
     <servlet-name>StationServlet</servlet-name>
     <servlet-class>api.file.StationServlet</servlet-class>
   </servlet>
-  <servlet>
-    <servlet-name>PublishSeek</servlet-name>
-    <servlet-class>api.market.PublishSeek</servlet-class>
+  
+<!-- 闲置交易板块servlet -->
+  <servlet>		<!-- 商品上架 -->
+    <servlet-name>PublishSale</servlet-name>
+    <servlet-class>api.market.sale.PublishSale</servlet-class>
   </servlet>
-  <servlet>
+  <servlet>		<!-- 商品搜索 -->
+    <servlet-name>SearchSale</servlet-name>
+    <servlet-class>api.market.sale.SearchSale</servlet-class>
+  </servlet>
+  <servlet>		<!-- 商品详情 -->
     <servlet-name>SaleDetailServlet</servlet-name>
-    <servlet-class>api.market.SaleDetailServlet</servlet-class>
+    <servlet-class>api.market.sale.SaleDetailServlet</servlet-class>
+  </servlet>
+  <servlet>		<!-- 列出我的上架-->
+    <servlet-name>ListMySale</servlet-name>
+    <servlet-class>api.market.sale.ListMySale</servlet-class>
+  </servlet>
+  <servlet>		<!-- 列出最新上架 -->
+    <servlet-name>ListSaleServlet</servlet-name>
+    <servlet-class>api.market.sale.ListSaleServlet</servlet-class>
+  </servlet>
+  
+  <servlet>		<!-- 提交收购 -->
+    <servlet-name>PublishSeek</servlet-name>
+    <servlet-class>api.market.seek.PublishSeek</servlet-class>
+  </servlet>
+   <servlet>	<!-- 列出我的收购 -->
+    <servlet-name>ListMySeek</servlet-name>
+    <servlet-class>api.market.seek.ListMySeek</servlet-class>
+  </servlet>
+  <servlet>		<!-- 列出最新收购 -->
+    <servlet-name>ListSeekServlet</servlet-name>
+    <servlet-class>api.market.seek.ListSeekServlet</servlet-class>
   </servlet>
 
+<!-- 主页servlet -->  
+  <servlet>
+    <servlet-name>PersonServlet</servlet-name>
+    <servlet-class>api.home.PersonServlet</servlet-class>
+  </servlet>
+  
 
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
@@ -71,6 +99,7 @@
     <servlet-name>Register</servlet-name>
     <url-pattern>/api/register</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
     <servlet-name>UploadFile</servlet-name>
     <url-pattern>/repository/api/upload</url-pattern>
@@ -87,25 +116,48 @@
     <servlet-name>DownloadFile</servlet-name>
     <url-pattern>/repository/api/download</url-pattern>
   </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>PublishSale</servlet-name>
-    <url-pattern>/market/api/publish_sale</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>SearchSale</servlet-name>
-    <url-pattern>/market/api/sale_search</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
+   <servlet-mapping>
     <servlet-name>StationServlet</servlet-name>
     <url-pattern>/repository/api/station</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
-    <servlet-name>PublishSeek</servlet-name>
-    <url-pattern>/market/api/publish_seek</url-pattern>
+    <servlet-name>PublishSale</servlet-name>
+    <url-pattern>/market/sale/api/upload</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SearchSale</servlet-name>
+    <url-pattern>/market/sale/api/search</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>SaleDetailServlet</servlet-name>
-    <url-pattern>/market/api/sale_details</url-pattern>
+    <url-pattern>/market/sale/api/details</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ListMySale</servlet-name>
+    <url-pattern>/market/sale/api/list_my_sale</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ListSaleServlet</servlet-name>
+    <url-pattern>/market/sale/api/list_sale</url-pattern>
+  </servlet-mapping>
+ 
+  <servlet-mapping>
+    <servlet-name>PublishSeek</servlet-name>
+    <url-pattern>/market/seek/api/publish_seek</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ListMySeek</servlet-name>
+    <url-pattern>/market/seek/api/list_my_seek</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ListSeekServlet</servlet-name>
+    <url-pattern>/market/seek/api/list_seek</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>PersonServlet</servlet-name>
+    <url-pattern>/home/api/person</url-pattern>
   </servlet-mapping>
   
   <welcome-file-list>

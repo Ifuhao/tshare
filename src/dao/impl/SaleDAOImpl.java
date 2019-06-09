@@ -145,8 +145,8 @@ public class SaleDAOImpl implements SaleDAO {
 		}
 		cond = cond.substring(0, cond.length()-4);
 		String sql = "select * from sale where " + cond;
-		PreparedStatement stmt = Database.getPstmt(sql);
 		
+		PreparedStatement stmt = Database.getPstmt(sql);
 		LinkedList<Sale> list = new LinkedList<>();
 		
 		try {
@@ -236,5 +236,24 @@ public class SaleDAOImpl implements SaleDAO {
 		}
 		return 0;
 	}
-
+	
+	public int effectCount() {
+		String sql = "select count(sale_id) num from sale where is_sell = 0 and is_delete = 0";
+		PreparedStatement stmt = Database.getPstmt(sql);
+		try {
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				return rs.getInt("num");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return 0;
+	}
 }
