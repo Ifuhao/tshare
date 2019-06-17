@@ -46,12 +46,13 @@ public class PersonServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		
 		User user = (User)request.getSession(true).getAttribute("user");
-		
+		JSONArray json = new JSONArray();
 		if(user == null) {
-			response.setStatus(HttpServletResponse.SC_RESET_CONTENT);
+			json.set("code", 0);
+			json.set("msg", "用户未登录");
 			// 用户没有登录
 		} else {
-			JSONArray json = new JSONArray();
+			
 			JSONArray user_json = this.getUserJson(user);
 			
 			json.set("code", 1);

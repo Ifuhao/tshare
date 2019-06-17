@@ -37,23 +37,39 @@
 				<div class="collapse navbar-collapse justify-content-end">
 					<div class="nav-space"></div>
 					<div class="dropdown">
-						<img id="msg-icon" class="dropdown-toggle" data-toggle="dropdown" src="../../home/img/xinfeng.png">	
+						<img src="" class="new-msg" />
+						<img id="msg-icon" class="dropdown-toggle" data-toggle="dropdown" src="../../home/img/xinfeng.png" onclick="notice()">
 						<div class="dropdown-menu dropdown-menu-right">
-							<a class="dropdown-item" href="#">系统通知</a>
-							<a class="dropdown-item" href="#">问答</a>
-							<a class="dropdown-item" href="#">交易</a>
-							<a class="dropdown-item" href="#">私信</a>
-							<a class="dropdown-item" href="#">其他消息</a>
+							<a id="system-notice" class="dropdown-item" href="../../home/notice.html?system">
+								<img src="" class="detail-msg"/>
+								系统通知
+							</a>
+							<a id="answer-notice" class="dropdown-item" href="#">
+								<img src="" class="detail-msg"/>
+								问答
+							</a>
+							<a id="trade-notice" class="dropdown-item" href="../../home/notice.html?trade">
+								<img src="" class="detail-msg"/>
+								交易
+							</a>
+							<a id="person-notice" class="dropdown-item" href="../../home/notice.html?person">
+								<img src="" class="detail-msg"/>
+								私信
+							</a>
+							<a id="other-notice" class="dropdown-item" href="../../home/notice.html?other">
+								<img src="" class="detail-msg"/>
+								其他消息
+							</a>
 						</div>
 					</div>
 					<div class="nav-space"></div>
 					<div class="dropdown">
 						<img id="user-icon" class="dropdown-toggle" data-toggle="dropdown" src="../../home/img/user.jpg">	
 						<div class="dropdown-menu dropdown-menu-right">
-							<a class="dropdown-item" href="../../home/personal_center.html">个人中心</a>
+							<a class="dropdown-item" href="../../home/person.html">个人中心</a>
 							<a class="dropdown-item" href="../../repository/upload.html">上传资料</a>
 							<a class="dropdown-item" href="#">提问</a>
-							<a class="dropdown-item" href="#">上架</a>
+							<a class="dropdown-item" href="upload.html">上架</a>
 							<a class="dropdown-item" href="#">小喇叭</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="#">退出</a>
@@ -84,7 +100,7 @@
 	<!-- 商品简介模板 -->
 	<script id="template-sale" type="text/template">
 		<div class="main-pic">
-			<img src="picture/{{sale_id}}/{{main_pic}}">
+			<img src="/upload/picture/{{main_pic}}">
 		</div>
 		<div class="col-md-5">
 			<div class="title">{{title}}</div>
@@ -107,7 +123,7 @@
 				<span>)</span>
 			</div>
 			<div class="btmblock">
-				<button type="button" class="btn" id="mark">关注商品</button>
+				<button value="no" type="button" class="btn" id="mark">关注商品</button>
 			</div>
 		</div>
 	</script>
@@ -116,7 +132,7 @@
 		<div id="sellerinfo" class="col">
 			<div id="seller-title">卖家信息</div>
 			<div id="seller-top" class="row">
-				<div id="seller-head"><img src="img/seller.jpg" ></div>
+				<div id="seller-head"><img src="/upload/person/{{head_image}}" ></div>
 				<span id="seller-name">{{username}}</span> 
 			</div>
 			<div id="seller-mid" class="row">
@@ -130,22 +146,22 @@
 					<label>评价</label>
 				</div>
 			</div>
-			<button type="button"><img src="img/contact4.png" id="contact">联系卖家</button>
-			<button type="button"><img src="img/guanzhu2.png" id="follow">加关注</button>
+			<button type="button" data-index="{{sell_id}}" onclick="contact()"><img src="img/contact4.png" id="contact">联系卖家</button>
+			<button type="button"><img src="img/concern.png" id="follow">加关注</button>
 		</div>
 	</script>
 	
 	<script id="template-detail" type="text/template">
 		<div class="details-title"><span>商品详情</span></div>
 		<div id="description" class="ml-3">{{description}}</div>
-		<div id="pics">
+		<div id="pics" class="row">
 			<!-- 插入所有的参考图片 -->
 		</div>
 	</script>
 	
 	<!-- 参考图片模板 -->
 	<script id="template-picture" type="text/template">
-		<img id="{{index}}" src="picture/{{sale_id}}/{{pic}}" />
+		<img id="{{index}}" style="margin-left:30px" src="/upload/picture/{{pic}}" />
 	</script>
 	
 	<script src="../../js/core/jquery-3.3.1.js" type="text/javascript"></script>
@@ -154,6 +170,8 @@
 	
 	<script src="../../js/template-web.js" type="text/javascript"></script>
  	<script src="../../js/base.js" type="text/javascript"></script>
+ 	<script src="../../js/new-msg.js" type="text/javascript"></script>
+ 	
  	<script src="../js/side_btn.js" type="text/javascript"></script>
 	<script src="js/details.js" type="text/javascript"></script>
 </html>

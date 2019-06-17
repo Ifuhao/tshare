@@ -13,6 +13,13 @@ public interface SaleDAO {
 	public boolean insert(Sale sale);
 	
 	/**
+	 * 修改sale表中的一条数据
+	 * @param sale
+	 * @return
+	 */
+	public boolean update(Sale sale);
+	
+	/**
 	 * 删除sale表的一条记录
 	 * @param sale_id
 	 * @return
@@ -54,7 +61,7 @@ public interface SaleDAO {
 	 * @param value 模糊查询关键字
 	 * @return
 	 */
-	public Sale[] select(String field, String value, String type, boolean sale_new, int delivery, int bargain);
+	public Sale[] select(String field, String value, String type, boolean sale_new, boolean delivery, boolean bargain);
 	
 	/**
 	 * 获取数据数量

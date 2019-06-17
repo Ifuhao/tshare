@@ -107,6 +107,7 @@ public class Login extends HttpServlet {
 				session.setAttribute("user", user);
 				
 				array.set("code", 1);
+				array.set("id", user.getId());
 				array.set("msg", "登录成功");
 			}
 		}

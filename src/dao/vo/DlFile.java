@@ -8,6 +8,7 @@ public class DlFile implements Serializable, Cloneable {
 	private String id;
 	private String filename;
 	private int ismark;
+	private int score;
 	private String time;
 	
 	public DlFile() {}
@@ -35,6 +36,12 @@ public class DlFile implements Serializable, Cloneable {
 	}
 	public void setIsmark(int ismark) {
 		this.ismark = ismark;
+	}
+	public int getScore() {
+		return score;
+	}
+	public void setScore(int score) {
+		this.score = score;
 	}
 	public String getTime() {
 		return time;
@@ -104,6 +111,7 @@ public class DlFile implements Serializable, Cloneable {
 		newFile.setId(this.id);
 		newFile.setFilename(this.filename);
 		newFile.setIsmark(this.ismark);
+		newFile.setScore(this.score);
 		newFile.setTime(this.time);
 		return newFile;
 	}

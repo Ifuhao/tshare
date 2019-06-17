@@ -1,18 +1,12 @@
 $(document).ready(function() {
-	/**
-	 * 获取html的url中的参数，搜索文件
-	 */
-	var key = decodeURI(location.search.split('=')[1])
-	$('#navbar-search').val(key)
 	// 初始化全局变量
 	globalMode = $('#search-mode').prop('checked') ? 0 : 1
 	globalSort = $('input[name=sort]:checked').val()
 	curPage = 1
-	// 立即搜索
-	if (sessionStorage.getItem('res') == null)
-		searchFile(key)
-	else
-		fileList(key, JSON.parse(sessionStorage.getItem('res')))
+	
+	var key = sessionStorage.getItem("key");
+	$('#navbar-search').val(key);
+	searchFile(key);
 
 	/**
 	 * 预览功能按钮(显示整页 适应窗口宽度 放大 缩小)
@@ -97,6 +91,8 @@ function inputSearch(key) {
  * 搜索资料
  */
 function searchFile(key) {
+	sessionStorage.setItem("key", key);
+	
 	// 请求服务器
 	$.ajax({
 		url: 'api/search_file',
@@ -149,19 +145,43 @@ function fileList(key, res) {
 		$('#search-main').append(cellHtml)
 	} else {
 		$('#result').removeClass('d-none')
-		data = res.data
+		data = res.data;
 		for (var i = 0; i < data.length; i++) {
 			// 添加序号
 			data[i].index = i
 			if (data[i].contents == '') {
 				// 判断文件类型，根据类型设置图标
 				data[i].ext = getExt(data[i].name);
-				cellHtml += template('template-file', data[i])
-			} else
-				cellHtml += template('template-folder', data[i])
+				cellHtml += template('template-file', data[i]);
+			} else {
+				// 计算文件数量
+				data[i].file_num=count_file(data[i].contents);
+				// 获取内部目录
+				var stru=''
+				if (Object.getOwnPropertyNames(data[i].contents).length==1) {
+					for (let key in data[i].contents) {
+						var toplevel=data[i].contents[key];
+					}
+				} else {
+					var toplevel=data[i].contents;
+				}
+				
+				var num=0;
+				for (let sub in toplevel) {
+					stru += sub+'<br>';
+					num++;
+					if (num==3) {
+						break;
+					}
+				}
+				// 添加到HTML中
+				var folderHTML=template('template-folder', data[i]);
+				var start=folderHTML.lastIndexOf('structure');
+				cellHtml += folderHTML.substring(0,start)+stru+folderHTML.substring(start+9);
+			}
 		}
 		// 清空列表，重新添加cell
-		$('#file-list').empty().append(cellHtml)
+		$('#file-list').empty().append(cellHtml);
 
 		//填分页器模板
 		var pageHtml =
@@ -196,6 +216,20 @@ function fileList(key, res) {
 			$('#page-next').removeClass('disabled')
 		$('#page-' + curPage).addClass('active')
 	}
+}
+
+/**
+ * 计算文件夹中文件的数量
+ */
+function count_file(folder) {
+	var num=0;
+	for (let i in folder) {
+		if (folder[i]==0)
+			num++;
+		else
+			num+=count_file(folder[i]);
+	}
+	return num;
 }
 
 /**
@@ -258,7 +292,7 @@ function preview() {
 		success: res => {
 			if (res.code == 1) {
 				// 显示预览
-				$('#modal-previewFile .target').attr('src', 'temp/' + fileUrl + '.png')
+				$('#modal-previewFile .target').attr('src', '/upload/temp/' + fileUrl + '.png')
 				$('#modal-previewFile').modal('show')
 				// 记录初始大小
 				width = $('#modal-previewFile .target').prop('width')
@@ -304,16 +338,14 @@ function resetCss() {
  * 下载文件
  */
 function download_file() {
-	var index=sessionStorage.getItem('index');
-	var data = JSON.parse(sessionStorage.getItem('res')).data[index];
-	
-	var xhr = new XMLHttpRequest();
-	xhr.open("GET", "api/download?url="+data.url+"&filename="+data.name, true);
+	var elem=event.target.parentNode;
+	var xhr = new XMLHttpRequest()
+	xhr.open("GET", "api/download?url="+elem.dataset.url+"&filename="+elem.dataset.name, true)
 	xhr.responseType = "blob";
 	xhr.onreadystatechange = ()=>{
 		if (xhr.readyState==4) {
 			if(xhr.status == 200) {
-				download(xhr.response, data.name);
+				download(xhr.response, elem.dataset.name);
 			} else if(xhr.status = 205) {
 				alert("您需要重新登录");
 			}

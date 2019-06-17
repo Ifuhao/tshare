@@ -1,6 +1,5 @@
 package api.file;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -61,9 +60,10 @@ public class DownloadFile extends HttpServlet {
 		
 		if(user == null) {
 			// 没有登录，无法下载
+			System.out.println(user);
 			response.setStatus(HttpServletResponse.SC_RESET_CONTENT);
 		} else {
-			String real = request.getSession().getServletContext().getRealPath("") + File.separator + "upload_file" + File.separator;
+			String real = "D:/tomcat/upload/file/";
 			
 			/**
 			 * 下载文件，如果是单个文件则直接下载，如果是文件夹需要先打包成zip再下载
@@ -124,21 +124,22 @@ public class DownloadFile extends HttpServlet {
 		        	file.setDownload(file.getDownload()+1);
 		        	dao.update(file);
 		        	DlFile newDlFile = new DlFile();
-		        	newDlFile.setDid(dlDAO.count());
+		        	newDlFile.setDid(dlDAO.count()+1);
 		        	newDlFile.setId(user.getId());
 		        	newDlFile.setFilename(request.getParameter("url"));
 		        	newDlFile.setIsmark(0);
+		        	newDlFile.setScore(5);
 		        	newDlFile.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 		        	dlDAO.insert(newDlFile);
 		        } else {
 		        	DlFile newDlFile = dlFile[0];
 		        	newDlFile.setIsmark(0);
 		        	newDlFile.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+		        	newDlFile.setScore(5);
 		        	dlDAO.update(newDlFile);
 		        }
 			}
 		}
-		response.setStatus(HttpServletResponse.SC_RESET_CONTENT);
 	}
 
 	/**

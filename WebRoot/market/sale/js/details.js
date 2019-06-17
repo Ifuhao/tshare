@@ -1,14 +1,13 @@
 $(document).ready(function() {
-	var index=sessionStorage.getItem('index');
-	var data = JSON.parse(sessionStorage.getItem('res')).data[index];
+	var sale_id = sessionStorage.getItem('index');
 	
 	// 根据sale_id发送请求
 	$.ajax({
 		url: "api/details",
 		type: "GET",
-		data: {sale_id: data.sale_id},
+		data: {sale_id: sale_id},
 		success: res => {
-			show(res, data.sale_id);
+			show(res, sale_id);
 		},
 		error: (xhr, status, error) => {
 			console.log('[Status]', status, '\n[Error]', error);
@@ -66,7 +65,9 @@ function show(res, sale_id) {
 	
 	// 填写商品出售者信息模板
 	saleHtml += template("template-seller", {
-		username: res.user.username
+		username: res.user.username,
+		sell_id: res.user.uid,
+		head_image: res.user.head_image
 	});
 	
 	$("#sale").empty().append(saleHtml);
@@ -82,7 +83,7 @@ function show(res, sale_id) {
 	var imgHtml = "";
 	$("#pics").empty();
 	for(var i=0;i<res.sale.picture.length;i++) {
-		imgHtml += template("template-picture", {
+		imgHtml = template("template-picture", {
 			index: i,
 			sale_id: sale_id,
 			pic: res.sale.picture[i]
@@ -93,13 +94,48 @@ function show(res, sale_id) {
 	for(var i=0;i<res.sale.picture.length;i++) {
 		auto_size(i);
 	}
+	
+	if(res.sale.is_follow == 1) {
+		// 没有关注此商品
+		$("#mark").val("yes");
+		$("#mark").html("已关注");
+	}
+	
+	// 绑定关注商品按钮的点击事件
+	$("#mark").click(function() {
+		var is_follow = 1;
+		if($("#mark").val() == "yes") {
+			// 已经关注了，再点一下取消关注
+			is_follow = 0;
+		}
+		
+		$.ajax({
+			url: "api/follow",
+			type: "GET",
+			data: {
+				sale_id: sale_id,
+				is_follow: is_follow
+			},
+			success: res => {
+				// 修改关注按钮的样式
+				if(is_follow==0) {
+					$("#mark").val("no");
+					$("#mark").html("关注商品");
+				} else {
+					$("#mark").val("yes");
+					$("#mark").html("已关注");
+				}
+			},
+			dataType: "json"
+		});
+	});
 }
 
 function auto_size(id) {
 	var img = new Image();
 	img.src = $("#"+id).attr("src");
 	
-	var main_width = $("#detail").width()*1.0/2;
+	var main_width = $("#detail").width()*1.0/3.5;
 	
 	img.onload = function() {
 		var img_width = img.width;
@@ -126,5 +162,16 @@ function sub() {
 	
 	if(cur_num - 1 >= 1) {
 		$("#cur-num").html(cur_num - 1);
+	}
+}
+
+function contact() {
+	var sell_id = event.target.dataset.index;
+	var user_id = sessionStorage.getItem("user_id");
+	var title = $(".title").html();
+	if(sell_id != "" && sell_id != undefined
+		&& user_id != "" && user_id != null 
+		&& user_id != undefined && user_id != "null") {
+		socket.send(createMessage(user_id, sell_id, "null", "我看上了你的 【"+title+"】"+" 有兴趣聊一聊吗", "trade"));
 	}
 }

@@ -1,5 +1,14 @@
+$(document).ready(function() {
+	// 连接websocket
+	var title = sessionStorage.getItem("title");
+	if(title != undefined && title != null) {
+		$("#name").val(title);
+	}
+});
+
 var fileList = new Array();		// 全局数组保存上传的文件
 var base64 = new Array();
+
 /**
  * 图片选择发生变化时处理函数
  */
@@ -22,7 +31,7 @@ function selectPicture(file) {
 				reader.onloadend = function(element) {
 					var data64 = element.target.result;
 					base64.push(data64);
-				}
+				};
 			}
 	    });
 	    showPicture();
@@ -201,7 +210,7 @@ function upload() {
 	if(!(/^\d{1,6}(.\d{1,2})?$/).test(buy_price)) {
 		// buy_price不是浮点数，需要提醒
 		$("#buy_price").val("");
-		$("#buy_price").attr("placeholder", "买入价格必须是小数");
+		$("#buy_price").attr("placeholder", "买入价格必须是整数或小数且最多两位小数，例如：1000.00");
 		$("#buy_price").addClass("input-error");
 		return;
 	}

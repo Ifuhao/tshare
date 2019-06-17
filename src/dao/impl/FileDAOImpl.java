@@ -14,7 +14,7 @@ import dao.vo.File;
 public class FileDAOImpl implements FileDAO {
 	@Override
 	public boolean insert(File file) {
-		file.setScore((float) 5.0);
+		file.setScore(5);
 		PreparedStatement stmt = Database.getStmt("insert" ,file);
 		try {
 			stmt.execute();

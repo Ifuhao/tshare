@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class Cookie {
-	
 	private HashMap<String, String> map;
 	
 	public Cookie() {}
@@ -66,5 +65,17 @@ public class Cookie {
 	 */
 	public void getCookie(HttpServletResponse response, String key, String value) {
 		this.setCookie(response, key, value, 3600);
+	}
+	
+	/**
+	 * 删除指定名字的cookie
+	 * @param response
+	 * @param name
+	 */
+	public void deleteCookie(HttpServletResponse response, String name) {
+		javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie(name, null);
+		cookie.setMaxAge(0);
+		cookie.setPath("/");
+		response.addCookie(cookie);
 	}
 }

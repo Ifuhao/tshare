@@ -25,7 +25,7 @@ public interface DlFileDAO {
 	 * @param did
 	 * @return
 	 */
-	public DlFile selectByDid(String did);
+	public DlFile selectByDid(int did);
 	
 	/**
 	 * 根据给定的条件查询多条记录

@@ -12,10 +12,6 @@
     box-shadow: 0 3px 5px 0px gray;
 }
 
-.active {
-	margin-top: -6px;
-}
-
 .nav-pills {
 	padding: 15px 15px 10px 15px;
 	border-bottom: 1px solid #f0f0f0;

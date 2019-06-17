@@ -14,10 +14,14 @@ import json.JSONArray;
 import utils.JSONParser;
 import utils.WordAnalysis;
 import dao.SaleDAO;
+import dao.SaleFollowDAO;
 import dao.UserDAO;
 import dao.impl.SaleDAOImpl;
+import dao.impl.SaleFollowDAOImpl;
 import dao.impl.UserDAOImpl;
 import dao.vo.Sale;
+import dao.vo.SaleFollow;
+import dao.vo.User;
 
 @SuppressWarnings("serial")
 public class SearchSale extends HttpServlet {
@@ -27,6 +31,7 @@ public class SearchSale extends HttpServlet {
 	private long now = 0;
 	private SaleDAO dao = new SaleDAOImpl();
 	private UserDAO udao = new UserDAOImpl();
+	private SaleFollowDAO sf_dao = new SaleFollowDAOImpl();
 	
 	/**
 	 * Constructor of the object.
@@ -58,98 +63,114 @@ public class SearchSale extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		
-		// 关键字
-		String key = request.getParameter("key");
-		
-		// 日期要求(0全部/1一天内/2一周内/3一月内/4一年内)
-		int date = Integer.parseInt(request.getParameter("date"));
-		
-		// 类型要求
-		String type = request.getParameter("type");
-		type = type.equals("全部")?"":type;
-		
-		// 显示第几页
-		int page = Integer.parseInt(request.getParameter("page"));
-		
-		// 是否全新(0不是/1是)
-		int sale_new = Integer.parseInt(request.getParameter("sale_new"));
-		
-		// 是否配送(0不是/1是)
-		int delivery = Integer.parseInt(request.getParameter("delivery"));
-		
-		// 是否可议价
-		int bargain = Integer.parseInt(request.getParameter("bargain"));
-		
-		this.keyList.clear();
-		this.saleList.clear();
-		
-		// 根据日期进行筛选
-		this.now = new Date().getTime();		// 当前时间(单位ms)
-		this.allow_time = Long.MAX_VALUE;
-		switch(date) {
-		case 1:		// 一天内
-			this.allow_time = 24*60*60*1000;
-			break;
-		case 2:		// 一周内
-			this.allow_time = 7*24*60*60*1000;
-			break;
-		case 3:		// 一月内
-			this.allow_time = 30*24*60*60*1000;
-			break;
-		case 4:		// 一年内
-			this.allow_time = 365*24*60*60*1000;
-			break;
-		}
-		
-		// 完全匹配搜索
-		this.search(key, type, sale_new!=0, delivery, bargain);
-		
-		// 分词匹配搜索
-		String keys[] = WordAnalysis.split(key);
-		for(int i=0;i<keys.length;i++) {
-			this.search(keys[i], type, sale_new!=0, delivery, bargain);
-		}
-		
+		User user = (User) request.getSession(true).getAttribute("user");
 		JSONArray json = new JSONArray();
-		if(saleList.size() == 0) {
-			// 没有搜到任何结果
+		if(user == null) {
+			// 用户未登录
 			json.set("code", 0);
-			json.set("msg", "搜索不到");
+			json.set("msg", "用户未登录");
 		} else {
-			// 进行分页(12项一页)
-			LinkedList<Sale[]> list = new LinkedList<>();
-			Sale json_data[] = new Sale[12];
-			for(int i=0;i<saleList.size();i++) {
-				if(i%12 == 0 && i != 0) {
-					list.add(json_data);
-					json_data = new Sale[10];
-				}
-				
-				json_data[i%12] = saleList.get(i);
-				if(i==saleList.size()-1) {
-					list.add(json_data);
-				}
+			// 关键字
+			String key = request.getParameter("key");
+			
+			// 日期要求(0全部/1一天内/2一周内/3一月内/4一年内)
+			int date = Integer.parseInt(request.getParameter("date"));
+			
+			// 类型要求
+			String type = request.getParameter("type");
+			type = type.equals("全部")?"":type;
+			
+			// 显示第几页
+			int page = Integer.parseInt(request.getParameter("page"));
+			
+			// 是否全新(0不是/1是)
+			boolean sale_new = false;
+			if(request.getParameter("sale_new") != null) {
+				sale_new = true;
 			}
 			
-			if(page > list.size()) {
-				// 没有这一页
+			// 是否配送(0不是/1是)
+			boolean delivery = false;
+			if(request.getParameter("delivery") != null) {
+				delivery = true;
+			}
+			
+			// 是否可议价
+			boolean bargain = false;
+			if(request.getParameter("bargain") != null) {
+				bargain = true;
+			}
+			
+			this.keyList.clear();
+			this.saleList.clear();
+			
+			// 根据日期进行筛选
+			this.now = new Date().getTime();		// 当前时间(单位ms)
+			this.allow_time = Long.MAX_VALUE;
+			switch(date) {
+			case 1:		// 一天内
+				this.allow_time = 24*60*60*1000;
+				break;
+			case 2:		// 一周内
+				this.allow_time = 7*24*60*60*1000;
+				break;
+			case 3:		// 一月内
+				this.allow_time = 30*24*60*60*1000;
+				break;
+			case 4:		// 一年内
+				this.allow_time = 365*24*60*60*1000;
+				break;
+			}
+			
+			// 完全匹配搜索
+			this.search(key, type, sale_new, delivery, bargain);
+			
+			// 分词匹配搜索
+			String keys[] = WordAnalysis.split(key);
+			for(int i=0;i<keys.length;i++) {
+				this.search(keys[i], type, sale_new, delivery, bargain);
+			}
+			
+			if(saleList.size() == 0) {
+				// 没有搜到任何结果
 				json.set("code", 0);
-				json.set("msg", "不存在这一页");
+				json.set("msg", "搜索不到");
 			} else {
-				LinkedList<JSONArray> jsonSales = new LinkedList<>();
-				for(int i=0;i<list.get(page-1).length;i++) {
-					if(list.get(page-1)[i] == null) {
-						break;
-					} else {
-						jsonSales.add(this.getJsonSale(list.get(page-1)[i]));
+				// 进行分页(12项一页)
+				LinkedList<Sale[]> list = new LinkedList<>();
+				Sale json_data[] = new Sale[12];
+				for(int i=0;i<saleList.size();i++) {
+					if(i%12 == 0 && i != 0) {
+						list.add(json_data);
+						json_data = new Sale[10];
+					}
+					
+					json_data[i%12] = saleList.get(i);
+					if(i==saleList.size()-1) {
+						list.add(json_data);
 					}
 				}
 				
-				JSONArray dataArray = JSONArray.arrayToJSONArray(jsonSales);
-				
-				json.set("code", 1);
-				json.set("amount", saleList.size());
-				json.set("data", dataArray);
+				if(page > list.size()) {
+					// 没有这一页
+					json.set("code", 0);
+					json.set("msg", "不存在这一页");
+				} else {
+					LinkedList<JSONArray> jsonSales = new LinkedList<>();
+					for(int i=0;i<list.get(page-1).length;i++) {
+						if(list.get(page-1)[i] == null) {
+							break;
+						} else {
+							jsonSales.add(this.getJsonSale(list.get(page-1)[i], user));
+						}
+					}
+					
+					JSONArray dataArray = JSONArray.arrayToJSONArray(jsonSales);
+					
+					json.set("code", 1);
+					json.set("amount", saleList.size());
+					json.set("data", dataArray);
+				}
 			}
 		}
 		
@@ -170,6 +191,7 @@ public class SearchSale extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		this.doGet(request, response);
 	}
 
 	/**
@@ -181,7 +203,7 @@ public class SearchSale extends HttpServlet {
 		// Put your code here
 	}
 	
-	private void search(String keyword, String type, boolean sale_new, int delivery, int bargain) {
+	private void search(String keyword, String type, boolean sale_new, boolean delivery, boolean bargain) {
 		String field[] = new String[]{"title", "category", "description"};
 		for(int i=0;i<field.length;i++) {
 			Sale[] sales = this.dao.select(field[i], keyword, type, sale_new, delivery, bargain);
@@ -222,7 +244,7 @@ public class SearchSale extends HttpServlet {
 	 * 价格：price
 	 * 浏览量：view
 	 */
-	private JSONArray getJsonSale(Sale sale) {
+	private JSONArray getJsonSale(Sale sale, User user) {
 		JSONArray array = new JSONArray();
 		array.set("sale_id", sale.getSale_id());
 		array.set("title", sale.getTitle());
@@ -234,6 +256,17 @@ public class SearchSale extends HttpServlet {
 		array.set("buy_price", sale.getBuy_price());
 		array.set("price", sale.getPrice());
 		array.set("view", sale.getView());
+		
+		SaleFollow sf[] = sf_dao.selectById(user.getId());
+		array.set("is_follow", 0);
+		if(sf != null) {
+			for(int i=0;i<sf.length;i++) {
+				if(sf[i].getSale_id() == sale.getSale_id()) {
+					array.set("is_follow", 1);
+					break;
+				}
+			}
+		}
 		
 		return array;
 	}

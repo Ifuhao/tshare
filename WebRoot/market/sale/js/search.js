@@ -3,6 +3,7 @@ $(document).ready(function() {
 	if(key == "" || key == null) {
 		return;
 	}
+	$("#search").val(key);
 	go_search(key);
 });
 
@@ -67,25 +68,11 @@ $("#other").find("button").click(function() {
 	}
 });
 
-function auto_size(id) {
-	var img = new Image();
-	img.src = $("#"+id).attr("src");
-	
-	var main_width = $("#detail").width()*1.0/2;
-	
-	img.onload = function() {
-		var img_width = img.width;
-		var img_height = img.height;
-		
-		var rate = main_width*1.0/img_width;
-		var img_height = img_height*rate;
-		
-		$("#pics #"+id).css({"width":main_width, "height":img_height});
-	}
-}
-
 var curPage = 1;
 function go_search(key) {
+	var url = "api/search?key="+key;
+	sessionStorage.setItem("key", key);
+	
 	// 获取日期要求和类型要求并转化为对应的数字
 	var sel_date = $("#date").find(".selected").html();
 	var date = 0;
@@ -103,41 +90,29 @@ function go_search(key) {
 		date = 4;
 		break;
 	}
+	url += "&date="+date;
 	
 	var type = $("#type").find(".selected").html();
-	
-	// 是否全新(0不是/1是)
-	var sale_new = 0;
-	// 是否配送(0不是/1是)
-	var delivery = 0;
-	// 是否可议价(0不可/1可)
-	var bargain = 0;
+	url += "&type="+type;
 	
 	var btns = $("#other").find("button");
 	if(btns[0].classList.contains("selected")) {
-		sale_new = 1;
+		url += "&sale_new=1";
 	}
 	
 	if(btns[1].classList.contains("selected")) {
-		delivery = 1;
+		url += "&delivery=1";
 	}
 	
 	if(btns[2].classList.contains("selected")) {
-		bargain = 1;
+		url += "&bargain=1";
 	}
 	
+	url += "&page="+curPage;
+	
 	$.ajax({
-		url: "api/search",
+		url: url,
 		type: "GET",
-		data: {
-			key: key,
-			date: date,
-			type: type,
-			page: curPage,
-			sale_new: sale_new,
-			delivery: delivery,
-			bargain: bargain
-		},
 		success: res => {
 			sessionStorage.setItem('res', res) //sessionStorage只能存字符串
 			res = JSON.parse(res);
@@ -150,6 +125,8 @@ function go_search(key) {
 			$('#nofound').remove();
 			// 提示连接服务器超时
 		},
+		processData: false, // 不处理数据
+		contentType: false, // 不设置内容类型
 		timeout: 5000
 	});
 	
@@ -190,13 +167,19 @@ function saleList(key, res) {
 		var top = template("template-top", {amount: res.amount});
 		$("#result").before(top);
 		
+		$('#sale-list').empty();
 		for (var i = 0; i < data.length; i++) {
-			// 添加序号
+			// 添加序号			
 			data[i].index = i;
-			cellHtml += template('template-sale-show', data[i])
+			cellHtml += template('template-sale-show', data[i]);
+			$('#sale-list').append(cellHtml);
+			
+			if(data[i].is_follow == 1) {
+				$("#concern-"+i).attr("src", "img/concern.png");
+				$("#concern-"+i).attr("title", "已关注");
+				document.getElementById("concern-"+i).setAttribute("value", "yes");
+			}
 		}
-		// 清空列表，重新添加cell
-		$('#sale-list').empty().append(cellHtml);
 
 		//填分页器模板
 		var pageHtml =
@@ -261,8 +244,39 @@ function toPage(page) {
  * 查看文件详情
  */
 function getDetails() {
-	// 通过session把文件数据传到details页面
 	var index = event.target.dataset.index;
-	sessionStorage.setItem('index', index);
+	sessionStorage.setItem("index", index);
 	location = "details.html";
+}
+
+/**
+ * 关注商品
+ */
+function follow(obj) {
+	var sale_id = event.target.dataset.index;
+	var is_follow = 1;
+	if(obj.getAttribute("value") == "yes") {
+		is_follow = 0;
+	}
+
+	$.ajax({
+		url: "api/follow",
+		type: "GET",
+		data: {
+			sale_id: sale_id,
+			is_follow: is_follow
+		},
+		success: res => {
+			if(is_follow == 0) {
+				$(obj).attr("src", "img/not-concern.png");
+				$(obj).attr("title", "关注商品");
+				obj.setAttribute("value", "no");
+			} else {
+				$(obj).attr("src", "img/concern.png");
+				$(obj).attr("title", "已关注");
+				obj.setAttribute("value", "yes");
+			}
+		},
+		dataType: "json"
+	});
 }

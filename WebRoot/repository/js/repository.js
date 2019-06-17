@@ -1,4 +1,8 @@
 $(document).ready(function() {
+	var user_id = sessionStorage.getItem("user_id");
+	sessionStorage.clear();
+	sessionStorage.setItem("user_id", user_id);
+	
 	load_pic("bird");
 	load_station("upload-up");
 	load_station("upload-down");
@@ -34,7 +38,8 @@ function inputSearch(key) {
 			event.preventDefault();
 		else {
 			// 跳转到list.html并传值
-			location = "list.html?key="+encodeURI(key);
+			sessionStorage.setItem("key", key);
+			location = "list.html";
 		}
 	}
 }

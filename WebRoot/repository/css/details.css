@@ -1,3 +1,7 @@
+.all {
+	padding: 20px;
+}
+
 .row .btn {	/* id选择器、标签选择器、类选择器嵌套  */
 	height: 50px;
 	padding: 0 20px;
@@ -22,6 +26,12 @@
 	-webkit-transition: all .3s;
 	-ms-transition: all .3s;
 	transition: all .3s;		/* 实现文字的渐变效果，是一种过渡属性，前面的四个属性是为了兼容不同的浏览器  */
+}
+
+.folder-btn {
+	margin-top: 30px;
+	position: relative;
+	left: 40%;
 }
 
 .row .btn:hover {		/* hover伪类，当鼠标悬停在按钮上时  */
@@ -54,14 +64,94 @@
 	color: #fff;
 }
 
+.filename {
+	margin-left: 10px;
+	margin-top: 30px;
+}
+
 .file-icon{
 	height: 70px;
 	margin-top: 10px;
 }
 
+.file-text {
+	position:relative;
+	text-align: left;
+	vertical-align: baseline;
+	left: 30%;
+	border: 1px solid #ccc;
+	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	border-radius:10px;
+	margin-bottom: 16px;
+	margin-top:30px;
+	padding: 10px;
+	background: #555;
+}
+
+.file-description {
+	font-family: 'Roboto', sans-serif;
+	color: #fff;
+	font-size: 16px;
+}
+
 .u-item {
+	list-style:none;
+	
 	margin-top: 30px;
 	padding: 10px;
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
+	
+	border: 1px solid #ccc;
+	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	border-radius:2px;
+	
+	position: relative;
+	left: 10%;
+}
+
+.content {
+	border: 1px solid #ccc;
+	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	border-radius:2px;
+	background: #fff;
+	padding: 10px;
+}
+
+#folder-content span {
+	-webkit-user-select:none;
+	user-select:none;
+}
+
+.folder-content {
+	margin-top:20px;
+}
+
+.small-icon {
+	height: 20px;
+	margin-right: 5px;
+}
+
+.arrow-icon {
+	height: 24px;
+}
+
+.folder-name {
+	padding-left: 2px;
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+}
+
+.folder-indent {
+	position: relative;
+	left:3%;
+}
+
+.file-indent {
+	position: relative;
+	left:6%;
+}
+
+#preview {
+	margin-top: 30px;
 }

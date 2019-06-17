@@ -63,13 +63,12 @@ public class PreviewFile extends HttpServlet {
 		
 		String valid[] = {"doc", "docx", "ppt", "pptx", "pdf", "xls"};
 		
-		this.real = request.getSession().getServletContext().getRealPath("");
-		String url = this.real + "upload_file" + File.separator + request.getParameter("url");		// 预览文件的url(year/subject/ext/文件名)
+		this.real = "D:/tomcat/upload/";
+		String url = this.real + "file/" + request.getParameter("url");		// 预览文件的url(year/subject/ext/文件名)
 		String ext = FileUtils.getExtension(url);
-		
+
 		// 预览文件保存的目标文件夹
-		String dest_dir =this.real + "repository" + File.separator + "temp" + File.separator + request.getParameter("url");
-		
+		String dest_dir = this.real + "temp" + File.separator + request.getParameter("url");
 		JSONArray json = new JSONArray();
 		
 		File destFile = new File(dest_dir + ".png");
@@ -79,7 +78,6 @@ public class PreviewFile extends HttpServlet {
 			json.set("code", 1);
 			json.set("height", img.getHeight());
 		} else {
-			System.out.println(url);
 			if(!StringUtils.in_array_ignorecase(ext, valid)) {
 				// 无法预览的文件类型
 				json.set("code", 0);
@@ -92,15 +90,20 @@ public class PreviewFile extends HttpServlet {
 				}
 				
 				// 先转为pdf
-				try {
-					PDFUtils.Word2Pdf(url, FileUtils.getPath(dest_dir) + "预览.pdf");
-				} catch (Exception e) {
-					e.printStackTrace();
+				if(ext.equalsIgnoreCase("pdf")) {
+					// 原本就是pdf，直接拆分即可
+					PDFUtils.splitPdf(url, FileUtils.getPath(dest_dir) + "预览10.pdf", 10);
+				} else {
+					try {
+						PDFUtils.Word2Pdf(url, FileUtils.getPath(dest_dir) + "预览.pdf");
+						
+						// pdf拆分，预览10页
+						PDFUtils.splitPdf(FileUtils.getPath(dest_dir) + "预览.pdf", FileUtils.getPath(dest_dir) + "预览10.pdf", 10);
+						FileUtils.delete(FileUtils.getPath(dest_dir) + "预览.pdf");
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
-				
-				// pdf拆分，预览10页
-				PDFUtils.splitPdf(FileUtils.getPath(dest_dir) + "预览.pdf", FileUtils.getPath(dest_dir) + "预览10.pdf", 10);
-				FileUtils.delete(FileUtils.getPath(dest_dir) + "预览.pdf");
 				
 				// pdf转为png图片
 				PDFUtils.Pdf2Png(FileUtils.getPath(dest_dir) + "预览10.pdf", FileUtils.getPath(dest_dir));

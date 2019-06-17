@@ -6,8 +6,10 @@ $(document).ready(function() {
 		url: 'api/login',
 		type: 'POST',
 		success: res => {
-			if (res.code == 1)
-				location.pathname = "/tshare/home/home.html"
+			if (res.code == 1) {
+				sessionStorage.setItem("user_id", res.id);
+				location.pathname = "/tshare/home/home.html";
+			}
 		},
 		error: (xhr, status, error) => console.log('[Status]', status, '\n[Error]', error),
 		dataType: 'json',
@@ -324,10 +326,12 @@ function login() {
 			auto_login: $('#remember').prop('checked') ? 1 : 0
 		},
 		success: res => {
-			if (res.code == 1) 
-				location.pathname = "/tshare/home/home.html"
-			else
-				alert(res.msg)
+			if (res.code == 1) {
+				sessionStorage.setItem("user_id", res.id);
+				location.pathname = "/tshare/home/home.html";
+			} else {
+				alert(res.msg);
+			}
 		},
 		error: (xhr, status, error) => console.log('[Status]', status, '\n[Error]', error),
 		dataType: 'json',

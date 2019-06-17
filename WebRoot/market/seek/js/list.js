@@ -42,6 +42,7 @@ function setSeek(res) {
 		$("#result").before(top);
 		
 		for(var i=0;i<data.length;i++) {
+			data[i].index = i;
 			cellHtml += template("template-seek", data[i]);
 		}
 		
@@ -104,4 +105,11 @@ function nextPage() {
 function toPage(page) {
 	curPage = page;
 	search();
+}
+
+function upload_sale() {
+	var index = event.target.dataset.index;
+	var title = $("#box-"+index+" .seek-title").html();
+	sessionStorage.setItem("title", title);
+	location = "../sale/upload.html"
 }

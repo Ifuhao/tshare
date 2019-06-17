@@ -1,0 +1,15 @@
+@CHARSET "UTF-8";
+
+.modal-header .close{
+	position: absolute;
+    padding: 1rem 1rem;
+    /* margin: -1rem -1rem -1rem auto; */
+    right: 1rem;
+    top: 1rem;
+}
+.modal-dialog{
+	max-width:50%;
+}
+.modal-body .form-control{
+	border-radius:10px;	
+}

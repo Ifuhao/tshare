@@ -29,10 +29,27 @@ public class SaleDAOImpl implements SaleDAO {
 		}
 		return false;
 	}
+	
+	@Override
+	public boolean update(Sale sale) {
+		PreparedStatement stmt = Database.getStmt("update", sale);
+		try {
+			return stmt.execute();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
 
 	@Override
 	public boolean deleteById(int sale_id) {
-		String sql = "update sale set delete = 1 where sale_id=?";
+		String sql = "update sale set is_delete = 1 where sale_id=?";
 		PreparedStatement stmt = Database.getPstmt(sql);
 		try {
 			stmt.setInt(1, sale_id);
@@ -46,7 +63,6 @@ public class SaleDAOImpl implements SaleDAO {
 				e.printStackTrace();
 			}
 		}
-		
 		return false;
 	}
 
@@ -66,7 +82,6 @@ public class SaleDAOImpl implements SaleDAO {
 				e.printStackTrace();
 			}
 		}
-		
 		return false;
 	}
 
@@ -92,7 +107,6 @@ public class SaleDAOImpl implements SaleDAO {
 				e.printStackTrace();
 			}
 		}
-		
 		return sale;
 	}
 
@@ -178,13 +192,17 @@ public class SaleDAOImpl implements SaleDAO {
 	}
 	
 	@Override
-	public Sale[] select(String field, String value, String type, boolean sale_new, int delivery, int bargain) {
+	public Sale[] select(String field, String value, String type, boolean sale_new, boolean delivery, boolean bargain) {
 		String sql = "select * from sale where " + field + " like ? and "
-				+ "category like ? and delivery = ? and bargain = ? and is_sell=0 and is_delete=0 and ";
+				+ "category like ? and is_sell=0 and is_delete=0";
 		if(sale_new) {
-			sql += "sale_new = 0";
-		} else {
-			sql += "sale_new != 0";
+			sql += "and sale_new=0 ";
+		}
+		if(delivery) {
+			sql += "and delivery=1 ";
+		}
+		if(bargain) {
+			sql += "and bargain=1";
 		}
 		
 		PreparedStatement stmt = Database.getPstmt(sql);
@@ -193,8 +211,6 @@ public class SaleDAOImpl implements SaleDAO {
 		try {
 			stmt.setString(1, "%" + value + "%");
 			stmt.setString(2, "%" + type + "%");
-			stmt.setInt(3, delivery);
-			stmt.setInt(4, bargain);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				Sale sale = new Sale();

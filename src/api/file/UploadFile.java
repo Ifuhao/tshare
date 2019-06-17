@@ -92,7 +92,7 @@ public class UploadFile extends HttpServlet {
 		 *  7. description：文件描述
 		 */
 		
-		this.real = request.getSession().getServletContext().getRealPath("");
+		this.real = "D:/tomcat/upload/file/";		// 上传的文件不能保存在
 		HttpSession session = request.getSession(true);
 		User user = (User)session.getAttribute("user");		// 从session中获取上传者
 		
@@ -102,7 +102,6 @@ public class UploadFile extends HttpServlet {
 			array.set("code", 0);
 			array.set("msg", "登录才能上传文件");
 		} else {
-			this.real += "upload_file" + java.io.File.separator;
 			File file = new File();
 			new FormOperator<File>(file, request);		// 接收除了File标签以外的其他表单元素并写入file对象
 			Date date = new Date();

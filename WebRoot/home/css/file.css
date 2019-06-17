@@ -1,0 +1,63 @@
+.file-border {
+	position: relative;
+	border: 1px solid #ccc;
+	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	border-radius:10px;
+	margin:10px 10px;
+}
+
+.file-icon {
+	height: 100px;
+}
+
+.file-name {
+	font-size: 1.2em;
+	font-weight:bold;
+}
+
+.file-word {
+	font-family: 'Roboto', sans-serif;;
+	font-size:1em;
+	font-weight:bold;
+}
+
+.number {
+	font-size:1.2em;
+}
+
+.btn {
+	height: 40px;
+	background: #fd625e;
+	border: 0;
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	line-height: 50%;
+	color: #fff;
+	
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	
+	text-shadow: none;			/* 文字阴影  */
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	
+	-o-transition: all .3s;
+	-moz-transition: all .3s;
+	-webkit-transition: all .3s;
+	-ms-transition: all .3s;
+	transition: all .3s;		/* 实现文字的渐变效果，是一种过渡属性，前面的四个属性是为了兼容不同的浏览器  */
+}
+
+.file-detail {
+	position: absolute;
+	top: 40%;
+	left: 70%;
+}
+
+.file-delete {
+	position: absolute;
+	top: 40%;
+	left: 80%;
+}

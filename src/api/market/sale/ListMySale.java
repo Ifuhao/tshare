@@ -85,8 +85,8 @@ public class ListMySale extends HttpServlet {
 					for(int i=start;i<end;i++) {
 						sale_json.set(this.getSaleJson(mysale[i]));
 					}
-					json.set("sale", sale_json);
-					json.set("amount", mysale.length);
+					json.set("code", 1);
+					json.set("data", sale_json);
 				}
 			}
 			
@@ -125,12 +125,21 @@ public class ListMySale extends HttpServlet {
 		json.set("sale_id", sale.getSale_id());
 		json.set("title", sale.getTitle());
 		json.set("price", sale.getPrice());
-		json.set("view", sale.getView());
 		json.set("buy_price", sale.getBuy_price());
+		
+		json.set("view", sale.getView());
 		json.set("time", sale.getTime().toString());
+		
 		String picture = sale.getPicture();
 		String[] split = picture.split(";");
-		json.set("main_pic", split[0]);
+		JSONArray pic = new JSONArray(false);
+		for(int i=0;i<split.length;i++) {
+			if(!split[i].equals("")) {
+				pic.set(split[i]);
+			}
+		}
+		json.set("picture", pic);
+		
 		return json;
 	}
 }

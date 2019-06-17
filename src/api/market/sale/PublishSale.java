@@ -71,15 +71,14 @@ public class PublishSale extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
+		
 		User user = ((User)request.getSession(true).getAttribute("user"));
 		if(user == null) {
 			// 用户不在登录状态
-			
 		}
 		
-		// 参考图片的父目录：/tshare/market/picture/sale_id/xxx.image
-		String base = request.getSession().getServletContext().getRealPath("")
-				+ "market" + File.separator + "picture" + File.separator;
+		// 参考图片的父目录：D:/tomcat/upload/picture/xxx.image
+		String base = "D:/tomcat/upload/picture/";
 		
 		BufferedReader reader = request.getReader();
 		String msg=null;
@@ -110,7 +109,6 @@ public class PublishSale extends HttpServlet {
 		sale.setSale_id(sale_dao.count()+1);
 		sale.setId(user.getId());
 		
-		base += sale.getSale_id() + File.separator;
 		File baseDir = new File(base);
 		if(!baseDir.exists()) {
 			baseDir.mkdirs();

@@ -8,17 +8,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import utils.JSONParser;
 import json.JSONArray;
+import utils.JSONParser;
 import dao.SaleDAO;
+import dao.SaleFollowDAO;
 import dao.UserDAO;
 import dao.impl.SaleDAOImpl;
+import dao.impl.SaleFollowDAOImpl;
 import dao.impl.UserDAOImpl;
 import dao.vo.Sale;
+import dao.vo.SaleFollow;
+import dao.vo.User;
 
 @SuppressWarnings("serial")
 public class ListSaleServlet extends HttpServlet {
 	private UserDAO user_dao = new UserDAOImpl();
+	private SaleFollowDAO sf_dao = new SaleFollowDAOImpl();
 	private static final Integer PAGESIZE = 20;
 
 	/**
@@ -51,35 +56,41 @@ public class ListSaleServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		
-		int page = Integer.parseInt(request.getParameter("page"));
-		
-		SaleDAO sale_dao = new SaleDAOImpl();
-		int count = sale_dao.effectCount();
-		int start = (page-1)*PAGESIZE;
-		
+		User user = (User) request.getSession(true).getAttribute("user");
 		JSONArray json = new JSONArray();
-		if(start >= count) {
-			// 不存在这一页
+		if(user == null) {
 			json.set("code", 0);
-			json.set("msg", "该页不存在");
+			json.set("msg", "用户未登录");
 		} else {
-			int index = 0;
-			json.set("amount", count);
-			count = sale_dao.count();
-			JSONArray sale_json = new JSONArray(false);
+			int page = Integer.parseInt(request.getParameter("page"));
 			
-			while(index < PAGESIZE) {
-				if(count-start == 0) break;
-				Sale sale = sale_dao.selectById(count-start++);
-				if(sale.getIs_sell() == 1 || sale.getIs_delete() == 1) continue;
+			SaleDAO sale_dao = new SaleDAOImpl();
+			int count = sale_dao.effectCount();
+			int start = (page-1)*PAGESIZE;
+			
+			if(start >= count) {
+				// 不存在这一页
+				json.set("code", 0);
+				json.set("msg", "该页不存在");
+			} else {
+				int index = 0;
+				json.set("amount", count);
+				count = sale_dao.count();
+				JSONArray sale_json = new JSONArray(false);
 				
-				JSONArray ja = this.getSaleJson(sale);
-				sale_json.set(ja);
-				index++;
+				while(index < PAGESIZE) {
+					if(count-start == 0) break;
+					Sale sale = sale_dao.selectById(count-start++);
+					if(sale.getIs_sell() == 1 || sale.getIs_delete() == 1) continue;
+					
+					JSONArray ja = this.getSaleJson(sale, user);
+					sale_json.set(ja);
+					index++;
+				}
+				
+				json.set("code", 1);
+				json.set("data", sale_json);
 			}
-			
-			json.set("code", 1);
-			json.set("data", sale_json);
 		}
 		
 		PrintWriter out = response.getWriter();
@@ -110,7 +121,7 @@ public class ListSaleServlet extends HttpServlet {
 		// Put your code here
 	}
 	
-	private JSONArray getSaleJson(Sale sale) {
+	private JSONArray getSaleJson(Sale sale, User user) {
 		JSONArray json = new JSONArray();
 		json.set("sale_id", sale.getSale_id());
 		json.set("title", sale.getTitle());
@@ -124,6 +135,17 @@ public class ListSaleServlet extends HttpServlet {
 		String picture = sale.getPicture();
 		String[] split = picture.split(";");
 		json.set("main_pic", split[0]);
+		
+		SaleFollow sf[] = sf_dao.selectById(user.getId());
+		json.set("is_follow", 0);
+		if(sf != null) {
+			for(int i=0;i<sf.length;i++) {
+				if(sf[i].getSale_id() == sale.getSale_id()) {
+					json.set("is_follow", 1);
+					break;
+				}
+			}
+		}
 		return json;
 	}
 }

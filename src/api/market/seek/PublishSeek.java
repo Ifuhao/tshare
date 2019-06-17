@@ -12,9 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import json.JSONArray;
 import utils.JSONParser;
 import dao.SeekDAO;
+import dao.WishDAO;
 import dao.impl.SeekDAOImpl;
+import dao.impl.WishDAOImpl;
 import dao.vo.Seek;
 import dao.vo.User;
+import dao.vo.Wish;
 
 @SuppressWarnings("serial")
 public class PublishSeek extends HttpServlet {
@@ -52,21 +55,36 @@ public class PublishSeek extends HttpServlet {
 		User user = ((User)request.getSession(true).getAttribute("user"));
 		if(user == null) {
 			// 用户不在登录状态
+			System.out.println("用户没有登录");
+			return;
 		}
+		
+		String title = request.getParameter("title");
+		String description = request.getParameter("description");
+		int wish = Integer.parseInt(request.getParameter("wish"));
+		Date time = new Date(new java.util.Date().getTime());
 		
 		SeekDAO seek_dao = new SeekDAOImpl();
 		
 		Seek seek = new Seek();
 		seek.setId(user.getId());
-		seek.setTime(new Date(new java.util.Date().getTime()));
+		seek.setTime(time);
 		seek.setSeek_id(seek_dao.count()+1);
-		
-		String title = request.getParameter("title");
-		String description = request.getParameter("description");
 		seek.setTitle(title);
 		seek.setDescription(description);
-		
 		seek_dao.insert(seek);
+		
+		if(wish == 1) {
+			// 同步至心愿单
+			WishDAO wish_dao = new WishDAOImpl();
+			Wish new_wish = new Wish();
+			new_wish.setWish_id(wish_dao.count()+1);
+			new_wish.setId(user.getId());
+			new_wish.setTitle(title);
+			new_wish.setDescription(description);
+			new_wish.setTime(time);
+			wish_dao.insert(new_wish);
+		}
 		
 		JSONArray json = new JSONArray();
 		json.set("code", 1);
@@ -74,8 +92,6 @@ public class PublishSeek extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		out.write(JSONParser.json_encode(json));
 		out.close();
-		
-//		int wish = Integer.parseInt(request.getParameter("wish"));
 	}
 
 	/**

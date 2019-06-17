@@ -72,9 +72,6 @@ public class ListMySeek extends HttpServlet {
 				json.set("code", 0);
 				json.set("msg", "没有这一页");
 			} else {
-				json.set("code", 1);
-				json.set("amount", seeks.length);
-				
 				int start = 10*(page-1);
 				int end = 10*page;
 				end = end>seeks.length?seeks.length:end;
@@ -83,6 +80,7 @@ public class ListMySeek extends HttpServlet {
 					JSONArray js = this.getSeekJson(seeks[i]);
 					seek_json.set(js);
 				}
+				json.set("code", 1);
 				json.set("data", seek_json);
 			}
 		}
@@ -117,7 +115,8 @@ public class ListMySeek extends HttpServlet {
 	
 	private JSONArray getSeekJson(Seek seek) {
 		JSONArray json = new JSONArray(false);
-		json.set("name", seek.getTitle());
+		json.set("seek_id", seek.getSeek_id());
+		json.set("title", seek.getTitle());
 		json.set("description", seek.getDescription());
 		json.set("time", seek.getTime().toString());
 		return json;

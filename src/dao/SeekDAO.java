@@ -11,6 +11,13 @@ public interface SeekDAO {
 	public boolean insert(Seek seek);
 	
 	/**
+	 * 修改seek表中的一条数据
+	 * @param seek
+	 * @return
+	 */
+	public boolean update(Seek seek);
+	
+	/**
 	 * 删除seek表的一条记录
 	 */
 	public boolean deleteById(int seek_id);

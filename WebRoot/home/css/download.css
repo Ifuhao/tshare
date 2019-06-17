@@ -1,0 +1,235 @@
+@CHARSET "UTF-8";
+
+.download-box{
+	border: 1px solid #ccc;
+	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	border-radius:10px;
+	margin:10px 10px;
+	display:flex;
+}
+.download-box .image{
+	width:10%;
+	margin:20px 20px;
+}
+.download-box img{
+	width:100%;
+	height:100%;
+}
+.download-box .mainbox{
+	width:40%;
+	margin:20px 20px;
+}
+.download-box .star-box{
+	width:40%;
+	margin:20px 20px;
+}
+.download-box .mainbox .Title{
+	font-size: 1.2em;
+	font-weight:bold;
+}
+.download-box .mainbox .up-Person .up-person{
+	font-size:1em;
+	font-weight:bold;
+}
+.download-box .mainbox .up-Date .up-date{
+	font-size:1em;
+	font-weight:bold;
+}
+
+.scoremark{
+	position:relative;
+	height:20px;
+	top:40%;
+}
+.scoremark .score {
+	float: left;
+	display: block;
+	margin: 0 0 0 10px;
+	font-size: 18px;
+	line-height: 22px;
+	font-weight: bold;
+	color: #f70;
+}
+.scoremark .star {
+	float: left;
+	display: block;
+	position: relative;
+	width: 120px;
+	height: 20px;
+	background: url(../img/fivestar.png) no-repeat 0px -20px;
+}
+.scoremark .ystar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 120px;
+	height: 20px;
+	background: url(../img/fivestar.png) no-repeat 0px 0px;
+}
+
+/*********** 有伪类的选择器 ***************/
+.scoremark .star ul {
+	margin-bottom:0px;
+	padding-left:0px;
+	width: 120px;
+	height: 20px;
+}
+.scoremark .star ul:hover {
+	background: url(../img/fivestar.png) no-repeat 0px -20px;
+}
+.scoremark .star li {
+	float: left;
+	width: 12px;
+	height: 20px;
+	list-style-type:none;
+}
+.scoremark .star li a {
+	display: block;
+	width: 12px;
+	height: 20px;
+	overflow: hidden;
+	text-indent: -9999px;
+	position: absolute;
+	z-index: 5;
+}
+
+.scoremark .star .smallstar{
+	width:12px;
+}
+
+.scoremark .star .bigstar{
+	width:12px;
+}
+
+.scoremark .star li a:hover {
+	background: url(../img/fivestar.png) no-repeat 0px 0px;
+	z-index: 3;
+	left: 0
+}
+
+/********** 无伪类的新选择器 ************/
+.scoremark .newstar {
+	float: left;
+	display: block;
+	position: relative;
+	width: 120px;
+	height: 20px;
+	background: url(../img/fivestar.png) no-repeat 0px -20px;
+}
+.scoremark .newstar ul {
+	margin-bottom:0px;
+	padding-left:0px;
+	width: 120px;
+	height: 20px;
+}
+.scoremark .newstar li {
+	float: left;
+	width: 12px;
+	height: 20px;
+	list-style-type:none;
+}
+.scoremark .newstar li a {
+	display: block;
+	width: 12px;
+	height: 20px;
+	overflow: hidden;
+	text-indent: -9999px;
+	position: absolute;
+	z-index: 5;
+}
+.scoremark .newstar .smallstar{
+	width:12px;
+}
+.scoremark .newstar .bigstar{
+	width:12px;
+}
+
+/********* 星星数量的显示 **********/
+.scoremark .star a.one-star {
+	left: 12;
+}
+.scoremark .star a.one-star:hover {
+	width: 24px
+}
+.scoremark .star a.two-stars {
+	left: 36px;
+}
+.scoremark .star a.two-stars:hover {
+	width: 48px
+}
+.scoremark .star a.three-stars {
+	left: 60px;
+}
+.scoremark .star a.three-stars:hover {
+	width: 72px
+}
+.scoremark .star a.four-stars {
+	left: 84px;
+}
+.scoremark .star a.four-stars:hover {
+	width: 96px
+}
+.scoremark .star a.five-stars {
+	left: 108px;
+}
+.scoremark .star a.five-stars:hover {
+	width: 120px;
+}
+
+.scoremark .star a.one1-star {
+	left: 0;
+}
+.scoremark .star a.one1-star:hover {
+	width: 12px
+}
+.scoremark .star a.two1-stars {
+	left: 24px;
+}
+.scoremark .star a.two1-stars:hover {
+	width: 36px
+}
+.scoremark .star a.three1-stars {
+	left: 48px;
+}
+.scoremark .star a.three1-stars:hover {
+	width: 60px
+}
+.scoremark .star a.four1-stars {
+	left: 72px;
+}
+.scoremark .star a.four1-stars:hover {
+	width: 84px
+}
+.scoremark .star a.five1-stars {
+	left: 96px;
+}
+.scoremark .star a.five1-stars:hover {
+	width: 108px;
+}
+
+.scoremark .tips {
+	position: absolute;
+	top: -28px;
+	left: 0;
+	width: 40px;
+	height: 21px;
+	color: #333;
+	line-height: 20px;
+	padding: 0 0 5px 0;
+	text-align: center;
+	background: url(../img/infobox.png) no-repeat;
+	z-index: 6;
+	font-size: 12px;
+}
+
+.star-box .btn-box{
+	position:relative;
+	margin-left:15%;
+	height:40px;
+	top:37%;
+	background-color:#f4433694;
+	border-radius:5px;
+	padding:2px 12px;
+	color:white;
+	font-size:14px;
+}

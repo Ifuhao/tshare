@@ -41,23 +41,39 @@
 					</form>
 					<div class="nav-space"></div>
 					<div class="dropdown">
-						<img id="msg-icon" class="dropdown-toggle" data-toggle="dropdown" src="../home/img/xinfeng.png">	
+						<img src="" class="new-msg" />
+						<img id="msg-icon" class="dropdown-toggle" data-toggle="dropdown" src="../home/img/xinfeng.png" onclick="notice()">
 						<div class="dropdown-menu dropdown-menu-right">
-							<a class="dropdown-item" href="#">系统通知</a>
-							<a class="dropdown-item" href="#">问答</a>
-							<a class="dropdown-item" href="#">交易</a>
-							<a class="dropdown-item" href="#">私信</a>
-							<a class="dropdown-item" href="#">其他消息</a>
+							<a id="system-notice" class="dropdown-item" href="../home/notice.html?system">
+								<img src="" class="detail-msg"/>
+								系统通知
+							</a>
+							<a id="answer-notice" class="dropdown-item" href="#">
+								<img src="" class="detail-msg"/>
+								问答
+							</a>
+							<a id="trade-notice" class="dropdown-item" href="../home/notice.html?trade">
+								<img src="" class="detail-msg"/>
+								交易
+							</a>
+							<a id="person-notice" class="dropdown-item" href="../home/notice.html?person">
+								<img src="" class="detail-msg"/>
+								私信
+							</a>
+							<a id="other-notice" class="dropdown-item" href="../home/notice.html?other">
+								<img src="" class="detail-msg"/>
+								其他消息
+							</a>
 						</div>
 					</div>
 					<div class="nav-space"></div>
 					<div class="dropdown">
 						<img id="user-icon" class="dropdown-toggle" data-toggle="dropdown" src="../home/img/user.jpg">	
 						<div class="dropdown-menu dropdown-menu-right">
-							<a class="dropdown-item" href="../home/personal_center.html">个人中心</a>
+							<a class="dropdown-item" href="../home/person.html">个人中心</a>
 							<a class="dropdown-item" href="upload.html">上传资料</a>
 							<a class="dropdown-item" href="#">提问</a>
-							<a class="dropdown-item" href="#">上架</a>
+							<a class="dropdown-item" href="../market/sale/upload.html">上架</a>
 							<a class="dropdown-item" href="#">小喇叭</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="#">退出</a>
@@ -68,19 +84,21 @@
 		</nav>
 		
 		<!-- 页面主体 -->
-		<div class="container main">
+		<div class="container main bg-white all">
+			<div id="result"></div>
+			<div class="back-block" style="background:#fff"></div>
 		</div>
 	</body>
 	
 	<!-- 动态模板 -->
 
-	<!-- 课内资料单个文件显示模板 -->
-	<script id="template-in-class-file" type="text/template">
-		<div id="in-class-file">
+	<!-- 单个文件显示模板 -->
+	<script id="template-file" type="text/template">
+		<div id="file">
 			<div class="row">
 				<img src="img/{{ext}}.png" class="file-icon"></img>
 				<h3 class="col-md-9">{{name}}</h3>
-				<button class="btn" onclick="download_file()">download</button>
+				<button id="download" class="btn" onclick="download_file()">download</button>
 			</div>
 			<div class="row">
 				<ul class="u-item">
@@ -92,39 +110,65 @@
 					<li>下载量：{{download}}</li>
 					<li>评分：{{score}}</li>
 				</ul>
+				<div class="file-text col-md-4" style="display:none">
+					<p class="file-description">{{description}}</p>
+				</div>
 			</div>
 			<!-- 预览图片 -->
 			<div id="preview" class="row">
-				<img src="temp/{{url}}.png" alt="预览图片正在生成，请稍后刷新"/>
+				<img src="{{img}}" alt="预览图片正在生成，请稍后刷新"/>
 			</div>
 		</div>
 	</script>
 	
-	<!-- 课内资料文件夹显示模板 -->
-	<script id="template-in-class-folder" type="text/template">
-		<div>
-			<h3>{{name}}</h3>
+	<!-- 文件夹显示模板 -->
+	<script id="template-folder" type="text/template">
+		<div id="folder">
 			<div class="row">
-				<div class="col-md-9">
-					<ul>
-						<li>学科类型：{{subject}}</li>
-						<li>资料类型：{{type}}</li>
-						<li>上传时间：{{upload_time}}</li>
-						<li>上传者：{{upload_uname}}</li>
-						<li>评分：{{score}}</li>
-					</ul>
+				<img src="img/folder.png" class="file-icon"></img>
+				<h3 class="filename">{{name}}</h3>
+				<ul class="u-item">
+					<li>学科类型：{{subject}}</li>
+					<li>资料类型：{{type}}</li>
+					<li>上传时间：{{upload_time}}</li>
+					<li>上传者：{{upload_uname}}</li>
+					<li>评分：{{score}}</li>
+				</ul>
+				<div class="folder-btn"><button id="download" class="btn" onclick="download_file()">download</button></div>
+			</div>
+			
+			<div class="row">
+				<div id="folder-content" class="content folder-content col-md-12">
+					<label class="col-md-2">内部目录</label>
+					<!-- 此处显示内部目录 -->
 				</div>
-				<button class="btn" onclick="download_file()">download</button>
+			</div>
+			<!-- 预览图片 -->
+			<div id="preview" class="row" style="display:none">
+				<hr/>
+				<img alt="预览图片正在生成，请稍后刷新"/>
 			</div>
 		</div>
 	</script>
 	
-	<!-- 课外资料显示模板 -->
-	<script id="template-out-class-file" type="text/template">
-		<div>
-			<h3>{{name}}</h3>
-			<p>{{description}}</p>
-			<button onclick="download()">download</button>
+	<!-- 文件夹内部结构-文件夹模板 -->
+	<script id="template-content-folder" type="text/template">
+		<div id="{{path}}" value="no" class="folder-indent row col-md-12" style="display:none">
+			<img data-path="{{path}}" class="alpha-30 arrow-icon" src="img/notopen.png" alt="无法加载" onclick="open_dir()"/>
+			<span value="no" data-path="{{path}}" class="folder-name col-md-10" onclick="download_folder(this)">
+				<img src="img/folder.png" class="small-icon" />
+				{{name}}
+			</span>
+		</div>
+	</script>
+	
+	<!-- 文件夹内部结构-文件模板 -->
+	<script id="template-content-file" type="text/template">
+		<div id="{{path}}" class="file-indent row col-md-12" style="display:none">
+			<span data-path="{{path}}" value="no" class="folder-name col-md-10" onclick="download_folder(this)">
+				<img src="img/{{ext}}.png" class="small-icon"/>
+				{{name}}
+			</span>
 		</div>
 	</script>
 	
@@ -135,6 +179,7 @@
 	<script src="../js/template-web.js" type="text/javascript"></script>
 	<script src="../js/base.js" type="text/javascript"></script>
 	<script src="../js/waitMe.js" type="text/javascript"></script>
+	<script src="../js/new-msg.js" type="text/javascript"></script>
  	
 	<script src="js/details.js" type="text/javascript"></script>
 	<script src="js/download.js" type="text/javascript"></script>

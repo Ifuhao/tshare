@@ -162,16 +162,32 @@
 
 .cmdt-title {
 	color: black;
-	font-size: 0.9rem;
+	font-size: 1.2rem;
+	font-weight: bold;
 	max-width: 190px;
 	height: 23px;
 	overflow: hidden;
+}
+
+.seller {
+	font-size: 1.1rem;
 }
 
 .cmdt-footer {
 	font-size: 0.85rem;
 	color: #555;
 	margin-top: 8px;
+	position: relative;
+}
+
+.contact {
+	position:absolute;
+	left: 70%;
+}
+
+.concern {
+	position:absolute;
+	left: 85%;
 }
 
 .cmdt-footer img {

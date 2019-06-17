@@ -96,7 +96,7 @@ public class SearchFile extends HttpServlet {
 		// 显示第几页
 		int page = Integer.parseInt(request.getParameter("page"));
 		
-		this.real = request.getSession().getServletContext().getRealPath("") + "upload_file" + java.io.File.separator;
+		this.real = "D:/tomcat/upload/file/";
 		
 		// 1. 完全匹配搜索
 		boolean flag = mode==0 ? false : true;
@@ -368,7 +368,7 @@ public class SearchFile extends HttpServlet {
 			}
 			
 			for(int i=0;i<this.files.size();i++) {
-				arr.set(this.files.get(i));
+				arr.set(this.files.get(i), 0);
 			}
 			
 			JSONArray array = new JSONArray();

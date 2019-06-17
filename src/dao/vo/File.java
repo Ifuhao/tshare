@@ -14,7 +14,7 @@ public class File implements Serializable, Cloneable {
 	private	int category;	// 文件分类：课内/课外
 	private String description;	// 文件描述
 	private String upload_time;	// 文件上传时间：格式yyyy-mm-dd
-	private float score;		// 文件评分
+	private int score;		// 文件评分
 	private int is_dir;		// 文件还是文件夹
 	private int download;	// 下载量
 	private String teacher;		// 该科目对应的老师
@@ -76,10 +76,10 @@ public class File implements Serializable, Cloneable {
 	public void setUpload_time(String upload_time) {
 		this.upload_time = upload_time;
 	}
-	public float getScore() {
+	public int getScore() {
 		return score;
 	}
-	public void setScore(float score) {
+	public void setScore(int score) {
 		this.score = score;
 	}
 	public int getIs_dir() {

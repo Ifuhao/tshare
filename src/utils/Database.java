@@ -2,10 +2,12 @@ package utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 import utils.form.ClassUtils;
@@ -39,12 +41,20 @@ public class Database {
 		Class<?> cls = obj.getClass();
 		String table = StringUtils.lowerCap(cls.getSimpleName());
 		Field fields[] = cls.getDeclaredFields();
+		LinkedList<Field> list = new LinkedList<>();
+
+		// 过滤static属性
+		for(int i=0;i<fields.length;i++) {
+			if(!Modifier.isStatic(fields[i].getModifiers())) {
+				list.add(fields[i]);
+			}
+		}
 		
 		PreparedStatement stmt = null;
 		if(operator.equals("insert")) {
 			// 插入
 			sql = "insert into " + table + " values(";
-			for(int i=0;i<fields.length;i++) {
+			for(int i=0;i<list.size();i++) {
 				sql += "?, ";
 			}
 			sql = sql.substring(0, sql.length()-2)+")";
@@ -104,10 +114,18 @@ public class Database {
 		Class<?> objCls = obj.getClass();
 		Class<?> rsObj = ResultSet.class;
 		
-		Field[] fields = objCls.getDeclaredFields(); // Sale
+		Field[] fields = objCls.getDeclaredFields();
+		LinkedList<Field> list = new LinkedList<>();
+		// 过滤static属性
 		for(int i=0;i<fields.length;i++) {
-			String fieldName = fields[i].getName();		// sale_id
-			Class<?> fieldType = ClassUtils.getClass(fields[i].getType());
+			if(!Modifier.isStatic(fields[i].getModifiers())) {
+				list.add(fields[i]);
+			}
+		}
+		
+		for(int i=0;i<list.size();i++) {
+			String fieldName = list.get(i).getName();
+			Class<?> fieldType = ClassUtils.getClass(list.get(i).getType());
 			
 			try {
 				// rs的getter方法，用于获取值
@@ -131,13 +149,20 @@ public class Database {
 	private static <T> void setParam(PreparedStatement stmt, T obj) {
 		Class<?> cls = obj.getClass();
 		Field fields[] = cls.getDeclaredFields();
+		LinkedList<Field> list = new LinkedList<>();
 		
+		// 过滤static属性
+		for(int i=0;i<fields.length;i++) {
+			if(!Modifier.isStatic(fields[i].getModifiers())) {
+				list.add(fields[i]);
+			}
+		}
 		Class<?> stmtCls = PreparedStatement.class;
 		
 		// 设置PreparedStatement的参数
 		try {
-			for(int i=0;i<fields.length;i++) {
-				Field field = fields[i];
+			for(int i=0;i<list.size();i++) {
+				Field field = list.get(i);
 				Class<?> fieldCls = ClassUtils.getClass(field.getType());
 				String fieldType = fieldCls.getSimpleName();		// 获取属性类型用于拼接stmt的setter方法
 				

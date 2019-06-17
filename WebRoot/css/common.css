@@ -241,6 +241,42 @@ textarea {
 	margin-top: 80px;
 }
 
+.alpha-0 {
+	-moz-filter: opacity(0%);  
+	-webkit-filter: opacity(0%);  
+	filter: opacity(0%);
+}
+
+.alpha-30 {
+	-moz-filter: opacity(30%);  
+	-webkit-filter: opacity(30%);  
+	filter: opacity(30%);
+}
+
+.alpha-50 {
+	-moz-filter: opacity(50%);  
+	-webkit-filter: opacity(50%);  
+	filter: opacity(50%);
+}
+
+.alpha-70 {
+	-moz-filter: opacity(70%);  
+	-webkit-filter: opacity(70%);  
+	filter: opacity(70%);
+}
+
+.new-msg {
+	position: relative;
+	height:20px;
+	left: 53%;
+	pointer-events: none;
+}
+
+.detail-msg {
+	height: 23px;
+	padding-bottom: 4px;
+}
+
 /******** 网页中用于显示空白部分 *********/
 .back-block {
 	postion:relative;

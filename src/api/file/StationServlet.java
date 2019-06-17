@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import utils.JSONParser;
 import json.JSONArray;
-import dao.StationDAO;
-import dao.impl.StationDAOImpl;
-import dao.vo.Station;
+import dao.FileStationDAO;
+import dao.impl.FileStationDAOImpl;
+import dao.vo.FileStation;
 
 @SuppressWarnings("serial")
 public class StationServlet extends HttpServlet {
@@ -48,8 +48,8 @@ public class StationServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		
-		StationDAO dao = new StationDAOImpl();
-		Station station = dao.select();
+		FileStationDAO dao = new FileStationDAOImpl();
+		FileStation station = dao.select();
 		
 		JSONArray json = new JSONArray();
 		json.set("code", 1);

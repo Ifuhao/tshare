@@ -16,7 +16,6 @@ public class SeekDAOImpl implements SeekDAO {
 	@Override
 	public boolean insert(Seek seek) {
 		PreparedStatement stmt = Database.getStmt("insert", seek);
-		System.out.println(stmt);
 		try{
 			return stmt.execute();
 		}catch (Exception e) {
@@ -30,10 +29,27 @@ public class SeekDAOImpl implements SeekDAO {
 		}
 		return false;
 	}
+	
+	@Override
+	public boolean update(Seek seek) {
+		PreparedStatement stmt = Database.getStmt("update", seek);
+		try {
+			return stmt.execute();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
 
 	@Override
 	public boolean deleteById(int seek_id) {
-		String sql = "update sale set delete = 1 where seek_id = ?";
+		String sql = "update seek set is_delete = 1 where seek_id = ?";
 		PreparedStatement stmt = Database.getPstmt(sql);
 		try{
 			stmt.setInt(1, seek_id);

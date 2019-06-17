@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Tshare校园资源共享平台</title>
+		<meta name="description" content="Tshare校园资源共享平台，高质量资料分享和问答，闲置交易，失物招领，快来找到你的组织！">
+
+		<!-- 为移动设备添加 viewport -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml" />
+		<link rel="shortcut icon" href="../../img/favicon.ico">
+		
+		<!-- CSS Files -->
+		<link rel="stylesheet" href="../../css/bootstrap.css"/>
+ 		<link rel="stylesheet" href="../../css/common.css"/>
+ 		<link rel="stylesheet" href="../css/sidebar.css"/>
+		<link rel="stylesheet" href="../css/upload.css"/>
+	</head>
+	<body class="bg-light">
+		<!-- 导航条 -->
+		<nav class="navbar navbar-expand-lg fixed-top bg-white" color-on-scroll="400">
+			<div class="container">
+				<img class="logo" src="../../img/logo.png">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link" href="../../home/home.html">首页</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="../../repository/repository.html">资料</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="../market.html">闲置交易</a>
+					</li>
+				</ul>
+				<div class="collapse navbar-collapse justify-content-end">
+					<div class="form-inline search">
+						<input id="navbar-search" class="form-control mr-sm-2" type="search" placeholder="搜闲置" autocomplete="off" onkeyup="goto_search(this.value)">
+					</div>
+					<div class="nav-space"></div>
+					<div class="dropdown">
+						<img src="" class="new-msg" />
+						<img id="msg-icon" class="dropdown-toggle" data-toggle="dropdown" src="../../home/img/xinfeng.png" onclick="notice()">
+						<div class="dropdown-menu dropdown-menu-right">
+							<a id="system-notice" class="dropdown-item" href="../../home/notice.html?system">
+								<img src="" class="detail-msg"/>
+								系统通知
+							</a>
+							<a id="answer-notice" class="dropdown-item" href="#">
+								<img src="" class="detail-msg"/>
+								问答
+							</a>
+							<a id="trade-notice" class="dropdown-item" href="../../home/notice.html?trade">
+								<img src="" class="detail-msg"/>
+								交易
+							</a>
+							<a id="person-notice" class="dropdown-item" href="../../home/notice.html?person">
+								<img src="" class="detail-msg"/>
+								私信
+							</a>
+							<a id="other-notice" class="dropdown-item" href="../../home/notice.html?other">
+								<img src="" class="detail-msg"/>
+								其他消息
+							</a>
+						</div>
+					</div>
+					<div class="nav-space"></div>
+					<div class="dropdown">
+						<img id="user-icon" class="dropdown-toggle" data-toggle="dropdown" src="../../home/img/user.jpg">	
+						<div class="dropdown-menu dropdown-menu-right">
+							<a class="dropdown-item" href="../../home/person.html">个人中心</a>
+							<a class="dropdown-item" href="../../repository/upload.html">上传资料</a>
+							<a class="dropdown-item" href="#">提问</a>
+							<a class="dropdown-item" href="../sale/upload.html">上架</a>
+							<a class="dropdown-item" href="#">小喇叭</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="#">退出</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+		<div class="main container bg-white">
+			<div id="upload-title">
+				<img src="../img/vertical_line.png">填写心愿单
+			</div>
+			<div id="upload-body" class="col-md-8 offset-md-3">
+				<!-- 表单 -->
+				<div class="form-group row">
+					<label for="name" class="col-md-2 col-form-label">心愿标题</label>
+					<input type="text" name="name" id="name" class="form-control col-md-7" autocomplete="off" maxlength="20" placeholder="心愿商品品牌、名称、型号"/>
+				</div>
+				<div class="form-group row" >
+					<label for="description" class="col-md-2 col-form-label">心愿描述</label>
+					<textarea class="form-control col-md-7 textarea-test" name="description" id="description" rows="5" cols="10" style="height:400px" placeholder="请输入心愿商品的详细信息" ></textarea>
+				</div>
+				<button id="btn-upload" type="button" class="btn col-md-3 offset-md-3" onclick="upload()">提交心愿单</button>
+			</div>
+		</div>
+		<div class="side-bar">
+			<button type="button" class="side-btn" title="我的关注" onclick="concern()"><img src="../img/side-concern.png" ></button>
+			<button type="button" class="side-btn" title="我的历史" onclick="history()"><img src="../img/side-history.png" ></button>
+			<button type="button" class="side-btn" title="查看心愿墙" onclick="wish()"><img src="../img/side-wish.png" ></button>
+			<button type="button" class="side-btn" title="查看最新收购" onclick="seek()"><img src="../img/side-seek.png" ></button>
+			<button type="button" class="side-btn" title="查看最新出售" onclick="sale()"><img src="../img/side-sale.png" ></button>
+		</div>
+		<button type="button" class="backtop"><img src="../img/backtop.png" ></button>
+	</body>
+	<script src="../../js/core/jquery-3.3.1.js" type="text/javascript"></script>
+	<script src="../../js/core/popper.min.js" type="text/javascript"></script>
+	<script src="../../js/core/bootstrap.js" type="text/javascript"></script>
+	
+	<script src="../../js/template-web.js" type="text/javascript"></script>
+ 	<script src="../../js/base.js" type="text/javascript"></script>
+ 	<script src="../../js/new-msg.js" type="text/javascript"></script>
+ 	
+ 	<script src="../js/side_btn.js" type="text/javascript"></script>
+	<script src="js/upload.js" type="text/javascript"></script>
+</html>

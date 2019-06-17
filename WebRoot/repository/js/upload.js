@@ -1,7 +1,23 @@
 $(document).ready(function() {
 	// 初始化文件上传框动画
-	bsCustomFileInput.init()
+	bsCustomFileInput.init();
 });
+
+/**
+ * 导航栏搜索框和中心搜索框回车事件
+ */
+function inputSearch(key) {
+	if (event.keyCode == 13) {
+		// 阻止搜索空字符串
+		if (key == '')
+			event.preventDefault();
+		else {
+			// 跳转到list.html并传值
+			sessionStorage.setItem("key", key);
+			location = "list.html";
+		}
+	}
+}
 
 /**
  * 切换表单
@@ -74,6 +90,6 @@ function upload() {
 		processData: false, // 不处理数据
 		contentType: false, // 不设置内容类型
 		dataType: 'json',
-		timeout: 5000
+		timeout: 15000
 	})
 }

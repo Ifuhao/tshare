@@ -1,0 +1,51 @@
+.seek-box{
+	border: 1px solid #ccc;
+	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	margin-bottom:10px;
+	padding:10px 30px;
+	border-radius:10px;
+	position:relative;
+}
+
+.seek-box .seek-title{
+	font-size: 1.5em;
+	font-weight:bold;
+}
+
+.seek-box .seek-time {
+	font-size: 10px;
+	color: gray;
+}
+
+.seek-box p{
+	
+}
+
+.seek-box .btn-box .delete-seek{
+	position:relative;
+	left:75%;
+	top: 40%;
+	padding:4px 15px;
+	background-color:#FF5722;
+	border-radius:5px;
+}
+
+.seek-box .btn-box .edit-seek{
+	position:relative;
+	left: 75%;
+	top: 40%;
+	padding:4px 15px;
+	background-color:#03A9F4;
+	border-radius:5px;
+}
+
+.seek-box .btn-box a{
+	color:white;
+}
+
+.success {
+	color: #555;
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	font-weight: blod;
+}

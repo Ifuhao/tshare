@@ -4,14 +4,69 @@ $(document).ready(function() {
 	search();
 });
 
+/**
+ * 滚动条滚动事件响应函数
+ */
+window.onscroll = function() {
+	var scrollTop = getScrollTop();
+	var windowHeight = getWindowHeight();
+	var scrollHeight = getScrollHeight();
+	if(scrollTop + windowHeight == scrollHeight) {
+		// 滚动条滚动到屏幕底部了，需要重新申请数据
+		if(pages[curPage] > 1) {
+			getData();
+		}
+	}
+};
+
+function getScrollTop(){
+	var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
+	if(document.body){
+		bodyScrollTop = document.body.scrollTop;
+	}
+	if(document.documentElement){
+		documentScrollTop = document.documentElement.scrollTop;
+	}
+	scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
+	return scrollTop;
+}
+
+function getScrollHeight(){
+	var scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
+	if(document.body){
+		bodyScrollHeight = document.body.scrollHeight;
+	}
+	if(document.documentElement){
+		documentScrollHeight = document.documentElement.scrollHeight;
+	}
+	scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
+	return scrollHeight;
+}
+
+function getWindowHeight(){
+	var windowHeight = 0;
+	if(document.compatMode == "CSS1Compat"){
+		windowHeight = document.documentElement.clientHeight;
+	} else {
+		windowHeight = document.body.clientHeight;
+	}
+	return windowHeight;
+}
+
 function search() {
 	$.ajax({
 		url: "api/list_sale",
 		type: "GET",
 		data: {page: curPage},
 		success: res => {
-			saleList("", JSON.parse(res));
+			curPage = curPage+1;
+			if(res.code == 1) {
+				saleList(res.data);
+			} else {
+				alert(res.msg);
+			}
 		},
+		dataType: "json"
 	});
 	
 	// 等待动画
@@ -24,98 +79,51 @@ function search() {
 	});
 }
 
-/**
- * 显示搜索结果
- */
-function saleList(key, res) {
+function saleList(data) {
 	// 隐藏等待动画，清除找不到的提示
 	$('.main').waitMe('hide');
-	$('#nofound').remove();
-	if(document.getElementById("list-top")) {
-		$("#list-top").remove();
+	
+	var cellHtml = "";
+	for (var i = 0; i < data.length; i++) {
+		// 添加序号
+		data[i].main_pic = data[i].main_pic;
+		cellHtml = template('template-sale-show', data[i]);
+		$('#sale-list').append(cellHtml);
+		if(data[i].is_follow == 1) {
+			$("#concern-btn-"+data[i].sale_id).val("yes");
+			$("#concern-btn-"+data[i].sale_id).html("已关注");
+		}
+	}
+}
+
+function concern(obj) {
+	var is_follow = 1;
+	if($(obj).val() == "yes") {
+		// 已经关注了，再点一下取消关注
+		is_follow = 0;
 	}
 	
-	// 填模版
-	var cellHtml = ''
-	if (res.code == 0) {
-		cellHtml = template('template-nofound', {
-			keyword: key
-		});
-		$('#result').addClass('d-none');
-		$("#sale-list").empty();
-		$('.main').append(cellHtml);
-	} else {
-		$('#result').removeClass('d-none');
-		data = res.data;
-		
-		var top = template("template-top", {amount: res.amount});
-		$("#result").before(top);
-		
-		for (var i = 0; i < data.length; i++) {
-			// 添加序号
-			data[i].index = i;
-			cellHtml += template('template-sale-show', data[i])
-		}
-		// 清空列表，重新添加cell
-		$('#sale-list').empty().append(cellHtml);
-
-		//填分页器模板
-		var pageHtml =
-			'<li id="page-prev" class="page-item disabled"><a class="page-link" href="#" onclick="prevPage()">上一页</a></li>'
-		if (res.amount > 20) {
-			totalpages = Math.ceil(res.amount / 20)
-			// 如果页数太多，只显示当前页前后9页
-			if (totalpages > 9) {
-				var start = curPage - 4 > 1 ? curPage - 4 : 1
-				var end = curPage + 4 < totalpages ? curPage + 4 : totalpages
-				for (var i = start; i <= end; i++)
-					pageHtml += template('template-page', {
-						num: i
-					})
-			} else
-				for (var i = 1; i <= totalpages; i++)
-					pageHtml += template('template-page', {
-						num: i
-					})
-		} else {
-			totalpages = 1
-			pageHtml += '<li id="page-1" class="page-item"><a class="page-link" href="#" onclick="toPage(this.text)">1</a></li>'
-		}
-		pageHtml +=
-			'<li id="page-next" class="page-item disabled"><a class="page-link" href="#" onclick="nextPage()">下一页</a></li>'
-		// 清空分页器，重新添加页项
-		$('#pagination').empty().append(pageHtml)
-		// 设置按钮状态
-		if (curPage != 1)
-			$('#page-prev').removeClass('disabled')
-		if (curPage < totalpages)
-			$('#page-next').removeClass('disabled')
-		$('#page-' + curPage).addClass('active')
-	}
-}
-
-/**
- * 上一页
- */
-function prevPage() {
-	curPage = parseInt(curPage) - 1;
-	search();
-}
-
-/**
- * 下一页
- */
-function nextPage() {
-	curPage = parseInt(curPage) + 1;
-	search();
-}
-
-/**
- * 跳转到某一页
- */
-function toPage(page) {
-	curPage = page;
-	search();
+	var sale_id = obj.id.substring(obj.id.lastIndexOf("-")+1,);
+	
+	$.ajax({
+		url: "api/follow",
+		type: "GET",
+		data: {
+			sale_id: sale_id,
+			is_follow: is_follow
+		},
+		success: res => {
+			// 修改关注按钮的样式
+			if(is_follow==0) {
+				$(obj).val("no");
+				$(obj).html("立即关注");
+			} else {
+				$(obj).val("yes");
+				$(obj).html("已关注");
+			}
+		},
+		dataType: "json"
+	});
 }
 
 /**
@@ -126,5 +134,12 @@ function getDetails() {
 	var index = event.target.dataset.index;
 	sessionStorage.setItem('index', index);
 	location = "details.html";
+}
+
+function contact() {
+	var sell_id = event.target.dataset.index;
+	var user_id = sessionStorage.getItem("user_id");
+	var title = $(event.target.parentNode).find(".sale-title").html();
+	socket.send(createMessage(user_id, sell_id, "null", "我看上了你的 【"+title+"】"+" 有兴趣聊一聊吗", "trade"));
 }
 

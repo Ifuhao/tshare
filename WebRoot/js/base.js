@@ -25,11 +25,11 @@ function globalSearch(e) {
  */
 function logout() {
 	$.ajax({
-		url: '/api/logout.php',
+		url: '/tshare/api/logout',
 		type: 'GET',
 		success: res => {
 			if (res.code == 1)
-				location.pathname = "index.html"
+				location.pathname = "/tshare"
 			else
 				alert(res.msg)
 		},
@@ -103,7 +103,10 @@ function getExt(name) {
 			case 'rtf':
 			case 'rtfd':
 				ext = 'text'
-				break
+				break;
+			case "zip":
+				ext = "zip";
+				break;
 			default:
 				ext = 'other'
 		}
@@ -111,4 +114,30 @@ function getExt(name) {
 		ext = 'other'
 			
 	return ext;
+}
+
+// 建立websocket连接
+function websocket(id) {
+	socket = new WebSocket("ws://localhost:8080/tshare/msgServer/"+id);
+	//获得消息事件
+    return socket;
+}
+
+/**
+ * 根据消息的五个域生成一条完整的消息
+ * @param sender
+ * @param address
+ * @param title
+ * @param content
+ * @param type
+ */
+function createMessage(sender, address, title, content, type) {
+	var msg = "";
+	msg += "sender:"+sender+", ";
+	msg += "address:"+address+", ";
+	msg += "title:"+title+", ";
+	msg += "content:"+content+", ";
+	msg += "type:"+type;
+	
+	return msg;
 }

@@ -48,12 +48,12 @@ public class DlFileDAOImpl implements DlFileDAO {
 	}
 
 	@Override
-	public DlFile selectByDid(String did) {
+	public DlFile selectByDid(int did) {
 		String sql = "select * from dlFile where did = ?";
 		PreparedStatement stmt = Database.getPstmt(sql);
 		DlFile dlFile = null;
 		try {
-			stmt.setString(1, did);
+			stmt.setInt(1, did);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				dlFile = new DlFile();

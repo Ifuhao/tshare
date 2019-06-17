@@ -2,49 +2,69 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>tshare</display-name>
  <!-- 宣传页的servlet --> 
-  <servlet>
+  <servlet>		<!-- 登录 -->
     <servlet-name>Login</servlet-name>
     <servlet-class>api.Login</servlet-class>
   </servlet>
-  <servlet>
+  <servlet>		<!-- 发送邮箱验证码 -->
     <servlet-name>SendEmailCode</servlet-name>
     <servlet-class>api.SendEmailCode</servlet-class>
   </servlet>
-  <servlet>
+  <servlet>		<!-- 验证邮箱验证码 -->
     <servlet-name>EmailCodeConfirm</servlet-name>
     <servlet-class>api.EmailCodeConfirm</servlet-class>
   </servlet>
-  <servlet>
+  <servlet>		<!-- 注册 -->
     <servlet-name>Register</servlet-name>
     <servlet-class>api.Register</servlet-class>
   </servlet>
+  <servlet>		<!-- 退出登录 -->
+    <servlet-name>Logout</servlet-name>
+    <servlet-class>api.Logout</servlet-class>
+  </servlet>
  
  <!-- 资料板块servlet --> 
-  <servlet>
+  <servlet>		<!-- 上传文件 -->
     <servlet-name>UploadFile</servlet-name>
     <servlet-class>api.file.UploadFile</servlet-class>
   </servlet>
-  <servlet>
+  <servlet>		<!-- 搜索文件 -->
     <servlet-name>SearchFile</servlet-name>
     <servlet-class>api.file.SearchFile</servlet-class>
   </servlet>
-  <servlet>
+  <servlet>		<!-- 预览文件 -->
     <servlet-name>PreviewFile</servlet-name>
     <servlet-class>api.file.PreviewFile</servlet-class>
   </servlet>
-  <servlet>
+  <servlet>		<!-- 下载文件 -->
     <servlet-name>DownloadFile</servlet-name>
     <servlet-class>api.file.DownloadFile</servlet-class>
   </servlet>
-  <servlet>
+  <servlet>		<!-- 统计文件信息 -->
     <servlet-name>StationServlet</servlet-name>
     <servlet-class>api.file.StationServlet</servlet-class>
+  </servlet>
+  <servlet>		<!-- 列出我上传的文件 -->
+    <servlet-name>ListMyUpload</servlet-name>
+    <servlet-class>api.file.ListMyUpload</servlet-class>
+  </servlet>
+  <servlet>		<!-- 列出我下载的文件 -->
+    <servlet-name>ListMyDownload</servlet-name>
+    <servlet-class>api.file.ListMyDownload</servlet-class>
+  </servlet>
+  <servlet>		<!-- 对下载的文件进行评分 -->
+    <servlet-name>FileMarkServlet</servlet-name>
+    <servlet-class>api.file.FileMarkServlet</servlet-class>
   </servlet>
   
 <!-- 闲置交易板块servlet -->
   <servlet>		<!-- 商品上架 -->
     <servlet-name>PublishSale</servlet-name>
     <servlet-class>api.market.sale.PublishSale</servlet-class>
+  </servlet>
+  <servlet>		<!-- 编辑商品 -->
+    <servlet-name>EditSaleServlet</servlet-name>
+    <servlet-class>api.market.sale.EditSaleServlet</servlet-class>
   </servlet>
   <servlet>		<!-- 商品搜索 -->
     <servlet-name>SearchSale</servlet-name>
@@ -62,6 +82,14 @@
     <servlet-name>ListSaleServlet</servlet-name>
     <servlet-class>api.market.sale.ListSaleServlet</servlet-class>
   </servlet>
+  <servlet>		<!-- 关注商品 -->
+    <servlet-name>FollowSale</servlet-name>
+    <servlet-class>api.market.sale.FollowSale</servlet-class>
+  </servlet>
+  <servlet>		<!-- 列出我的关注 -->
+    <servlet-name>ListMySaleFollow</servlet-name>
+    <servlet-class>api.market.sale.ListMySaleFollow</servlet-class>
+  </servlet>
   
   <servlet>		<!-- 提交收购 -->
     <servlet-name>PublishSeek</servlet-name>
@@ -75,14 +103,68 @@
     <servlet-name>ListSeekServlet</servlet-name>
     <servlet-class>api.market.seek.ListSeekServlet</servlet-class>
   </servlet>
+  <servlet>		<!-- 编辑收购 -->
+    <servlet-name>EditSeekServlet</servlet-name>
+    <servlet-class>api.market.seek.EditSeekServlet</servlet-class>
+  </servlet>
+  
+  <servlet>		<!-- 发布心愿单 -->	
+    <servlet-name>PublishWish</servlet-name>
+    <servlet-class>api.market.wish.PublishWish</servlet-class>
+  </servlet>
+  <servlet>		<!-- 列出心愿墙 -->
+    <servlet-name>ListWishServlet</servlet-name>
+    <servlet-class>api.market.wish.ListWishServlet</servlet-class>
+  </servlet>
+  <servlet>		<!-- 列出我的心愿单 -->
+    <servlet-name>ListMyWish</servlet-name>
+    <servlet-class>api.market.wish.ListMyWish</servlet-class>
+  </servlet>
+  <servlet>		<!-- 统计心愿信息 -->
+    <servlet-name>WishStationServlet</servlet-name>
+    <servlet-class>api.market.wish.WishStationServlet</servlet-class>
+  </servlet>
+  <servlet>		<!-- 编辑心愿 -->
+    <servlet-name>EditWishServlet</servlet-name>
+    <servlet-class>api.market.wish.EditWishServlet</servlet-class>
+  </servlet>
 
 <!-- 主页servlet -->  
-  <servlet>
+  <servlet>		<!-- 获取用户信息 -->
     <servlet-name>PersonServlet</servlet-name>
     <servlet-class>api.home.PersonServlet</servlet-class>
   </servlet>
-  
+  <servlet>		<!-- 获取系统通知 -->
+    <servlet-name>SystemNoticeServlet</servlet-name>
+    <servlet-class>api.home.SystemNoticeServlet</servlet-class>
+  </servlet>
+  <servlet>		<!-- 获取私信或交易消息 -->
+    <servlet-name>MessageServlet</servlet-name>
+    <servlet-class>api.home.MessageServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>MessageDetailServlet</servlet-name>
+    <servlet-class>api.home.MessageDetailServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ReadMessage</servlet-name>
+    <servlet-class>api.home.ReadMessage</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ReadSystem</servlet-name>
+    <servlet-class>api.home.ReadSystem</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>EditPerson</servlet-name>
+    <servlet-class>api.home.EditPerson</servlet-class>
+  </servlet>
 
+
+
+
+
+  
+  
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
     <url-pattern>/api/login</url-pattern>
@@ -98,6 +180,10 @@
   <servlet-mapping>
     <servlet-name>Register</servlet-name>
     <url-pattern>/api/register</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Logout</servlet-name>
+    <url-pattern>/api/logout</url-pattern>
   </servlet-mapping>
   
   <servlet-mapping>
@@ -120,10 +206,26 @@
     <servlet-name>StationServlet</servlet-name>
     <url-pattern>/repository/api/station</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ListMyUpload</servlet-name>
+    <url-pattern>/repository/api/list_my_upload</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ListMyDownload</servlet-name>
+    <url-pattern>/repository/api/list_my_download</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FileMarkServlet</servlet-name>
+    <url-pattern>/repository/api/mark</url-pattern>
+  </servlet-mapping>
   
   <servlet-mapping>
     <servlet-name>PublishSale</servlet-name>
     <url-pattern>/market/sale/api/upload</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EditSaleServlet</servlet-name>
+    <url-pattern>/market/sale/api/edit</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>SearchSale</servlet-name>
@@ -141,10 +243,18 @@
     <servlet-name>ListSaleServlet</servlet-name>
     <url-pattern>/market/sale/api/list_sale</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FollowSale</servlet-name>
+    <url-pattern>/market/sale/api/follow</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ListMySaleFollow</servlet-name>
+    <url-pattern>/market/sale/api/list_follow</url-pattern>
+  </servlet-mapping>
  
   <servlet-mapping>
     <servlet-name>PublishSeek</servlet-name>
-    <url-pattern>/market/seek/api/publish_seek</url-pattern>
+    <url-pattern>/market/seek/api/upload</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>ListMySeek</servlet-name>
@@ -154,11 +264,62 @@
     <servlet-name>ListSeekServlet</servlet-name>
     <url-pattern>/market/seek/api/list_seek</url-pattern>
   </servlet-mapping>
-  
+  <servlet-mapping>
+    <servlet-name>EditSeekServlet</servlet-name>
+    <url-pattern>/market/seek/api/edit</url-pattern>
+  </servlet-mapping>
+ 
+  <servlet-mapping>
+    <servlet-name>PublishWish</servlet-name>
+    <url-pattern>/market/wish/api/upload</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ListWishServlet</servlet-name>
+    <url-pattern>/market/wish/api/list_wish</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ListMyWish</servlet-name>
+    <url-pattern>/market/wish/api/list_my_wish</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>WishStationServlet</servlet-name>
+    <url-pattern>/market/wish/api/station</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EditWishServlet</servlet-name>
+    <url-pattern>/market/wish/api/edit</url-pattern>
+  </servlet-mapping>
+    
   <servlet-mapping>
     <servlet-name>PersonServlet</servlet-name>
     <url-pattern>/home/api/person</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SystemNoticeServlet</servlet-name>
+    <url-pattern>/home/api/system_notice</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MessageServlet</servlet-name>
+    <url-pattern>/home/api/message_group</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MessageDetailServlet</servlet-name>
+    <url-pattern>/home/api/message_detail</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ReadMessage</servlet-name>
+    <url-pattern>/home/api/message_read</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ReadSystem</servlet-name>
+    <url-pattern>/home/api/system_read</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EditPerson</servlet-name>
+    <url-pattern>/home/api/edit_person</url-pattern>
+  </servlet-mapping>
+  
+  
   
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
